@@ -16,7 +16,7 @@
 :source-highlighter: prettify
 = Externalizing configuration data with MicroProfile Configuration
 
-Learn how to use the MicroProfile Config specification to build an application. MicroProfile Config integrates configurations for MicroProfile applications.
+Learn how to use the MicroProfile Config specification to build an application. MicroProfile Config enables to externalize configurations from microservices.
 
 // =================================================================================================
 // What you'll learn
@@ -25,10 +25,9 @@ Learn how to use the MicroProfile Config specification to build an application. 
 == What you'll learn
 
 You will learn how to aggregate multiple configuration sources and merge configuration values.
-Externalize configuration data for an application, add MicroProfile Config into a MicroProfile application by CDI injection, enable
-dynamic configuration injection, and assign priorities to different configuration sources. In addition,
-you will define a custom configuration source that is more flexible and can override configuration values
-for the application.
+Externalize configuration data for an application, inject Config into microservices,
+enable dynamic configuration injection, and assign priorities to different configuration sources.
+In addition, you will define a custom configuration source that is more flexible and can override configuration values for the application.
 
 // =================================================================================================
 // Getting Started
@@ -168,7 +167,7 @@ Add the following content to override the `ConfigSource` class:
 include::finish/src/main/java/io/openliberty/guides/config/CustomConfigSource.java[tags=customConfig]
 ----
 
-The `setProperties()` private method reads the key value pairs from the `CustomConfigSource.json` JSON file and writes the information into the configuration source.
+The `setProperties()` private method reads the key value pairs from the `CustomConfigSource.json` JSON file and writes the information into a map.
 
 To register the custom configuration source, add the full class name in the `META-INF/services/org.eclipse.microprofile.config.spi.ConfigSource` file:
 
@@ -198,18 +197,27 @@ To see the new application in action, run the Maven `liberty:start-server` comma
 $ mvn liberty:start-server
 ----
 
-Once the server is running, you can find the services at the following locations:
+Once the server is running, you can find the service that retrieves configuration information that is specific to this guide at the following location:
 
 * `http://localhost:9080/inventory/config/all`
+
+The following two microservices should be available to access initially:
+
 * `http://localhost:9080/inventory/hosts`
+
 * `http://localhost:9080/system/properties`
 
 At first, the `config_ordinal` value of the custom configuration source is set to `500`.
 A value of `500` does not override configuration values of the default `microprofile-config.properties` source, which has a `config_ordinal` value of `600`.
 
-However, you can manually change the `config_ordinal` value in the `CustomConfigSource.json` file. Your change is added dynamically, and you do not need to restart the server.
+However, you can manually change the `config_ordinal` value to a larger number in the `CustomConfigSource.json` file.
 
-Play with this application by changing configuration values for each property in the `CustomConfigSource.json` file.
+Restart the application. Play with this application by changing configuration values for each property in the `CustomConfigSource.json` file.
+
+For example, change `io.openliberty.guides.microprofile.inventory.inMaintenance` from `false` to `true`, then try to access `http://localhost:9080/inventory/hosts` again,
+you can see a message that says `Service is temporarily down for maintenance`.
+
+Your changes are added dynamically, and you do not need to restart the server.
 Refresh the pages to see the dynamic changes.
 
 
