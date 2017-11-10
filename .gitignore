@@ -1,0 +1,11 @@
+target/
+.classpath
+.factorypath
+.project
+.settings/
+finish/src/main/webapp/META-INF/
+finish/.gitignore
+.apt_generated/
+start/src/main/webapp/META-INF/
+start/.gitignore
+temp/

@@ -1,0 +1,7 @@
+{
+    "config_ordinal": 500,
+    "io.openliberty.guides.microprofile.inventory.inMaintenance": false,
+    "io.openliberty.guides.microprofile.system.inMaintenance": false,
+    "io.openliberty.guides.microprofile.inventory.testCustomConfigProperty": "OpenLiberty",
+    "io.openliberty.guides.microprofile.inventory.testConfigOverwrite": "CustomSource"
+}
