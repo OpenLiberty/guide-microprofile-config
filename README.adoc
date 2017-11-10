@@ -8,7 +8,6 @@
 :projectid: microprofile-config
 :page-layout: guide
 :page-duration: 30 minutes
-:page-date: 2017-11-10
 :page-description: Learn how to use the MicroProfile Config specification to build an application
 :page-tags: ['REST', 'MicroProfile', 'Configuration', 'CDI']
 :page-permalink: /guides/{projectid}
