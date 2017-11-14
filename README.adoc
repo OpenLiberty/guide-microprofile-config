@@ -132,6 +132,8 @@ The first `@Inject` annotation injects the Config object, which is request scope
 
 The second `@Inject` annotation injects the `io.openliberty.guides.microprofile.inventory.inMaintenance` configuration property, a dynamic injection that uses the `Provider<>` interface, which forces the program to retrieve the `inMaintenance` value just in time.
 
+MicroProfile Config has built-in converters that automatically converts configured Strings into target types such as `int`, `boolean`, `float` and `double`. Therefore, it is safe to directly set the variable type to `Provider<Boolean>`.
+
 Add the `isInMaintenance()` class method as shown in the following example:
 [source, java, indent=0]
 ----
