@@ -24,9 +24,22 @@ Learn how to use the MicroProfile Config specification to build an application. 
 == What you'll learn
 
 You will learn how to aggregate multiple configuration sources and merge configuration values.
-Externalize configuration data for an application, inject Config into microservices,
-enable dynamic configuration injection, and assign priorities to different configuration sources.
+You will externalize configuration data for an application, enable dynamic configuration injection,
+and assign priorities to different configuration sources.
 In addition, you will define a custom configuration source that is more flexible and can override configuration values for the application.
+
+You will be able to access two microservices to test availability:
+
+* `http://localhost:9080/system/properties` retrieves the information for a specific host
+
+* `http://localhost:9080/inventory/hosts` retrieves the information for a list of all previously registered hosts
+
+To learn more about these two microservices and how you can write the MicroProfile application, see
+https://openliberty.io/guides/microprofile-intro.html[Creating a MicroProfile application].
+
+In addition, you will access one service that retrieves configuration information that is specific to this guide:
+
+* `http://localhost:9080/inventory/config/all`
 
 // =================================================================================================
 // Getting Started
@@ -34,21 +47,11 @@ In addition, you will define a custom configuration source that is more flexible
 
 include::{common-includes}/gitclone.adoc[]
 
-When you begin, you can access two microservices to test availability:
-
-* `http://localhost:9080/inventory/hosts`
-
-* `http://localhost:9080/system/properties`
-
-In addition, one service retrieves configuration information that is specific to this guide:
-
-* `http://localhost:9080/inventory/config/all`
-
 
 // =================================================================================================
-// Injecting configuration into the application
+// Enabling dynamic configuration injection
 // =================================================================================================
-== Injecting configuration into the application
+== Enabling dynamic configuration injection
 
 Access the local `microprofile-config.properties` configuration file in the `start/src/main/resources/META-INF` directory. This configuration file is the default configuration source for an application that uses MicroProfile Config.
 
