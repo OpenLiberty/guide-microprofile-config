@@ -36,6 +36,10 @@ public class InventoryConfig {
 
   // end::config[]
 
+  @Inject
+  @ConfigProperty(name = "io.openliberty.guides.microprofile.port")
+  private static int portNumber;
+
   @GET
   @Path("all")
   @Produces(MediaType.APPLICATION_JSON)
@@ -65,11 +69,13 @@ public class InventoryConfig {
   }
 
   // tag::getPortNumber[]
-
+  public static int getPortNumber() {
+    return portNumber;
+  }
   // end::getPortNumber[]
 
   // tag::isInMaintenance[]
-  
+
   // end::isInMaintenance[]
 
 }

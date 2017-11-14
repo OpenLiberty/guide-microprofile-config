@@ -25,7 +25,7 @@ import io.openliberty.guides.microprofile.InventoryConfig;
 
 public class InventoryUtil {
   // tag::config-port[]
-  private static int port = 9080;
+  private static int port = InventoryConfig.getPortNumber();
   // end::config-port[]
   private static final String PROTOCOL = "http";
   private static final String SYSTEM_PROPERTIES = "/system/properties";

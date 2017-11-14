@@ -49,114 +49,49 @@ include::{common-includes}/gitclone.adoc[]
 
 
 // =================================================================================================
-// Enabling dynamic configuration injection
+// Ordering multiple configuration sources
 // =================================================================================================
-== Enabling dynamic configuration injection
+== Ordering multiple configuration sources
+
+Out of the following three default configuration sources, the configuration source with the highest `config_ordinal` value overrides the other configuration values when a value conflict for a configuration property occurs.
+
+* System properties has a default ordinal of 400.
+* Environment variables has a default ordinal of 300.
+* The `META-INF/microprofile-config.properties` configuration property file on the classpath has a default ordinal of 100.
 
 Access the local `microprofile-config.properties` configuration file in the `start/src/main/resources/META-INF` directory. This configuration file is the default configuration source for an application that uses MicroProfile Config.
 
-Open the configuration file, which contains the `io.openliberty.guides.microprofile.inventory.inMaintenance` configuration property. This property determines whether the inventory service is in maintenance or not.
+Open the configuration file. The current value of the `config_ordinal` source in the `META-INF/microprofile-config.properties` file is set to `600` instead of the default ordinal of `100`. Therefore, the `META-INF/microprofile-config.properties` file gets the highest priority to override any other configuration values.
+
+[source, java, indent=0, role="no_copy"]
+----
+include::finish/src/main/resources/META-INF/microprofile-config.properties[tags=ordinal]
+----
+
+The `io.openliberty.guides.microprofile.inventory.inMaintenance` configuration property determines whether the inventory service is in maintenance or not.
 
 [source, java, indent=0, role="no_copy"]
 ----
 include::finish/src/main/resources/META-INF/microprofile-config.properties[tags=inventory-in-maintenance]
 ----
 
-The `io.openliberty.guides.microprofile.port` property determines the port number of the REST service.
+The `io.openliberty.guides.microprofile.port` property determines the port number of the deployed application.
 [source, java, indent=0, role="no_copy"]
 ----
 include::finish/src/main/resources/META-INF/microprofile-config.properties[tags=port-number]
 ----
 
-Access the partially implemented `InventoryConfig` Java class in the `start/src/main/java/io/openliberty/guides/microprofile` directory.
-
-Open the `InventoryConfig.java` file and add the following configuration injection:
-
-[source, java, indent=0]
-----
-include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryConfig.java[tags=config]
-----
-
-The first `@Inject` annotation injects the Config object, which is request scoped.
-
-The second `@Inject` annotation injects the port number directly, the injection value is static and fixed on application starting.
-
-The third `@Inject` annotation injects the `io.openliberty.guides.microprofile.inventory.inMaintenance` configuration property, a dynamic injection that uses the `Provider<>` interface, which forces the program to retrieve the `inMaintenance` value just in time.
-
-Add the `getPortNumber()` class method. This method is static because `portNumber` is a static property.
-
-[source, java, indent=0]
-----
-include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryConfig.java[tags=getPortNumber]
-----
-
-Add the `isInMaintenance()` class method as shown in the following example:
-[source, java, indent=0]
-----
-include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryConfig.java[tags=isInMaintenance]
-----
-
-Every time that you invoke the `inMaintenance.get()` method, the `Provider<>` interface picks up the
-latest value of the `io.openliberty.guides.microprofile.inventory.inMaintenance` property from configuration sources.
-
-Open the `InventoryResource.java` file. Instead of hardcoding `9080`, get the port number from the configuration.
-[source, java, indent=0]
-----
-include::finish/src/main/java/io/openliberty/guides/microprofile/util/InventoryUtil.java[tags=config-port]
-----
-
-Open the `InventoryResource.java` file. Inject the `InventoryConfig` object to modify the existed class.
-[source, java, indent=0]
-----
-include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryResource.java[tags=config-injection]
-----
-Use the `inventoryConfig.isInMaintenance()` class method to determine whether the inventory service is in maintenance
-or not according to the configuration. If you set the `io.openliberty.guides.microprofile.inventory.inMaintenance` property to `true` by configuration, the inventory service returns the message, `Service is temporarily down for maintenance`.
-Modify the existed class:
-[source, java, indent=0]
-----
-include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryResource.java[tags=config-methods]
-----
-
-To use the MicroProfile Config feature, add the required dependency to the `start/pom.xml` file:
-
-[source, xml, indent=0]
-----
-include::finish/pom.xml[tags=config]
-----
-
-Also add the `mp-config` feature to the `liberty/config/server.xml` file:
-
-[source, xml, indent=0]
-----
-include::finish/src/main/liberty/config/server.xml[tags=config]
-----
-
-// =================================================================================================
-// Ordering multiple configuration sources
-// =================================================================================================
-== Ordering multiple configuration sources
-
-Out of the following three configuration sources, the configuration source with the highest `config_ordinal` value overrides the other configuration values when a value conflict for a configuration property occurs.
-
-* System properties has a default ordinal of 400.
-* Environment variables has a default ordinal of 300.
-* The `META-INF/microprofile-config.properties` configuration property file on the classpath has a default ordinal of 100.
-
-The current value of the `config_ordinal` source in the `META-INF/microprofile-config.properties` file is set to `600` instead of the default ordinal of `100`. Therefore, the `META-INF/microprofile-config.properties` file gets the highest priority to override any other configuration values.
-
-[source, indent=0, role="no_copy"]
-----
-include::finish/src/main/resources/META-INF/microprofile-config.properties[tags=ordinal]
-----
 
 // =================================================================================================
 // Creating custom configuration sources
 // =================================================================================================
 == Creating custom configuration sources
 
+Note that default config sources are static and fixed on application starting, so you cannot modify them while the server is running.
+However, you can externalize configuration data out of the application package so that the service updates configuration changes dynamically.
+
 Now you have a `CustomConfigSource.json` file that is located outside of your application
-and peers into the `pom.xml` file. Transform the data object from the JSON file to become the configuration values for your application.
+and peers into the `pom.xml` file. Transform the data object from the JSON file to the configuration for your application.
 
 In addition to the three default configuration sources, you can create custom configuration sources by
 implementing the `org.eclipse.microprofile.config.spi.ConfigSource` interface and using the `java.util.ServiceLoader` mechanism.
@@ -176,6 +111,60 @@ To register the custom configuration source, add the full class name in the `MET
 [source, java, indent=0]
 ----
 include::finish/src/main/resources/META-INF/services/org.eclipse.microprofile.config.spi.ConfigSource[tags=register]
+----
+
+
+// =================================================================================================
+// Enabling dynamic configuration injection
+// =================================================================================================
+== Enabling dynamic configuration injection
+
+Access the partially implemented `InventoryConfig` Java class in the `start/src/main/java/io/openliberty/guides/microprofile` directory.
+
+Open the `InventoryConfig.java` file and add the following configuration injection:
+
+[source, java, indent=0]
+----
+include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryConfig.java[tags=config]
+----
+
+The first `@Inject` annotation injects the Config object, which is request scoped.
+
+The second `@Inject` annotation injects the `io.openliberty.guides.microprofile.inventory.inMaintenance` configuration property, a dynamic injection that uses the `Provider<>` interface, which forces the program to retrieve the `inMaintenance` value just in time.
+
+Add the `isInMaintenance()` class method as shown in the following example:
+[source, java, indent=0]
+----
+include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryConfig.java[tags=isInMaintenance]
+----
+
+Every time that you invoke the `inMaintenance.get()` method, the `Provider<>` interface picks up the
+latest value of the `io.openliberty.guides.microprofile.inventory.inMaintenance` property from configuration sources.
+
+Open the `InventoryResource.java` file. Inject the `InventoryConfig` object to modify the existed class.
+[source, java, indent=0]
+----
+include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryResource.java[tags=config-injection]
+----
+
+Use the `inventoryConfig.isInMaintenance()` class method to determine whether the inventory service is in maintenance
+or not according to the configuration. If you set the `io.openliberty.guides.microprofile.inventory.inMaintenance` property to `true` by configuration, the inventory service returns the message, `Service is temporarily down for maintenance`.
+Modify the existed class:
+[source, java, indent=0]
+----
+include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryResource.java[tags=config-methods]
+----
+
+To use the MicroProfile Config feature, add the required dependency to the `start/pom.xml` file:
+[source, xml, indent=0]
+----
+include::finish/pom.xml[tags=config]
+----
+
+Also add the `mp-config` feature to the `liberty/config/server.xml` file:
+[source, xml, indent=0]
+----
+include::finish/src/main/liberty/config/server.xml[tags=config]
 ----
 
 

@@ -37,14 +37,14 @@ public class InventoryConfig {
   private Config config;
 
   @Inject
-  @ConfigProperty(name = "io.openliberty.guides.microprofile.port")
-  private static int portNumber;
-
-  @Inject
   @ConfigProperty(
     name = "io.openliberty.guides.microprofile.inventory.inMaintenance")
   private Provider<Boolean> inMaintenance;
   // end::config[]
+
+  @Inject
+  @ConfigProperty(name = "io.openliberty.guides.microprofile.port")
+  private static int portNumber;
 
   @GET
   @Path("all")
