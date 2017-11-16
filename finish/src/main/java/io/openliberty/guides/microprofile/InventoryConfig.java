@@ -12,7 +12,7 @@
 // end::comment[]
 package io.openliberty.guides.microprofile;
 
-import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.core.MediaType;
 
 import javax.json.JsonObject;
@@ -27,8 +27,9 @@ import org.eclipse.microprofile.config.Config;
 import org.eclipse.microprofile.config.spi.ConfigSource;
 import javax.inject.Provider;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
+import io.openliberty.guides.config.Email;
 
-@ApplicationScoped
+@RequestScoped
 @Path("config")
 public class InventoryConfig {
 
@@ -36,24 +37,28 @@ public class InventoryConfig {
   @Inject
   private Config config;
 
+  // tag::build-in-converter[]
   @Inject
   @ConfigProperty(
     name = "io.openliberty.guides.microprofile.inventory.inMaintenance")
   private Provider<Boolean> inMaintenance;
+  // end::build-in-converter[]
   // end::config[]
 
+  // tag::custom-converter[]
   @Inject
-  @ConfigProperty(name = "io.openliberty.guides.microprofile.port")
-  private static int portNumber;
+  @ConfigProperty(name = "io.openliberty.guides.microprofile.email")
+  private Provider<Email> email;
+  // end::custom-converter[]
+
 
   @GET
   @Path("all")
   @Produces(MediaType.APPLICATION_JSON)
   public JsonObject getAllConfig() {
-    JsonObject sources = sourceJsonBuilder();
-    JsonObject properties = propertyJsonBuilder();
     JsonObjectBuilder builder = Json.createObjectBuilder();
-    return builder.add("ConfigSources", sources).add("ConfigProperties", properties).build();
+    return builder.add("ConfigSources", sourceJsonBuilder())
+                  .add("ConfigProperties", propertyJsonBuilder()).build();
   }
 
   public JsonObject sourceJsonBuilder() {
@@ -64,6 +69,7 @@ public class InventoryConfig {
     return sourcesBuilder.build();
   }
 
+  // tag::propertyJsonBuilder[]
   public JsonObject propertyJsonBuilder() {
     JsonObjectBuilder propertiesBuilder = Json.createObjectBuilder();
     for (String name : config.getPropertyNames()) {
@@ -71,14 +77,14 @@ public class InventoryConfig {
         propertiesBuilder.add(name, config.getValue(name, String.class));
       }
     }
+    // A use case of custom converter for Email class type
+    Email devEmail = email.get();
+    propertiesBuilder.add("Name", devEmail.getEmailName())
+                     .add("Domain", devEmail.getEmailDomain());
     return propertiesBuilder.build();
   }
+  // end::propertyJsonBuilder[]
 
-  // tag::getPortNumber[]
-  public static int getPortNumber() {
-    return portNumber;
-  }
-  // end::getPortNumber[]
 
   // tag::isInMaintenance[]
   public boolean isInMaintenance() {

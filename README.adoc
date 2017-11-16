@@ -13,7 +13,7 @@
 :page-permalink: /guides/{projectid}
 :common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/master
 :source-highlighter: prettify
-= Externalizing configuration data with MicroProfile Configuration
+= Advanced Usages of MicroProfile Configuration
 
 Learn how to use the MicroProfile Config specification to build an application. MicroProfile Config enables to externalize configurations from microservices.
 
@@ -132,8 +132,6 @@ The first `@Inject` annotation injects the Config object, which is request scope
 
 The second `@Inject` annotation injects the `io.openliberty.guides.microprofile.inventory.inMaintenance` configuration property, a dynamic injection that uses the `Provider<>` interface, which forces the program to retrieve the `inMaintenance` value just in time.
 
-MicroProfile Config has built-in converters that automatically converts configured Strings into target types such as `int`, `boolean`, `float` and `double`. Therefore, it is safe to directly set the variable type to `Provider<Boolean>`.
-
 Add the `isInMaintenance()` class method as shown in the following example:
 [source, java, indent=0]
 ----
@@ -167,6 +165,46 @@ Also add the `mp-config` feature to the `liberty/config/server.xml` file:
 [source, xml, indent=0]
 ----
 include::finish/src/main/liberty/config/server.xml[tags=config]
+----
+
+// =================================================================================================
+// Creating custom converters
+// =================================================================================================
+== Adding custom converters
+Configuration values are purely Strings. MicroProfile Config API has built-in converters that automatically converts configured Strings into target types such as `int`, `Integer`, `boolean`, `Boolean`, `float`, `Float`, `double` and `Double`.
+Therefore, in the previous section, it is type-safe to directly set the variable type to `Provider<Boolean>`:
+[source, java, indent=0]
+----
+include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryConfig.java[tags=build-in-converter]
+----
+
+To convert configured Strings to an arbitrary class type, such as the `Email` class type which is defined in the `start/src/main/java/io/openliberty/guides/config/Email.java` source file,
+add custom converters by implementing the generic interface `org.eclipse.microprofile.config.spi.Converter<T>`.
+
+Open the custom converter `start/src/main/java/io/openliberty/guides/config/CustomEmailConverter.java` file.
+Add the following content to override the `Converter<T>` class:
+
+[source, java, indent=0]
+----
+include::finish/src/main/java/io/openliberty/guides/config/CustomEmailConverter.java[tags=customConfig]
+----
+
+To register the custom converter, add the full class name in the `META-INF/services/org.eclipse.microprofile.config.spi.Converter` file:
+[source, java, indent=0]
+----
+include::finish/src/main/resources/META-INF/services/org.eclipse.microprofile.config.spi.Converter[tags=register]
+----
+
+To use the custom `Email` converter, open the `InventoryConfig.java` file and inject the property:
+[source, java, indent=0]
+----
+include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryConfig.java[tags=custom-converter]
+----
+
+Modify the `propertyJsonBuilder()` method to add information about `devEmail` that has the `Email` type.
+[source, java, indent=0]
+----
+include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryConfig.java[tags=propertyJsonBuilder]
 ----
 
 
@@ -272,7 +310,7 @@ include::finish/src/main/resources/META-INF/microprofile-config.properties[tags=
     "config_ordinal": 500,
     "io.openliberty.guides.microprofile.inventory.inMaintenance": false,
     "io.openliberty.guides.microprofile.system.inMaintenance": false,
-    "io.openliberty.guides.microprofile.inventory.testCustomConfigProperty": "OpenLiberty",
+    "io.openliberty.guides.microprofile.inventory.testCustomConfigProperty": "developer@OpenLiberty.io",
     "io.openliberty.guides.microprofile.inventory.testConfigOverwrite": "CustomSource"
 }
 

@@ -50,7 +50,7 @@ public class TestUtil {
   public static void changeLineInJsonFile(String property, String oldValue,
       String newValue, String source) {
     changeLineInFile(property + "\":\\s*" + oldValue,
-        property + "\": " + newValue, source);
+                     property + "\": " + newValue, source);
   }
 
   /**

@@ -9,7 +9,7 @@
  * Contributors:
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
- // end::comment[]
+// end::comment[]
 package io.openliberty.guides.microprofile.util;
 
 import javax.json.Json;
@@ -17,31 +17,32 @@ import javax.json.JsonObject;
 
 public enum JsonMessages {
 
-    SERVICE_UNREACHABLE();
+  SERVICE_UNREACHABLE();
 
-    private JsonObject json;
+  private JsonObject json;
 
-    public JsonObject getJson() {
-        switch(this) {
-            case SERVICE_UNREACHABLE:
-                this.serviceUnreachable();
-                break;
-            default:
-                break;
-        }
-        return json;
+  public JsonObject getJson() {
+    switch (this) {
+    case SERVICE_UNREACHABLE:
+      this.serviceUnreachable();
+      break;
+    default:
+      break;
     }
+    return json;
+  }
 
-    private void serviceUnreachable() {
-        json = Json.createObjectBuilder()
-                .add("ERROR", "Unknown hostname or the resource may not be running on the host machine")
-                .build();
-    }
+  private void serviceUnreachable() {
+    json = Json.createObjectBuilder()
+               .add("ERROR",
+                    "Unknown hostname or the resource may not be running on the host machine")
+               .build();
+  }
 
-    public static JsonObject serviceInMaintenance(String service) {
-      return Json.createObjectBuilder()
-          .add(service, "Service is temporarily down for maintenance")
-          .build();
-    }
+  public static JsonObject serviceInMaintenance(String service) {
+    return Json.createObjectBuilder()
+               .add(service, "Service is temporarily down for maintenance")
+               .build();
+  }
 
 }
