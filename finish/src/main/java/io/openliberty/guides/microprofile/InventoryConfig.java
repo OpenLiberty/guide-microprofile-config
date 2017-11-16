@@ -42,7 +42,7 @@ public class InventoryConfig {
   @ConfigProperty(
     name = "io.openliberty.guides.microprofile.inventory.inMaintenance")
   private Provider<Boolean> inMaintenance;
-  //end::build-in-converter[]
+  // end::build-in-converter[]
   // end::config[]
 
   // tag::custom-converter[]
@@ -61,8 +61,7 @@ public class InventoryConfig {
   public JsonObject getAllConfig() {
     JsonObjectBuilder builder = Json.createObjectBuilder();
     return builder.add("ConfigSources", sourceJsonBuilder())
-                  .add("ConfigProperties", propertyJsonBuilder())
-                  .build();
+                  .add("ConfigProperties", propertyJsonBuilder()).build();
   }
 
   public JsonObject sourceJsonBuilder() {
@@ -83,7 +82,8 @@ public class InventoryConfig {
     }
     // A use case of custom converter for Email class type
     Email devEmail = email.get();
-    propertiesBuilder.add("Name", devEmail.getEmailName()).add("Domain", devEmail.getEmailDomain());
+    propertiesBuilder.add("Name", devEmail.getEmailName())
+                     .add("Domain", devEmail.getEmailDomain());
     return propertiesBuilder.build();
   }
   // end::propertyJsonBuilder[]

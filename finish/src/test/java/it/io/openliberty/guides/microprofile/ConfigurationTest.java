@@ -69,18 +69,16 @@ public class ConfigurationTest {
   // tag::testInitialServiceStatus()[]
   public void testInitialServiceStatus() {
     JsonObject obj = getJsonObjectFromURL(baseUrl + INVENTORY_HOSTS, 1);
-    boolean status = Boolean.valueOf(
-        TestUtil.readPropertyValueInFile(INV_MAINTENANCE_PROP, DEFAULT_CONFIG_FILE));
+    boolean status = Boolean.valueOf(TestUtil.readPropertyValueInFile(INV_MAINTENANCE_PROP,
+                                                                      DEFAULT_CONFIG_FILE));
 
     if (!status) {
-      assertEquals(
-          "The Inventory Service should be available according to the default config file",
-          0, obj.getInt("total"));
+      assertEquals("The Inventory Service should be available according to the default config file",
+                   0, obj.getInt("total"));
     } else {
-      assertEquals(
-          "The Inventory Service should be in maintenance according to the default config file",
-          "Service is temporarily down for maintenance",
-          obj.getString("InventoryResource"));
+      assertEquals("The Inventory Service should be in maintenance according to the default config file",
+                   "Service is temporarily down for maintenance",
+                   obj.getString("InventoryResource"));
     }
   }
   // end::testInitialServiceStatus()[]
@@ -88,16 +86,16 @@ public class ConfigurationTest {
   // tag::testOverrideConfigProperty()[]
   public void testOverrideConfigProperty() {
     JsonObject properties = getJsonObjectFromURL(baseUrl + INVENTORY_CONFIG_ALL,
-        2);
-    assertEquals(
-        TEST_OVERWRITE_PROP + " should be DefaultSource in the beginning",
-        "DefaultSource", properties.getString(TEST_OVERWRITE_PROP));
+                                                 2);
+    assertEquals(TEST_OVERWRITE_PROP
+        + " should be DefaultSource in the beginning", "DefaultSource",
+                 properties.getString(TEST_OVERWRITE_PROP));
     TestUtil.changeConfigSourcePriority(CUSTOM_CONFIG_FILE, "500", "700");
 
-    JsonObject newProperties = getJsonObjectFromURL(
-        baseUrl + INVENTORY_CONFIG_ALL, 2);
+    JsonObject newProperties = getJsonObjectFromURL(baseUrl
+        + INVENTORY_CONFIG_ALL, 2);
     assertEquals(TEST_OVERWRITE_PROP + " should be CustomSource in the end",
-        "CustomSource", newProperties.getString(TEST_OVERWRITE_PROP));
+                 "CustomSource", newProperties.getString(TEST_OVERWRITE_PROP));
 
     // need to set configurations back to original
     TestUtil.changeConfigSourcePriority(CUSTOM_CONFIG_FILE, "700", "500");
@@ -108,15 +106,15 @@ public class ConfigurationTest {
   public void testPutServiceInMaintenance() {
     JsonObject obj = getJsonObjectFromURL(baseUrl + INVENTORY_HOSTS, 1);
     assertEquals("The inventory service should be up in the beginning", 0,
-        obj.getInt("total"));
+                 obj.getInt("total"));
 
     TestUtil.changeConfigSourcePriority(CUSTOM_CONFIG_FILE, "500", "700");
     TestUtil.switchInventoryMaintenance(CUSTOM_CONFIG_FILE, "false", "true");
 
     JsonObject newObj = getJsonObjectFromURL(baseUrl + INVENTORY_HOSTS, 1);
     assertEquals("The inventory service should be down in the end",
-        "Service is temporarily down for maintenance",
-        newObj.getString("InventoryResource"));
+                 "Service is temporarily down for maintenance",
+                 newObj.getString("InventoryResource"));
 
     // need to set configurations back to original
     TestUtil.changeConfigSourcePriority(CUSTOM_CONFIG_FILE, "700", "500");
@@ -124,14 +122,13 @@ public class ConfigurationTest {
   }
   // end::testPutServiceInMaintenance()[]
 
-
   /**
    * Get the Json Object from the URL provided.
    */
   private JsonObject getJsonObjectFromURL(String url, int level) {
     Response response = client.target(url).request().get();
     assertEquals("Incorrect response code from " + url, 200,
-        response.getStatus());
+                 response.getStatus());
     JsonObject obj = response.readEntity(JsonObject.class);
     JsonObject result = null;
     if (level == 1) {

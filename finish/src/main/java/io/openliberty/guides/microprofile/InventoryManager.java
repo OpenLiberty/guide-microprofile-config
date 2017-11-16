@@ -49,8 +49,10 @@ public class InventoryManager {
     JsonObjectBuilder systems = Json.createObjectBuilder();
     inv.forEach((host, props) -> {
       JsonObject systemProps = Json.createObjectBuilder()
-          .add("os.name", props.getString("os.name"))
-          .add("user.name", props.getString("user.name")).build();
+                                   .add("os.name", props.getString("os.name"))
+                                   .add("user.name",
+                                        props.getString("user.name"))
+                                   .build();
       systems.add(host, systemProps);
     });
     systems.add("hosts", systems);

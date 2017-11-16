@@ -19,9 +19,9 @@ import io.openliberty.guides.config.Email;
 // tag::customConfig[]
 public class CustomEmailConverter implements Converter<Email> {
 
-    @Override
-    public Email convert(String value) {
-        return new Email(value);
-    }
+  @Override
+  public Email convert(String value) {
+    return new Email(value);
+  }
 }
 // end::customConfig[]

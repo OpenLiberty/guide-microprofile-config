@@ -50,7 +50,7 @@ public class InventoryUtil {
 
   private static URI buildUri(String hostname) {
     return UriBuilder.fromUri(SYSTEM_PROPERTIES).host(hostname).port(port)
-        .scheme(PROTOCOL).build();
+                     .scheme(PROTOCOL).build();
   }
 
 }
