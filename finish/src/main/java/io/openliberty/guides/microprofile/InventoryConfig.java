@@ -12,7 +12,7 @@
 // end::comment[]
 package io.openliberty.guides.microprofile;
 
-import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.core.MediaType;
 
 import javax.json.JsonObject;
@@ -29,7 +29,7 @@ import javax.inject.Provider;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import io.openliberty.guides.config.Email;
 
-@ApplicationScoped
+@RequestScoped
 @Path("config")
 public class InventoryConfig {
 
@@ -51,9 +51,6 @@ public class InventoryConfig {
   private Provider<Email> email;
   // end::custom-converter[]
 
-  @Inject
-  @ConfigProperty(name = "io.openliberty.guides.microprofile.port")
-  private static int portNumber;
 
   @GET
   @Path("all")
@@ -88,11 +85,6 @@ public class InventoryConfig {
   }
   // end::propertyJsonBuilder[]
 
-  // tag::getPortNumber[]
-  public static int getPortNumber() {
-    return portNumber;
-  }
-  // end::getPortNumber[]
 
   // tag::isInMaintenance[]
   public boolean isInMaintenance() {
