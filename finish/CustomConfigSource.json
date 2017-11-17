@@ -2,5 +2,5 @@
     "io.openliberty.guides.microprofile.inventory.inMaintenance": false,
     "io.openliberty.guides.microprofile.system.inMaintenance": false,
     "io.openliberty.guides.microprofile.email": "developer@OpenLiberty.io",
-    "io.openliberty.guides.microprofile.inventory.testConfigOverwrite": "CustomSource"
+    "io.openliberty.guides.microprofile.testConfigOverwrite": "CustomSource"
 }

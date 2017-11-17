@@ -276,7 +276,7 @@ include::finish/src/test/java/it/io/openliberty/guides/microprofile/Configuratio
 
 Because the `META-INF/microprofile-config.properties` default source has the highest ordinal value of `600` in the beginning,
 the `testOverrideConfigProperty()` test case first checks that the `http://localhost:9080/inventory/config/all` microservice contains
-the `io.openliberty.guides.microprofile.inventory.testConfigOverwrite` test property with the `DefaultSource` value, which is set by this default file.
+the `io.openliberty.guides.microprofile.testConfigOverwrite` test property with the `DefaultSource` value, which is set by this default file.
 Then, the test changes the ordinal value of the custom configuration source from `500` to `700` so that the custom configuration source becomes the highest priority. In the end, the `CustomSource` value overrides the test property.
 
 
@@ -311,7 +311,7 @@ include::finish/src/main/resources/META-INF/microprofile-config.properties[tags=
     "io.openliberty.guides.microprofile.inventory.inMaintenance": false,
     "io.openliberty.guides.microprofile.system.inMaintenance": false,
     "io.openliberty.guides.microprofile.inventory.testCustomConfigProperty": "developer@OpenLiberty.io",
-    "io.openliberty.guides.microprofile.inventory.testConfigOverwrite": "CustomSource"
+    "io.openliberty.guides.microprofile.testConfigOverwrite": "CustomSource"
 }
 
 ```
