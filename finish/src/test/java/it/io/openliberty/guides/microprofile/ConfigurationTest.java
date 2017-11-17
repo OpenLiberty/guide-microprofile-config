@@ -40,8 +40,8 @@ public class ConfigurationTest {
       + "/src/main/resources/META-INF/microprofile-config.properties";
   private final String CUSTOM_CONFIG_FILE = USER_DIR.split("src")[0]
       + "/CustomConfigSource.json";
-  private final String INV_MAINTENANCE_PROP = "io.openliberty.guides.microprofile.inventory.inMaintenance";
-  private final String TEST_OVERWRITE_PROP = "io.openliberty.guides.microprofile.testConfigOverwrite";
+  private final String INV_MAINTENANCE_PROP = "io_openliberty_guides_inventory_inMaintenance";
+  private final String TEST_OVERWRITE_PROP = "io_openliberty_guides_testConfigOverwrite";
 
   @Before
   public void setup() {

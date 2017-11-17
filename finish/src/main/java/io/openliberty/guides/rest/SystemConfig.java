@@ -29,13 +29,13 @@ public class SystemConfig {
 
   // tag::config[]
   @Inject
-  @ConfigProperty(name = "io.openliberty.guides.microprofile.system.inMaintenance")
+  @ConfigProperty(name = "io_openliberty_guides_system_inMaintenance")
   Provider<Boolean> inMaintenance;
   // end::config[]
 
   // tag::custom-converter[]
   @Inject
-  @ConfigProperty(name = "io.openliberty.guides.microprofile.email")
+  @ConfigProperty(name = "io_openliberty_guides_email")
   private Provider<Email> email;
   // end::custom-converter[]
 

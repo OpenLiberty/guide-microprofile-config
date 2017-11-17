@@ -40,14 +40,14 @@ public class InventoryConfig {
   // tag::build-in-converter[]
   @Inject
   @ConfigProperty(
-    name = "io.openliberty.guides.microprofile.inventory.inMaintenance")
+    name = "io_openliberty_guides_inventory_inMaintenance")
   private Provider<Boolean> inMaintenance;
   // end::build-in-converter[]
   // end::config[]
 
   // tag::custom-converter[]
   @Inject
-  @ConfigProperty(name = "io.openliberty.guides.microprofile.email")
+  @ConfigProperty(name = "io_openliberty_guides_email")
   private Provider<Email> email;
   // end::custom-converter[]
 
@@ -71,7 +71,7 @@ public class InventoryConfig {
   public JsonObject propertyJsonBuilder() {
     JsonObjectBuilder propertiesBuilder = Json.createObjectBuilder();
     for (String name : config.getPropertyNames()) {
-      if (name.contains("io.openliberty.guides.microprofile")) {
+      if (name.contains("io_openliberty_guides")) {
         propertiesBuilder.add(name, config.getValue(name, String.class));
       }
     }
