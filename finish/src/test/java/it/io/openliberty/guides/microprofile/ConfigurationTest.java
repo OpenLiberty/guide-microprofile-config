@@ -40,8 +40,8 @@ public class ConfigurationTest {
       + "/src/main/resources/META-INF/microprofile-config.properties";
   private final String CUSTOM_CONFIG_FILE = USER_DIR.split("src")[0]
       + "/CustomConfigSource.json";
-  private final String INV_MAINTENANCE_PROP = "io.openliberty.guides.microprofile.inventory.inMaintenance";
-  private final String TEST_OVERWRITE_PROP = "io.openliberty.guides.microprofile.inventory.testConfigOverwrite";
+  private final String INV_MAINTENANCE_PROP = "io_openliberty_guides_inventory_inMaintenance";
+  private final String TEST_OVERWRITE_PROP = "io_openliberty_guides_testConfigOverwrite";
 
   @Before
   public void setup() {
@@ -68,7 +68,7 @@ public class ConfigurationTest {
 
   // tag::testInitialServiceStatus()[]
   public void testInitialServiceStatus() {
-    JsonObject obj = getJsonObjectFromURL(baseUrl + INVENTORY_HOSTS, 1);
+    JsonObject obj = getJsonObjectFromURL(baseUrl + INVENTORY_HOSTS, 1, null);
     boolean status = Boolean.valueOf(TestUtil.readPropertyValueInFile(INV_MAINTENANCE_PROP,
                                                                       DEFAULT_CONFIG_FILE));
 
@@ -86,14 +86,14 @@ public class ConfigurationTest {
   // tag::testOverrideConfigProperty()[]
   public void testOverrideConfigProperty() {
     JsonObject properties = getJsonObjectFromURL(baseUrl + INVENTORY_CONFIG_ALL,
-                                                 2);
+                                                 2, "ConfigProperties");
     assertEquals(TEST_OVERWRITE_PROP
         + " should be DefaultSource in the beginning", "DefaultSource",
                  properties.getString(TEST_OVERWRITE_PROP));
     TestUtil.changeConfigSourcePriority(CUSTOM_CONFIG_FILE, "500", "700");
 
     JsonObject newProperties = getJsonObjectFromURL(baseUrl
-        + INVENTORY_CONFIG_ALL, 2);
+        + INVENTORY_CONFIG_ALL, 2, "ConfigProperties");
     assertEquals(TEST_OVERWRITE_PROP + " should be CustomSource in the end",
                  "CustomSource", newProperties.getString(TEST_OVERWRITE_PROP));
 
@@ -104,18 +104,18 @@ public class ConfigurationTest {
 
   // tag::testPutServiceInMaintenance()[]
   public void testPutServiceInMaintenance() {
-    JsonObject obj = getJsonObjectFromURL(baseUrl + INVENTORY_HOSTS, 1);
+    JsonObject obj = getJsonObjectFromURL(baseUrl + INVENTORY_HOSTS, 1, null);
     assertEquals("The inventory service should be up in the beginning", 0,
                  obj.getInt("total"));
 
     TestUtil.changeConfigSourcePriority(CUSTOM_CONFIG_FILE, "500", "700");
     TestUtil.switchInventoryMaintenance(CUSTOM_CONFIG_FILE, "false", "true");
 
-    JsonObject newObj = getJsonObjectFromURL(baseUrl + INVENTORY_HOSTS, 1);
+    JsonObject newObj = getJsonObjectFromURL(baseUrl + INVENTORY_HOSTS, 2,
+                                             "Message");
     assertEquals("The inventory service should be down in the end",
                  "Service is temporarily down for maintenance",
                  newObj.getString("InventoryResource"));
-
     // need to set configurations back to original
     TestUtil.changeConfigSourcePriority(CUSTOM_CONFIG_FILE, "700", "500");
     TestUtil.switchInventoryMaintenance(CUSTOM_CONFIG_FILE, "true", "false");
@@ -125,7 +125,7 @@ public class ConfigurationTest {
   /**
    * Get the Json Object from the URL provided.
    */
-  private JsonObject getJsonObjectFromURL(String url, int level) {
+  private JsonObject getJsonObjectFromURL(String url, int level, String key) {
     Response response = client.target(url).request().get();
     assertEquals("Incorrect response code from " + url, 200,
                  response.getStatus());
@@ -134,7 +134,7 @@ public class ConfigurationTest {
     if (level == 1) {
       result = obj;
     } else if (level == 2) {
-      JsonObject properties = obj.getJsonObject("ConfigProperties");
+      JsonObject properties = obj.getJsonObject(key);
       result = properties;
     }
     response.close();

@@ -25,7 +25,7 @@ import java.io.IOException;
  *
  */
 public class TestUtil {
-  private final static String INV_MAINTENANCE = "io.openliberty.guides.microprofile.inventory.inMaintenance";
+  private final static String INV_MAINTENANCE = "io_openliberty_guides_inventory_inMaintenance";
   private final static String CONFIG_ORDINAL = "config_ordinal";
 
   /**

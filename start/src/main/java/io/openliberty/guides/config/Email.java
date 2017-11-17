@@ -10,20 +10,29 @@
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
 // end::comment[]
-
 package io.openliberty.guides.config;
 
-import javax.json.stream.JsonParser;
-import javax.json.stream.JsonParser.Event;
-import javax.json.Json;
-import java.math.BigDecimal;
-import java.util.*;
-import java.io.StringReader;
+public class Email {
+  private String name;
+  private String domain;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import org.eclipse.microprofile.config.spi.ConfigSource;
+  public Email(String value) {
+    String[] components = value.split("@");
+    if (components.length == 2) {
+      name = components[0];
+      domain = components[1];
+    }
+  }
 
-// tag::customConfig[]
+  public String getEmailName() {
+    return name;
+  }
 
-// end::customConfig[]
+  public String getEmailDomain() {
+    return domain;
+  }
+
+  public String toString() {
+    return name + "@" + domain;
+  }
+}

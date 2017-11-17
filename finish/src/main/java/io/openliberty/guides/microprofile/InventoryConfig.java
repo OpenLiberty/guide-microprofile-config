@@ -36,21 +36,19 @@ public class InventoryConfig {
   // tag::config[]
   @Inject
   private Config config;
+  // end::config[]
 
   // tag::build-in-converter[]
   @Inject
-  @ConfigProperty(
-    name = "io.openliberty.guides.microprofile.inventory.inMaintenance")
+  @ConfigProperty(name = "io_openliberty_guides_inventory_inMaintenance")
   private Provider<Boolean> inMaintenance;
   // end::build-in-converter[]
-  // end::config[]
 
   // tag::custom-converter[]
   @Inject
-  @ConfigProperty(name = "io.openliberty.guides.microprofile.email")
+  @ConfigProperty(name = "io_openliberty_guides_email")
   private Provider<Email> email;
   // end::custom-converter[]
-
 
   @GET
   @Path("all")
@@ -69,27 +67,26 @@ public class InventoryConfig {
     return sourcesBuilder.build();
   }
 
-  // tag::propertyJsonBuilder[]
   public JsonObject propertyJsonBuilder() {
     JsonObjectBuilder propertiesBuilder = Json.createObjectBuilder();
     for (String name : config.getPropertyNames()) {
-      if (name.contains("io.openliberty.guides.microprofile")) {
+      if (name.contains("io_openliberty_guides")) {
         propertiesBuilder.add(name, config.getValue(name, String.class));
       }
     }
-    // A use case of custom converter for Email class type
-    Email devEmail = email.get();
-    propertiesBuilder.add("Name", devEmail.getEmailName())
-                     .add("Domain", devEmail.getEmailDomain());
     return propertiesBuilder.build();
   }
-  // end::propertyJsonBuilder[]
-
 
   // tag::isInMaintenance[]
   public boolean isInMaintenance() {
     return inMaintenance.get();
   }
   // end::isInMaintenance[]
+
+  // tag::getEmail[]
+  public Email getEmail() {
+    return email.get();
+  }
+  // end::getEmail[]
 
 }

@@ -18,7 +18,7 @@ import javax.inject.Inject;
 import org.eclipse.microprofile.config.Config;
 import javax.inject.Provider;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
-
+import io.openliberty.guides.config.Email;
 
 @RequestScoped
 public class SystemConfig {
@@ -28,13 +28,24 @@ public class SystemConfig {
 
   // tag::config[]
   @Inject
-  @ConfigProperty(name = "io.openliberty.guides.microprofile.system.inMaintenance")
-  Provider<String> inMaintenance;
+  @ConfigProperty(name = "io_openliberty_guides_system_inMaintenance")
+  Provider<Boolean> inMaintenance;
   // end::config[]
 
+  // tag::custom-converter[]
+  @Inject
+  @ConfigProperty(name = "io_openliberty_guides_email")
+  private Provider<Email> email;
+  // end::custom-converter[]
+
   public boolean isInMaintenance() {
-    String propValue = inMaintenance.get();
-    return Boolean.parseBoolean(propValue);
+    return inMaintenance.get();
   }
+
+  // tag::getEmail[]
+  public Email getEmail() {
+    return email.get();
+  }
+  // end::getEmail[]
 
 }
