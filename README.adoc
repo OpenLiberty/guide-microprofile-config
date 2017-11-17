@@ -17,8 +17,6 @@
 
 Learn the advanced usages of the MicroProfile Config specification.
 
-MicroProfile Config API enables to externalize configuration data from microservices, aggregate multiple configuration sources and merge configuration values.
-
 To learn how to externalize configuration data for an application with MicroProfile Config, see the interactive guide
 https://openliberty.io/guides/microprofile-config.html[Using MicroProfile Config to separate configuration from code].
 // =================================================================================================
@@ -26,6 +24,7 @@ https://openliberty.io/guides/microprofile-config.html[Using MicroProfile Config
 // =================================================================================================
 
 == What you'll learn
+MicroProfile Config API enables to externalize configuration data from microservices, aggregate multiple configuration sources and merge configuration values.
 
 You will define a custom configuration source that can override configuration values for the application.
 You will enable dynamic configuration injection and assign priorities to different configuration sources.
@@ -131,7 +130,7 @@ The first `@Inject` annotation injects the Config object, which is request scope
 include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryConfig.java[tags=build-in-converter]
 ----
 
-The second `@Inject` annotation injects the `io_openliberty_guides_inventory_inMaintenance` configuration property, a dynamic injection that uses the `Provider<>` interface, which forces the program to retrieve the `inMaintenance` value just in time.
+The second `@Inject` annotation injects the `io_openliberty_guides_inventory_inMaintenance` configuration property, a dynamic injection that uses the `Provider<>` interface, which forces the service to retrieve the `inMaintenance` value just in time.
 
 Add the `isInMaintenance()` class method as shown in the following example:
 [source, java, indent=0]
@@ -310,7 +309,7 @@ include::finish/src/main/resources/META-INF/microprofile-config.properties[tags=
 {   "config_ordinal": 500,
     "io_openliberty_guides_inventory_inMaintenance": false,
     "io_openliberty_guides_system_inMaintenance": false,
-    "io_openliberty_guides_email": "developer@OpenLiberty.io",
+    "io_openliberty_guides_email": "admin@guides.openliberty.io",
     "io_openliberty_guides_testConfigOverwrite": "CustomSource"
 }
 ```
