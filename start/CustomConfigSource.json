@@ -1,7 +1,6 @@
-{
-    "config_ordinal": 500,
-    "io.openliberty.guides.microprofile.inventory.inMaintenance": false,
-    "io.openliberty.guides.microprofile.system.inMaintenance": false,
-    "io.openliberty.guides.microprofile.inventory.testCustomConfigProperty": "developer@OpenLiberty.io",
-    "io.openliberty.guides.microprofile.inventory.testConfigOverwrite": "CustomSource"
+{   "config_ordinal": 500,
+    "io_openliberty_guides_inventory_inMaintenance": false,
+    "io_openliberty_guides_system_inMaintenance": false,
+    "io_openliberty_guides_email": "developer@OpenLiberty.io",
+    "io_openliberty_guides_testConfigOverwrite": "CustomSource"
 }

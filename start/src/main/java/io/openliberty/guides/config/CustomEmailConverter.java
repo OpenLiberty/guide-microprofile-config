@@ -13,16 +13,8 @@
 
 package io.openliberty.guides.config;
 
-import javax.json.stream.JsonParser;
-import javax.json.stream.JsonParser.Event;
-import javax.json.Json;
-import java.math.BigDecimal;
-import java.util.*;
-import java.io.StringReader;
-
-import java.io.BufferedReader;
-import java.io.FileReader;
-import org.eclipse.microprofile.config.spi.ConfigSource;
+import org.eclipse.microprofile.config.spi.Converter;
+import io.openliberty.guides.config.Email;
 
 // tag::customConfig[]
 

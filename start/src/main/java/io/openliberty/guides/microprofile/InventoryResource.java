@@ -12,8 +12,9 @@
 // end::comment[]
 package io.openliberty.guides.microprofile;
 
-import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import javax.json.Json;
 import javax.json.JsonObject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -21,8 +22,9 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import io.openliberty.guides.microprofile.util.JsonMessages;
+import io.openliberty.guides.config.Email;
 
-@ApplicationScoped
+@RequestScoped
 @Path("hosts")
 public class InventoryResource {
 
@@ -49,8 +51,12 @@ public class InventoryResource {
   public JsonObject listContents() {
 
       return manager.list();
-    
+
   }
   // end::config-methods[]
+
+  // tag::returnMessage[]
+
+  // end::returnMessage[]
 
 }

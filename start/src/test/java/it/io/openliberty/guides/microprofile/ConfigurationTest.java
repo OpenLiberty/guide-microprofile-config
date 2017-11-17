@@ -40,8 +40,8 @@ public class ConfigurationTest {
       + "/src/main/resources/META-INF/microprofile-config.properties";
   private final String CUSTOM_CONFIG_FILE = USER_DIR.split("src")[0]
       + "/CustomConfigSource.json";
-  private final String INV_MAINTENANCE_PROP = "io.openliberty.guides.microprofile.inventory.inMaintenance";
-  private final String TEST_OVERWRITE_PROP = "io.openliberty.guides.microprofile.inventory.testConfigOverwrite";
+  private final String INV_MAINTENANCE_PROP = "io_openliberty_guides_inventory_inMaintenance";
+  private final String TEST_OVERWRITE_PROP = "io_openliberty_guides_testConfigOverwrite";
 
   @Before
   public void setup() {
@@ -58,7 +58,7 @@ public class ConfigurationTest {
   }
 
   // tag::testSuite[]
-  
+
   // end::testSuite[]
 
   // tag::testInitialServiceStatus()[]
@@ -73,20 +73,19 @@ public class ConfigurationTest {
 
   // end::testPutServiceInMaintenance()[]
 
-
   /**
    * Get the Json Object from the URL provided.
    */
-  private JsonObject getJsonObjectFromURL(String url, int level) {
+  private JsonObject getJsonObjectFromURL(String url, int level, String key) {
     Response response = client.target(url).request().get();
     assertEquals("Incorrect response code from " + url, 200,
-        response.getStatus());
+                 response.getStatus());
     JsonObject obj = response.readEntity(JsonObject.class);
     JsonObject result = null;
     if (level == 1) {
       result = obj;
     } else if (level == 2) {
-      JsonObject properties = obj.getJsonObject("ConfigProperties");
+      JsonObject properties = obj.getJsonObject(key);
       result = properties;
     }
     response.close();
