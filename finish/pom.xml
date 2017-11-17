@@ -180,6 +180,9 @@
             <goals>
               <goal>package-server</goal>
             </goals>
+            <configuration>
+              <outputDirectory>target/wlp-package</outputDirectory>
+           </configuration>
           </execution>
         </executions>
       </plugin>
@@ -201,8 +204,6 @@
               </includes>
               <systemPropertyVariables>
                  <liberty.test.port>${testServerHttpPort}</liberty.test.port>
-                <running.bluemix>${running.bluemix}</running.bluemix>
-                <cf.context.root>${cf.context.root}</cf.context.root>
               </systemPropertyVariables>
             </configuration>
           </execution>
