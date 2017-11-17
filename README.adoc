@@ -13,20 +13,23 @@
 :page-permalink: /guides/{projectid}
 :common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/master
 :source-highlighter: prettify
-= Advanced Usages of MicroProfile Configuration
+= Advancing the use of MicroProfile Configuration
 
-Learn how to use the MicroProfile Config specification to build an application. MicroProfile Config enables to externalize configurations from microservices.
+Learn the advanced usages of the MicroProfile Config specification.
 
+MicroProfile Config API enables to externalize configuration data from microservices, aggregate multiple configuration sources and merge configuration values.
+
+To learn how to externalize configuration data for an application with MicroProfile Config, see the interactive guide
+https://openliberty.io/guides/microprofile-config.html[Using MicroProfile Config to separate configuration from code].
 // =================================================================================================
 // What you'll learn
 // =================================================================================================
 
 == What you'll learn
 
-You will learn how to aggregate multiple configuration sources and merge configuration values.
-You will externalize configuration data for an application, enable dynamic configuration injection,
-and assign priorities to different configuration sources.
-In addition, you will define a custom configuration source that is more flexible and can override configuration values for the application.
+You will define a custom configuration source that can override configuration values for the application.
+You will enable dynamic configuration injection and assign priorities to different configuration sources.
+In addition, you will add custom converters that provide type-safe conversions from configured Strings into target types.
 
 You will be able to access two microservices to test availability:
 
@@ -90,7 +93,7 @@ In addition to the three default configuration sources, you can create custom co
 implementing the `org.eclipse.microprofile.config.spi.ConfigSource` interface and using the `java.util.ServiceLoader` mechanism.
 
 Open the custom configuration `start/src/main/java/io/openliberty/guides/config/CustomConfigSource.java` source file.
-Add the following content to override the `ConfigSource` class:
+Add the following content to override the `ConfigSource` interface:
 
 [source, java, indent=0]
 ----
@@ -99,7 +102,7 @@ include::finish/src/main/java/io/openliberty/guides/config/CustomConfigSource.ja
 
 The `setProperties()` private method reads the key value pairs from the `CustomConfigSource.json` JSON file and writes the information into a map.
 
-To register the custom configuration source, add the full class name in the `META-INF/services/org.eclipse.microprofile.config.spi.ConfigSource` file:
+To register the custom configuration source, add the full class name in the `start/src/main/resources/META-INF/services/org.eclipse.microprofile.config.spi.ConfigSource` file:
 
 [source, java, indent=0]
 ----
@@ -112,9 +115,9 @@ include::finish/src/main/resources/META-INF/services/org.eclipse.microprofile.co
 // =================================================================================================
 == Enabling dynamic configuration injection
 
-Access the partially implemented `InventoryConfig` Java class in the `start/src/main/java/io/openliberty/guides/microprofile` directory.
+Access the partially implemented `InventoryConfig.java` Java class in the `start/src/main/java/io/openliberty/guides/microprofile` directory.
 
-Open the `InventoryConfig.java` file and add the following two configuration injections:
+Add the following two configuration injections:
 
 [source, java, indent=0]
 ----
@@ -146,7 +149,7 @@ include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryResour
 ----
 
 Use the `inventoryConfig.isInMaintenance()` class method to determine whether the inventory service is in maintenance
-or not according to the configuration. If you set the `io_openliberty_guides_inventory_inMaintenance` property to `true` by configuration, the inventory service returns the message, `Service is temporarily down for maintenance`.
+or not according to the configuration. If you set the `io_openliberty_guides_inventory_inMaintenance` property to `true` in the configuration, the inventory service returns the message, `Service is temporarily down for maintenance`.
 Modify the existed class to the following code:
 [source, java, indent=0]
 ----
@@ -159,7 +162,7 @@ To use the MicroProfile Config feature, add the required dependency to the `star
 include::finish/pom.xml[tags=config]
 ----
 
-Also add the `mp-config` feature to the `liberty/config/server.xml` file:
+Also add the `mp-config` feature to the `start/src/main/liberty/config/server.xml` file:
 [source, xml, indent=0]
 ----
 include::finish/src/main/liberty/config/server.xml[tags=config]
@@ -177,17 +180,17 @@ include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryConfig
 ----
 
 To convert configured Strings to an arbitrary class type, such as the `Email` class type which is defined in the `start/src/main/java/io/openliberty/guides/config/Email.java` source file,
-add custom converters by implementing the generic interface `org.eclipse.microprofile.config.spi.Converter<T>`.
+add a custom converter by implementing the generic interface `org.eclipse.microprofile.config.spi.Converter<T>`.
 
-Open the custom converter `start/src/main/java/io/openliberty/guides/config/CustomEmailConverter.java` file.
-Add the following content to override the `Converter<T>` class:
+Open the `start/src/main/java/io/openliberty/guides/config/CustomEmailConverter.java` file.
+Add the following content to override the `Converter<T>` interface:
 
 [source, java, indent=0]
 ----
 include::finish/src/main/java/io/openliberty/guides/config/CustomEmailConverter.java[tags=customConfig]
 ----
 
-To register the custom converter, add the full class name in the `META-INF/services/org.eclipse.microprofile.config.spi.Converter` file:
+To register the custom converter, add the full class name in the `start/src/main/resources/META-INF/services/org.eclipse.microprofile.config.spi.Converter` file:
 [source, java, indent=0]
 ----
 include::finish/src/main/resources/META-INF/services/org.eclipse.microprofile.config.spi.Converter[tags=register]
