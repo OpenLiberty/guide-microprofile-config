@@ -195,16 +195,16 @@ To register the custom converter, add the full class name in the `META-INF/servi
 include::finish/src/main/resources/META-INF/services/org.eclipse.microprofile.config.spi.Converter[tags=register]
 ----
 
-To use the custom `Email` converter, open the `InventoryConfig.java` file and inject the property:
+To use the custom `Email` converter, open the `InventoryConfig.java` file, inject the property, and add the `getEmail()` method:
 [source, java, indent=0]
 ----
-include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryConfig.java[tags=custom-converter]
+include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryConfig.java[tags=custom-converter;getEmail]
 ----
 
-Modify the `propertyJsonBuilder()` method to add information about `devEmail` that has the `Email` type.
+Open the `InventoryResource.java` file. Add the `returnMessage()` method.
 [source, java, indent=0]
 ----
-include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryConfig.java[tags=propertyJsonBuilder]
+include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryResource.java[tags=returnMessage]
 ----
 
 

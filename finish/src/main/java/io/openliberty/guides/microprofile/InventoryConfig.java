@@ -51,7 +51,6 @@ public class InventoryConfig {
   private Provider<Email> email;
   // end::custom-converter[]
 
-
   @GET
   @Path("all")
   @Produces(MediaType.APPLICATION_JSON)
@@ -69,7 +68,6 @@ public class InventoryConfig {
     return sourcesBuilder.build();
   }
 
-  // tag::propertyJsonBuilder[]
   public JsonObject propertyJsonBuilder() {
     JsonObjectBuilder propertiesBuilder = Json.createObjectBuilder();
     for (String name : config.getPropertyNames()) {
@@ -77,19 +75,19 @@ public class InventoryConfig {
         propertiesBuilder.add(name, config.getValue(name, String.class));
       }
     }
-    // A use case of custom converter for Email class type
-    Email devEmail = email.get();
-    propertiesBuilder.add("Name", devEmail.getEmailName())
-                     .add("Domain", devEmail.getEmailDomain());
     return propertiesBuilder.build();
   }
-  // end::propertyJsonBuilder[]
-
 
   // tag::isInMaintenance[]
   public boolean isInMaintenance() {
     return inMaintenance.get();
   }
   // end::isInMaintenance[]
+
+  // tag::getEmail[]
+  public Email getEmail() {
+    return email.get();
+  }
+  // end::getEmail[]
 
 }
