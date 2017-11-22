@@ -73,10 +73,10 @@ public class ConfigurationTest {
                                                                       DEFAULT_CONFIG_FILE));
 
     if (!status) {
-      assertEquals("The Inventory Service should be available according to the default config file",
+      assertEquals("The Inventory Service should be available",
                    0, obj.getInt("total"));
     } else {
-      assertEquals("The Inventory Service should be in maintenance according to the default config file",
+      assertEquals("The Inventory Service should be in maintenance",
                    "Service is temporarily down for maintenance",
                    obj.getString("InventoryResource"));
     }

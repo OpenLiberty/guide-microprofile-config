@@ -223,7 +223,7 @@ include::{common-includes}/mvnbuild.adoc[]
 
 To see the new application in action, run the Maven `liberty:start-server` command from the `start` directory:
 
-[source, role="no_copy"]
+[source]
 ----
 $ mvn liberty:start-server
 ----
