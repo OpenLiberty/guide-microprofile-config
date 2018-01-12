@@ -5,7 +5,7 @@
 //
 // Contributors:
 //   IBM Corporation
-:projectid: microprofile-config
+:projectid: microprofile-config-advanced
 :page-layout: guide
 :page-duration: 30 minutes
 :page-releasedate: 2017-12-11
