@@ -5,21 +5,19 @@
 //
 // Contributors:
 //   IBM Corporation
-:projectid: microprofile-config-advanced
+:projectid: microprofile-config
 :page-layout: guide
 :page-duration: 30 minutes
 :page-releasedate: 2017-12-11
-:page-description: Learn how to use the MicroProfile Config specification to build an application
+:page-description: Learn how to use the MicroProfile Config specification to externalize configuration data for an application
 :page-tags: ['REST', 'MicroProfile', 'Configuration', 'CDI']
 :page-permalink: /guides/{projectid}
 :common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/master
 :source-highlighter: prettify
-= Advancing the use of MicroProfile Configuration
+= Externalizing configuration data with MicroProfile Configuration
 
-Learn the advanced usages of the MicroProfile Config specification.
+Learn how to use the MicroProfile Config specification to externalize configuration data for an application.
 
-To learn how to externalize configuration data for an application with MicroProfile Config, see the interactive guide
-https://openliberty.io/guides/microprofile-config.html[Using MicroProfile Config to separate configuration from code].
 // =================================================================================================
 // What you'll learn
 // =================================================================================================
@@ -27,8 +25,10 @@ https://openliberty.io/guides/microprofile-config.html[Using MicroProfile Config
 == What you'll learn
 MicroProfile Config API enables to externalize configuration data from microservices, aggregate multiple configuration sources and merge configuration values.
 
+You will learn how to externalize configuration data for an application, inject Config into microservices,
+enable dynamic configuration injection, and assign priorities to different configuration sources.
+
 You will define a custom configuration source that can override configuration values for the application.
-You will enable dynamic configuration injection and assign priorities to different configuration sources.
 In addition, you will add custom converters that provide type-safe conversions from configured Strings into target types.
 
 You will be able to access two microservices to test availability:
@@ -50,6 +50,60 @@ In addition, you will access one service that retrieves configuration informatio
 
 include::{common-includes}/gitclone.adoc[]
 
+// =================================================================================================
+// Injecting configuration into the application
+// =================================================================================================
+== Injecting configuration into the application
+
+Access the local `microprofile-config.properties` configuration file in the `start/src/main/resources/META-INF` directory. This configuration file is the default configuration source for an application that uses MicroProfile Config.
+
+The `io_openliberty_guides_port_number` property determines the port number of the REST service.
+[source, java, indent=0, role="no_copy"]
+----
+include::finish/src/main/resources/META-INF/microprofile-config.properties[tags=inventory-port-number]
+----
+
+Access the partially implemented `InventoryConfig` Java class in the `start/src/main/java/io/openliberty/guides/microprofile` directory.
+
+Open the `InventoryConfig.java` file and add the following configuration injection:
+
+[source, java, indent=0]
+----
+include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryConfig.java[tags=port-number]
+----
+
+This `@Inject` annotation injects the port number directly, the injection value is static and fixed on application starting.
+
+Add the `getPortNumber()` class method. This method is static because `portNumber` is a static property.
+
+[source, java, indent=0]
+----
+include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryConfig.java[tags=getPortNumber]
+----
+
+Open the `InventoryResource.java` file. Inject the `InventoryConfig` object to modify the existed class.
+[source, java, indent=0]
+----
+include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryResource.java[tags=config-injection]
+----
+
+Instead of hardcoding `9080` for the port, get the port number from the configuration.
+[source, java, indent=0]
+----
+include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryResource.java[tags=config-port]
+----
+
+To use the MicroProfile Config feature, add the required dependency to the `start/pom.xml` file:
+[source, xml, indent=0]
+----
+include::finish/pom.xml[tags=config]
+----
+
+Also add the `mp-config` feature to the `start/src/main/liberty/config/server.xml` file:
+[source, xml, indent=0]
+----
+include::finish/src/main/liberty/config/server.xml[tags=config]
+----
 
 // =================================================================================================
 // Ordering multiple configuration sources
@@ -58,8 +112,8 @@ include::{common-includes}/gitclone.adoc[]
 
 Out of the following three default configuration sources, the configuration source with the highest `config_ordinal` value overrides the other configuration values when a value conflict for a configuration property occurs.
 
-* System properties has a default ordinal of 400.
-* Environment variables has a default ordinal of 300.
+* System properties has a default ordinal of 400. (e.g. `bootstrap.properties` file)
+* Environment variables has a default ordinal of 300. (e.g. `server.env` file)
 * The `META-INF/microprofile-config.properties` configuration property file on the classpath has a default ordinal of 100.
 
 Access the local `microprofile-config.properties` configuration file in the `start/src/main/resources/META-INF` directory. This configuration file is the default configuration source for an application that uses MicroProfile Config.
@@ -69,13 +123,6 @@ Open the configuration file. The current value of the `config_ordinal` source in
 [source, java, indent=0, role="no_copy"]
 ----
 include::finish/src/main/resources/META-INF/microprofile-config.properties[tags=ordinal]
-----
-
-The `io_openliberty_guides_inventory_inMaintenance` configuration property determines whether the inventory service is in maintenance or not.
-
-[source, java, indent=0, role="no_copy"]
-----
-include::finish/src/main/resources/META-INF/microprofile-config.properties[tags=inventory-in-maintenance]
 ----
 
 // =================================================================================================
@@ -142,30 +189,12 @@ include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryConfig
 Every time that you invoke the `inMaintenance.get()` method, the `Provider<>` interface picks up the
 latest value of the `io_openliberty_guides_inventory_inMaintenance` property from configuration sources.
 
-Open the `InventoryResource.java` file. Inject the `InventoryConfig` object to modify the existed class.
-[source, java, indent=0]
-----
-include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryResource.java[tags=config-injection]
-----
-
-Use the `inventoryConfig.isInMaintenance()` class method to determine whether the inventory service is in maintenance
+Open the `InventoryResource.java` file. Use the `inventoryConfig.isInMaintenance()` class method to determine whether the inventory service is in maintenance
 or not according to the configuration. If you set the `io_openliberty_guides_inventory_inMaintenance` property to `true` in the configuration, the inventory service returns the message, `Service is temporarily down for maintenance`.
 Modify the existed class to the following code:
 [source, java, indent=0]
 ----
 include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryResource.java[tags=config-methods]
-----
-
-To use the MicroProfile Config feature, add the required dependency to the `start/pom.xml` file:
-[source, xml, indent=0]
-----
-include::finish/pom.xml[tags=config]
-----
-
-Also add the `mp-config` feature to the `start/src/main/liberty/config/server.xml` file:
-[source, xml, indent=0]
-----
-include::finish/src/main/liberty/config/server.xml[tags=config]
 ----
 
 // =================================================================================================
