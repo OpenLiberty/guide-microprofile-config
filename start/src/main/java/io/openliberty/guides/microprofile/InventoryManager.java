@@ -28,11 +28,11 @@ public class InventoryManager {
 
   private ConcurrentMap<String, JsonObject> inv = new ConcurrentHashMap<>();
 
-  public JsonObject get(String hostname) {
+  public JsonObject get(String hostname, int port) {
     JsonObject properties = inv.get(hostname);
     if (properties == null) {
-      if (InventoryUtil.responseOk(hostname)) {
-        properties = InventoryUtil.getProperties(hostname);
+      if (InventoryUtil.responseOk(hostname, port)) {
+        properties = InventoryUtil.getProperties(hostname, port);
         this.add(hostname, properties);
       } else {
         return JsonMessages.SERVICE_UNREACHABLE.getJson();
