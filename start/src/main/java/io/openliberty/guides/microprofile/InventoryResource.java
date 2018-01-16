@@ -41,8 +41,8 @@ public class InventoryResource {
   @Produces(MediaType.APPLICATION_JSON)
   public JsonObject getPropertiesForHost(
       @PathParam("hostname") String hostname) {
-
-      return manager.get(hostname);
+      int port = 9080;
+      return manager.get(hostname, port);
 
   }
 
