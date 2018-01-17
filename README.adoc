@@ -14,7 +14,7 @@
 :page-permalink: /guides/{projectid}
 :common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/master
 :source-highlighter: prettify
-= Externalizing configuration data with MicroProfile Configuration
+= Configuring Microservices
 
 Learn how to use the MicroProfile Config specification to externalize configuration data for an application.
 
