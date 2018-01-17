@@ -37,6 +37,10 @@ public class InventoryConfig {
 
   // end::config[]
 
+  // tag::port-number[]
+
+  // end::port-number[]
+
   // tag::build-in-converter[]
 
   // end::build-in-converter[]
@@ -72,14 +76,16 @@ public class InventoryConfig {
     return propertiesBuilder.build();
   }
 
+  // tag::getPortNumber[]
+
+  // end::getPortNumber[]
+
   // tag::isInMaintenance[]
 
   // end::isInMaintenance[]
 
   // tag::getEmail[]
-  public Email getEmail() {
-    return email.get();
-  }
+   
   // end::getEmail[]
 
 }

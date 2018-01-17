@@ -38,6 +38,12 @@ public class InventoryConfig {
   private Config config;
   // end::config[]
 
+  // tag::port-number[]
+  @Inject
+  @ConfigProperty(name = "io_openliberty_guides_port_number")
+  private int portNumber;
+  // end::port-number[]
+
   // tag::build-in-converter[]
   @Inject
   @ConfigProperty(name = "io_openliberty_guides_inventory_inMaintenance")
@@ -76,6 +82,12 @@ public class InventoryConfig {
     }
     return propertiesBuilder.build();
   }
+
+  // tag::getPortNumber[]
+  public int getPortNumber() {
+    return portNumber;
+  }
+  // end::getPortNumber[]
 
   // tag::isInMaintenance[]
   public boolean isInMaintenance() {

@@ -36,14 +36,18 @@ public class InventoryResource {
   InventoryConfig inventoryConfig;
   // end::config-injection[]
 
+
   // tag::config-methods[]
   @GET
   @Path("{hostname}")
   @Produces(MediaType.APPLICATION_JSON)
   public JsonObject getPropertiesForHost(
       @PathParam("hostname") String hostname) {
+        // tag::config-port[]
+    int port = inventoryConfig.getPortNumber();
+       // end::config-port[]
     if (!inventoryConfig.isInMaintenance()) {
-      return manager.get(hostname);
+      return manager.get(hostname, port);
     } else {
       return returnMessage();
     }
