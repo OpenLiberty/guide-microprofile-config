@@ -50,6 +50,31 @@ In addition, you will access one service that retrieves configuration informatio
 
 include::{common-includes}/gitclone.adoc[]
 
+
+// =================================================================================================
+// Ordering multiple configuration sources
+// =================================================================================================
+== Ordering multiple configuration sources
+
+MicroProfile Config combines configuration values from multiple sources, each known as a ConfigSource. Each ConfigSource has a specified priority, defined by its ordinal value.
+
+A higher ordinal means that the values taken from this ConfigSource will override values from ConfigSources with a lower ordinal value.
+
+There are three default configuration sources as following:
+
+* System properties has a default ordinal of 400. (e.g. `bootstrap.properties` file)
+* Environment variables has a default ordinal of 300. (e.g. `server.env` file)
+* The `META-INF/microprofile-config.properties` configuration property file on the classpath has a default ordinal of 100.
+
+Access the local `microprofile-config.properties` configuration file in the `start/src/main/resources/META-INF` directory. This configuration file is the default configuration source for an application that uses MicroProfile Config.
+
+Open the configuration file. The current value of the `config_ordinal` source in the `META-INF/microprofile-config.properties` file is set to `600` instead of the default ordinal of `100`. Therefore, the `META-INF/microprofile-config.properties` file gets the highest priority to override any other configuration values.
+
+[source, java, indent=0, role="no_copy"]
+----
+include::finish/src/main/resources/META-INF/microprofile-config.properties[tags=ordinal]
+----
+
 // =================================================================================================
 // Injecting configuration into the application
 // =================================================================================================
@@ -75,7 +100,7 @@ The `io_openliberty_guides_port_number` property determines the port number of t
 include::finish/src/main/resources/META-INF/microprofile-config.properties[tags=inventory-port-number]
 ----
 
-Access the partially implemented `InventoryConfig` Java class in the `start/src/main/java/io/openliberty/guides/microprofile` directory.
+Access the partially implemented `InventoryConfig` Java class in the `start/src/main/java/io/openliberty/guides/inventory` directory.
 
 Open the `InventoryConfig.java` file and add the following configuration injection:
 
@@ -86,45 +111,26 @@ include::finish/src/main/java/io/openliberty/guides/inventory/InventoryConfig.ja
 
 This `@Inject` annotation injects the port number directly, the injection value is static and fixed on application starting.
 
-Add the `getPortNumber()` class method. This method is static because `portNumber` is a static property.
+Add the `getPortNumber()` class method. This method directly returns the value of `portNumber` because it has been injected.
 
 [source, java, indent=0]
 ----
 include::finish/src/main/java/io/openliberty/guides/inventory/InventoryConfig.java[tags=getPortNumber]
 ----
 
-Open the `InventoryResource.java` file. Inject the `InventoryConfig` object to modify the existed class.
+Open the `InventoryResource.java` file. Inject the `InventoryConfig` object to modify the existing class.
 [source, java, indent=0]
 ----
 include::finish/src/main/java/io/openliberty/guides/inventory/InventoryResource.java[tags=config-injection]
 ----
 
-Instead of hardcoding `9080` for the port, get the port number from the configuration.
+Get the port number from the configuration and pass this value to the `getProperties(String hostname, int port)` method in the `InventoryUtil.java` to get the system properties.
+
 [source, java, indent=0]
 ----
 include::finish/src/main/java/io/openliberty/guides/inventory/InventoryResource.java[tags=config-port]
 ----
 
-
-// =================================================================================================
-// Ordering multiple configuration sources
-// =================================================================================================
-== Ordering multiple configuration sources
-
-Out of the following three default configuration sources, the configuration source with the highest `config_ordinal` value overrides the other configuration values when a value conflict for a configuration property occurs.
-
-* System properties has a default ordinal of 400. (e.g. `bootstrap.properties` file)
-* Environment variables has a default ordinal of 300. (e.g. `server.env` file)
-* The `META-INF/microprofile-config.properties` configuration property file on the classpath has a default ordinal of 100.
-
-Access the local `microprofile-config.properties` configuration file in the `start/src/main/resources/META-INF` directory. This configuration file is the default configuration source for an application that uses MicroProfile Config.
-
-Open the configuration file. The current value of the `config_ordinal` source in the `META-INF/microprofile-config.properties` file is set to `600` instead of the default ordinal of `100`. Therefore, the `META-INF/microprofile-config.properties` file gets the highest priority to override any other configuration values.
-
-[source, java, indent=0, role="no_copy"]
-----
-include::finish/src/main/resources/META-INF/microprofile-config.properties[tags=ordinal]
-----
 
 // =================================================================================================
 // Creating custom configuration sources
@@ -192,7 +198,7 @@ latest value of the `io_openliberty_guides_inventory_inMaintenance` property fro
 
 Open the `InventoryResource.java` file. Use the `inventoryConfig.isInMaintenance()` class method to determine whether the inventory service is in maintenance
 or not according to the configuration. If you set the `io_openliberty_guides_inventory_inMaintenance` property to `true` in the configuration, the inventory service returns the message, `Service is temporarily down for maintenance`.
-Modify the existed class to the following code:
+Modify the existing class to the following code:
 [source, java, indent=0]
 ----
 include::finish/src/main/java/io/openliberty/guides/inventory/InventoryResource.java[tags=config-methods]
@@ -232,7 +238,13 @@ To use the custom `Email` converter, open the `InventoryConfig.java` file, injec
 include::finish/src/main/java/io/openliberty/guides/inventory/InventoryConfig.java[tags=custom-converter;getEmail]
 ----
 
-Open the `JsonMessages.java` file. Add the `returnMessage()` method.
+Open the `InventoryResource.java` file. Modify the returnMessage().
+[source, java, indent=0]
+----
+include::finish/src/main/java/io/openliberty/guides/inventory/InventoryResource.java[tags=email]
+----
+
+Open the `start/src/main/java/io/openliberty/guides/common/JsonMessages.java` file. Add the `returnMessage()` method.
 [source, java, indent=0]
 ----
 include::finish/src/main/java/io/openliberty/guides/common/JsonMessages.java[tags=returnMessage]
