@@ -54,7 +54,9 @@ public class InventoryResource {
     if (!inventoryConfig.isInMaintenance()) {
       return manager.get(hostname, port);
     } else {
+      // tag::email[]
       return JsonMessages.returnMessage("InventoryResource", inventoryConfig.getEmail());
+      // end::email[]
     }
   }
 
