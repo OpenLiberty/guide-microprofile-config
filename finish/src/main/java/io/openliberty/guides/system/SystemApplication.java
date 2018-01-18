@@ -10,29 +10,13 @@
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
  // end::copyright[]
-package io.openliberty.guides.config;
+package io.openliberty.guides.system;
 
-public class Email {
-  private String name;
-  private String domain;
+// JAX-RS
+import javax.ws.rs.core.Application;
+import javax.ws.rs.ApplicationPath;
 
-  public Email(String value) {
-    String[] components = value.split("@");
-    if (components.length == 2) {
-      name = components[0];
-      domain = components[1];
-    }
-  }
+@ApplicationPath("system")
+public class SystemApplication extends Application {
 
-  public String getEmailName() {
-    return name;
-  }
-
-  public String getEmailDomain() {
-    return domain;
-  }
-
-  public String toString() {
-    return name + "@" + domain;
-  }
 }
