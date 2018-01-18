@@ -14,7 +14,7 @@
 :page-permalink: /guides/{projectid}
 :common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/master
 :source-highlighter: prettify
-= Configuring Microservices
+= Configuring Microservices using MicroProfile Config
 
 Learn how to use the MicroProfile Config specification to externalize configuration data for an application.
 
@@ -42,7 +42,7 @@ https://openliberty.io/guides/microprofile-intro.html[Creating a MicroProfile ap
 
 In addition, you will access one service that retrieves configuration information that is specific to this guide:
 
-* `http://localhost:9080/inventory/config/all`
+* `http://localhost:9080/config`
 
 // =================================================================================================
 // Getting Started
@@ -50,67 +50,17 @@ In addition, you will access one service that retrieves configuration informatio
 
 include::{common-includes}/gitclone.adoc[]
 
-// =================================================================================================
-// Injecting configuration into the application
-// =================================================================================================
-== Injecting configuration into the application
-
-Access the local `microprofile-config.properties` configuration file in the `start/src/main/resources/META-INF` directory. This configuration file is the default configuration source for an application that uses MicroProfile Config.
-
-The `io_openliberty_guides_port_number` property determines the port number of the REST service.
-[source, java, indent=0, role="no_copy"]
-----
-include::finish/src/main/resources/META-INF/microprofile-config.properties[tags=inventory-port-number]
-----
-
-Access the partially implemented `InventoryConfig` Java class in the `start/src/main/java/io/openliberty/guides/microprofile` directory.
-
-Open the `InventoryConfig.java` file and add the following configuration injection:
-
-[source, java, indent=0]
-----
-include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryConfig.java[tags=port-number]
-----
-
-This `@Inject` annotation injects the port number directly, the injection value is static and fixed on application starting.
-
-Add the `getPortNumber()` class method. This method is static because `portNumber` is a static property.
-
-[source, java, indent=0]
-----
-include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryConfig.java[tags=getPortNumber]
-----
-
-Open the `InventoryResource.java` file. Inject the `InventoryConfig` object to modify the existed class.
-[source, java, indent=0]
-----
-include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryResource.java[tags=config-injection]
-----
-
-Instead of hardcoding `9080` for the port, get the port number from the configuration.
-[source, java, indent=0]
-----
-include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryResource.java[tags=config-port]
-----
-
-To use the MicroProfile Config feature, add the required dependency to the `start/pom.xml` file:
-[source, xml, indent=0]
-----
-include::finish/pom.xml[tags=config]
-----
-
-Also add the `mp-config` feature to the `start/src/main/liberty/config/server.xml` file:
-[source, xml, indent=0]
-----
-include::finish/src/main/liberty/config/server.xml[tags=config]
-----
 
 // =================================================================================================
 // Ordering multiple configuration sources
 // =================================================================================================
 == Ordering multiple configuration sources
 
-Out of the following three default configuration sources, the configuration source with the highest `config_ordinal` value overrides the other configuration values when a value conflict for a configuration property occurs.
+MicroProfile Config combines configuration values from multiple sources, each known as a ConfigSource. Each ConfigSource has a specified priority, defined by its ordinal value.
+
+A higher ordinal means that the values taken from this ConfigSource will override values from ConfigSources with a lower ordinal value.
+
+There are three default configuration sources as following:
 
 * System properties has a default ordinal of 400. (e.g. `bootstrap.properties` file)
 * Environment variables has a default ordinal of 300. (e.g. `server.env` file)
@@ -126,6 +76,59 @@ include::finish/src/main/resources/META-INF/microprofile-config.properties[tags=
 ----
 
 // =================================================================================================
+// Injecting configuration into the application
+// =================================================================================================
+== Injecting configuration into the application
+
+To use the MicroProfile Config feature, add the required dependency to the `start/pom.xml` file:
+[source, xml, indent=0]
+----
+include::finish/pom.xml[tags=config]
+----
+
+Also add the `mp-config` feature to the `start/src/main/liberty/config/server.xml` file:
+[source, xml, indent=0]
+----
+include::finish/src/main/liberty/config/server.xml[tags=config]
+----
+
+Access the local `microprofile-config.properties` configuration file in the `start/src/main/resources/META-INF` directory. This configuration file is the default configuration source for an application that uses MicroProfile Config.
+
+The `io_openliberty_guides_port_number` property determines the port number of the REST service.
+[source, java, indent=0, role="no_copy"]
+----
+include::finish/src/main/resources/META-INF/microprofile-config.properties[tags=inventory-port-number]
+----
+
+Create an `InventoryConfig.java` file in the `start/src/main/java/io/openliberty/guides/inventory` directory.
+
+Add the following code to the `InventoryConfig.java` file:
+
+[source, java, indent=0]
+----
+include::finish/src/main/java/io/openliberty/guides/inventory/InventoryConfig.java[tags=config-class;port-number;getPortNumber]
+----
+
+The `@Inject` annotation injects the port number directly, the injection value is static and fixed on application starting.
+
+The `getPortNumber()` method directly returns the value of `portNumber` because it has been injected.
+
+
+Open the `InventoryResource.java` file. Inject the `InventoryConfig` object to modify the existing class.
+[source, java, indent=0]
+----
+include::finish/src/main/java/io/openliberty/guides/inventory/InventoryResource.java[tags=config-injection]
+----
+
+Modify the `getPropertiesForHost()` service. Get the port number from the configuration and pass this value to the `manager.get()` method to get the system properties.
+
+[source, java, indent=0]
+----
+include::finish/src/main/java/io/openliberty/guides/inventory/InventoryResource.java[tags=config-port]
+----
+
+
+// =================================================================================================
 // Creating custom configuration sources
 // =================================================================================================
 == Creating custom configuration sources
@@ -139,7 +142,7 @@ and peers into the `pom.xml` file. Transform the data object from the JSON file 
 In addition to the three default configuration sources, you can create custom configuration sources by
 implementing the `org.eclipse.microprofile.config.spi.ConfigSource` interface and using the `java.util.ServiceLoader` mechanism.
 
-Open the custom configuration `start/src/main/java/io/openliberty/guides/config/CustomConfigSource.java` source file.
+Create a `CustomConfigSource.java` file in the `start/src/main/java/io/openliberty/guides/config` directory.
 Add the following content to override the `ConfigSource` interface:
 
 [source, java, indent=0]
@@ -149,7 +152,7 @@ include::finish/src/main/java/io/openliberty/guides/config/CustomConfigSource.ja
 
 The `setProperties()` private method reads the key value pairs from the `CustomConfigSource.json` JSON file and writes the information into a map.
 
-To register the custom configuration source, add the full class name in the `start/src/main/resources/META-INF/services/org.eclipse.microprofile.config.spi.ConfigSource` file:
+To register the custom configuration source, create the `start/src/main/resources/META-INF/services/org.eclipse.microprofile.config.spi.ConfigSource` file and add the full class name into it:
 
 [source, java, indent=0]
 ----
@@ -162,39 +165,32 @@ include::finish/src/main/resources/META-INF/services/org.eclipse.microprofile.co
 // =================================================================================================
 == Enabling dynamic configuration injection
 
-Access the partially implemented `InventoryConfig.java` Java class in the `start/src/main/java/io/openliberty/guides/microprofile` directory.
+Access the partially implemented `InventoryConfig.java` Java class in the `start/src/main/java/io/openliberty/guides/inventory` directory.
 
-Add the following two configuration injections:
-
-[source, java, indent=0]
-----
-include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryConfig.java[tags=config]
-----
-
-The first `@Inject` annotation injects the Config object, which is request scoped.
+Add the following configuration injection:
 
 [source, java, indent=0]
 ----
-include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryConfig.java[tags=build-in-converter]
+include::finish/src/main/java/io/openliberty/guides/inventory/InventoryConfig.java[tags=build-in-converter]
 ----
 
-The second `@Inject` annotation injects the `io_openliberty_guides_inventory_inMaintenance` configuration property, a dynamic injection that uses the `Provider<>` interface, which forces the service to retrieve the `inMaintenance` value just in time.
+The `@Inject` annotation injects the `io_openliberty_guides_inventory_inMaintenance` configuration property, a dynamic injection that uses the `Provider<>` interface, which forces the service to retrieve the `inMaintenance` value just in time.
 
 Add the `isInMaintenance()` class method as shown in the following example:
 [source, java, indent=0]
 ----
-include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryConfig.java[tags=isInMaintenance]
+include::finish/src/main/java/io/openliberty/guides/inventory/InventoryConfig.java[tags=isInMaintenance]
 ----
 
 Every time that you invoke the `inMaintenance.get()` method, the `Provider<>` interface picks up the
 latest value of the `io_openliberty_guides_inventory_inMaintenance` property from configuration sources.
 
 Open the `InventoryResource.java` file. Use the `inventoryConfig.isInMaintenance()` class method to determine whether the inventory service is in maintenance
-or not according to the configuration. If you set the `io_openliberty_guides_inventory_inMaintenance` property to `true` in the configuration, the inventory service returns the message, `Service is temporarily down for maintenance`.
-Modify the existed class to the following code:
+or not according to the configuration. If you set the `io_openliberty_guides_inventory_inMaintenance` property to `true` in the configuration, the inventory service returns the message, "Service is temporarily down for maintenance".
+Modify the existing class to the following code:
 [source, java, indent=0]
 ----
-include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryResource.java[tags=config-methods]
+include::finish/src/main/java/io/openliberty/guides/inventory/InventoryResource.java[tags=config-methods]
 ----
 
 // =================================================================================================
@@ -205,13 +201,19 @@ Configuration values are purely Strings. MicroProfile Config API has built-in co
 Therefore, in the previous section, it is type-safe to directly set the variable type to `Provider<Boolean>`:
 [source, java, indent=0]
 ----
-include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryConfig.java[tags=build-in-converter]
+include::finish/src/main/java/io/openliberty/guides/inventory/InventoryConfig.java[tags=build-in-converter]
 ----
 
-To convert configured Strings to an arbitrary class type, such as the `Email` class type which is defined in the `start/src/main/java/io/openliberty/guides/config/Email.java` source file,
-add a custom converter by implementing the generic interface `org.eclipse.microprofile.config.spi.Converter<T>`.
+To convert configured Strings to an arbitrary class type, such as the `Email` class type, create an `Email` class file in the `start/src/main/java/io/openliberty/guides/config` directory.
+[source, java, indent=0]
+----
+include::finish/src/main/java/io/openliberty/guides/config/Email.java[tags=email]
+----
 
-Open the `start/src/main/java/io/openliberty/guides/config/CustomEmailConverter.java` file.
+Add a custom converter by implementing the generic interface `org.eclipse.microprofile.config.spi.Converter<T>`.
+The Type parameter of the interface is the target type the String is converted to.
+
+Create a `CustomEmailConverter.java` file in the `start/src/main/java/io/openliberty/guides/config` directory.
 Add the following content to override the `Converter<T>` interface:
 
 [source, java, indent=0]
@@ -219,22 +221,24 @@ Add the following content to override the `Converter<T>` interface:
 include::finish/src/main/java/io/openliberty/guides/config/CustomEmailConverter.java[tags=customConfig]
 ----
 
-To register the custom converter, add the full class name in the `start/src/main/resources/META-INF/services/org.eclipse.microprofile.config.spi.Converter` file:
+You have to register your implementation in a file `/META-INF/services/org.eclipse.microprofile.config.spi.Converter` with the fully qualified class name of the custom implementation.
+To register the custom converter, create the `start/src/main/resources/META-INF/services/org.eclipse.microprofile.config.spi.Converter` file and add the full class name into it:
 [source, java, indent=0]
 ----
 include::finish/src/main/resources/META-INF/services/org.eclipse.microprofile.config.spi.Converter[tags=register]
 ----
 
+
 To use the custom `Email` converter, open the `InventoryConfig.java` file, inject the `io_openliberty_guides_email` property, and add the `getEmail()` method:
 [source, java, indent=0]
 ----
-include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryConfig.java[tags=custom-converter;getEmail]
+include::finish/src/main/java/io/openliberty/guides/inventory/InventoryConfig.java[tags=custom-converter;getEmail]
 ----
 
-Open the `InventoryResource.java` file. Add the `returnMessage()` method.
+Open the `InventoryResource.java` file. Pass in the email configuration value to the `returnMessage()` method.
 [source, java, indent=0]
 ----
-include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryResource.java[tags=returnMessage]
+include::finish/src/main/java/io/openliberty/guides/inventory/InventoryResource.java[tags=email]
 ----
 
 
@@ -258,28 +262,32 @@ To see the new application in action, run the Maven `liberty:start-server` comma
 $ mvn liberty:start-server
 ----
 
-Once the server is running, you can find the service that retrieves configuration information that is specific to this guide at the following location:
-
-* `http://localhost:9080/inventory/config/all`
-
-The following two microservices should be available to access initially:
+Once the server is running, the following two microservices should be available to access:
 
 * `http://localhost:9080/inventory/hosts`
 
 * `http://localhost:9080/system/properties`
+
+
+You can find the service that retrieves configuration information that is specific to this guide at the following location:
+
+* `http://localhost:9080/config`
+
 
 At first, the `config_ordinal` value of the custom configuration source is set to `500`.
 A value of `500` does not override configuration values of the default `microprofile-config.properties` source, which has a `config_ordinal` value of `600`.
 
 However, you can manually change the `config_ordinal` value to a larger number in the `CustomConfigSource.json` file.
 
-Restart the application. Play with this application by changing configuration values for each property in the `CustomConfigSource.json` file.
+Your changes are added dynamically, and you do not need to restart the server.
+Refresh `http://localhost:9080/config` to see the dynamic changes.
+
+Play with this application by changing configuration values for each property in the `CustomConfigSource.json` file.
 
 For example, change `io_openliberty_guides_inventory_inMaintenance` from `false` to `true`, then try to access `http://localhost:9080/inventory/hosts` again,
-you can see a message that says `Service is temporarily down for maintenance`.
+you can see a message that says "Service is temporarily down for maintenance".
 
-Your changes are added dynamically, and you do not need to restart the server.
-Refresh the pages to see the dynamic changes.
+
 
 
 // =================================================================================================
@@ -288,42 +296,42 @@ Refresh the pages to see the dynamic changes.
 
 == Testing the application
 
-Add the following test cases to the corresponding locations in the `start/src/test/java/it/io/openliberty/guides/microprofile/ConfigurationTest.java` file:
+Add the following test cases to the corresponding locations in the `start/src/test/java/it/io/openliberty/guides/config/ConfigurationTest.java` file:
 
 [source, java, indent=0]
 ----
-include::finish/src/test/java/it/io/openliberty/guides/microprofile/ConfigurationTest.java[tags=testInitialServiceStatus()]
+include::finish/src/test/java/it/io/openliberty/guides/config/ConfigurationTest.java[tags=testInitialServiceStatus()]
 ----
 
 The `testInitialServiceStatus()` test case reads the value of the `io_openliberty_guides_inventory_inMaintenance` configuration property in the file `META-INF/microprofile-config.properties` and checks the HTTP response of the inventory service. If the configuration value is `false`, the service returns a valid response. Otherwise,
-the service returns a message that says, `Service is temporarily down for maintenance`.
+the service returns a message that says, "Service is temporarily down for maintenance".
 
 
 [source, java, indent=0]
 ----
-include::finish/src/test/java/it/io/openliberty/guides/microprofile/ConfigurationTest.java[tags=testOverrideConfigProperty()]
+include::finish/src/test/java/it/io/openliberty/guides/config/ConfigurationTest.java[tags=testOverrideConfigProperty()]
 ----
 
 Because the `META-INF/microprofile-config.properties` default source has the highest ordinal value of `600` in the beginning,
-the `testOverrideConfigProperty()` test case first checks that the `http://localhost:9080/inventory/config/all` microservice contains
+the `testOverrideConfigProperty()` test case first checks that the `http://localhost:9080/config` microservice contains
 the `io_openliberty_guides_testConfigOverwrite` test property with the `DefaultSource` value, which is set by this default file.
 Then, the test changes the ordinal value of the custom configuration source from `500` to `700` so that the custom configuration source becomes the highest priority. In the end, the `CustomSource` value overrides the test property.
 
 
 [source, java, indent=0]
 ----
-include::finish/src/test/java/it/io/openliberty/guides/microprofile/ConfigurationTest.java[tags=testPutServiceInMaintenance()]
+include::finish/src/test/java/it/io/openliberty/guides/config/ConfigurationTest.java[tags=testPutServiceInMaintenance()]
 ----
 
 Because the `io_openliberty_guides_inventory_inMaintenance` configuration property is set to `false` by default, the `testPutServiceInMaintenance()` test case first checks that the inventory service is not in maintenance in the beginning. Next,
 this test increases the priority of the custom configuration source and switches the value of the `io_openliberty_guides_inventory_inMaintenance` configuration property
-to `true`. In the end, the inventory service returns a message that says, `Service is temporarily down for maintenance`.
+to `true`. In the end, the inventory service returns a message that says, "Service is temporarily down for maintenance".
 
 
 Add the test suite method:
 [source, java, indent=0]
 ----
-include::finish/src/test/java/it/io/openliberty/guides/microprofile/ConfigurationTest.java[tags=testSuite]
+include::finish/src/test/java/it/io/openliberty/guides/config/ConfigurationTest.java[tags=testSuite]
 ----
 
 === Running the tests
@@ -363,12 +371,14 @@ The program might take some time to execute the tests. If the tests pass, you re
 -------------------------------------------------------
  T E S T S
 -------------------------------------------------------
-Running it.io.openliberty.guides.microprofile.ConfigurationTest
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.324 sec - in it.io.openliberty.guides.microprofile.ConfigurationTest
+Running it.io.openliberty.guides.config.ConfigurationTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.322 sec - in it.io.openliberty.guides.config.ConfigurationTest
+Running it.io.openliberty.guides.inventory.EndpointTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.307 sec - in it.io.openliberty.guides.inventory.EndpointTest
 
 Results :
 
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0
 
 ----
 
