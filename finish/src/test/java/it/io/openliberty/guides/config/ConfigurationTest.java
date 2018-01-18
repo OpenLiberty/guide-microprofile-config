@@ -35,12 +35,12 @@ public class ConfigurationTest {
   private Client client;
 
   private final String INVENTORY_HOSTS = "inventory/hosts";
-  private final String INVENTORY_CONFIG_ALL = "config/manager/all";
+  private final String INVENTORY_CONFIG_ALL = "inventory/config/all";
   private final String USER_DIR = System.getProperty("user.dir");
   private final String DEFAULT_CONFIG_FILE = USER_DIR
       + "/src/main/resources/META-INF/microprofile-config.properties";
   private final String CUSTOM_CONFIG_FILE = USER_DIR.split("src")[0]
-      + "/CustomConfigSource.json";
+      + "/resource/CustomConfigSource.json";
   private final String INV_MAINTENANCE_PROP = "io_openliberty_guides_inventory_inMaintenance";
   private final String TEST_OVERWRITE_PROP = "io_openliberty_guides_testConfigOverwrite";
 

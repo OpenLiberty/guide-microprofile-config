@@ -26,7 +26,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import io.openliberty.guides.common.JsonMessages;
-import io.openliberty.guides.config.ConfigResource;
+import io.openliberty.guides.inventory.InventoryConfig;
 
 
 @RequestScoped
@@ -38,7 +38,7 @@ public class InventoryResource {
 
   // tag::config-injection[]
   @Inject
-  ConfigResource configResource;
+  InventoryConfig inventoryConfig;
   // end::config-injection[]
 
 
@@ -49,22 +49,22 @@ public class InventoryResource {
   public JsonObject getPropertiesForHost(
       @PathParam("hostname") String hostname) {
         // tag::config-port[]
-    int port = configResource.getPortNumber();
+    int port = inventoryConfig.getPortNumber();
        // end::config-port[]
-    if (!configResource.isInvInMaintenance()) {
+    if (!inventoryConfig.isInMaintenance()) {
       return manager.get(hostname, port);
     } else {
-      return JsonMessages.returnMessage("InventoryResource", configResource.getEmail());
+      return JsonMessages.returnMessage("InventoryResource", inventoryConfig.getEmail());
     }
   }
 
   @GET
   @Produces(MediaType.APPLICATION_JSON)
   public JsonObject listContents() {
-    if (!configResource.isInvInMaintenance()) {
+    if (!inventoryConfig.isInMaintenance()) {
       return manager.list();
     } else {
-      return JsonMessages.returnMessage("InventoryResource", configResource.getEmail());
+      return JsonMessages.returnMessage("InventoryResource", inventoryConfig.getEmail());
     }
   }
   // end::config-methods[]

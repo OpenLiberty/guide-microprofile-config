@@ -10,7 +10,7 @@
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
 // end::comment[]
-package io.openliberty.guides.config;
+package io.openliberty.guides.inventory;
 
 import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.core.MediaType;
@@ -18,22 +18,20 @@ import javax.ws.rs.core.MediaType;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.json.Json;
-
+import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
-import javax.inject.Inject;
-import javax.inject.Provider;
-
 import org.eclipse.microprofile.config.Config;
 import org.eclipse.microprofile.config.spi.ConfigSource;
+import javax.inject.Provider;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import io.openliberty.guides.config.Email;
 
 @RequestScoped
-@Path("manager")
-public class ConfigResource {
+@Path("config")
+public class InventoryConfig {
 
   // tag::config[]
   @Inject
@@ -47,18 +45,10 @@ public class ConfigResource {
   // end::port-number[]
 
   // tag::build-in-converter[]
-  // tag::inv-in-maintenance[]
   @Inject
   @ConfigProperty(name = "io_openliberty_guides_inventory_inMaintenance")
-  private Provider<Boolean> invInMaintenance;
-  // end::inv-in-maintenance[]
+  private Provider<Boolean> inMaintenance;
   // end::build-in-converter[]
-
-  // tag::sys-in-maintenance[]
-  @Inject
-  @ConfigProperty(name = "io_openliberty_guides_system_inMaintenance")
-  private Provider<Boolean> sysInMaintenance;
-  // end::sys-in-maintenance[]
 
   // tag::custom-converter[]
   @Inject
@@ -99,24 +89,14 @@ public class ConfigResource {
   }
   // end::getPortNumber[]
 
-  // tag::isInvInMaintenance[]
-  public boolean isInvInMaintenance() {
-    System.out.println("Inventory is " + invInMaintenance.get());
-    return invInMaintenance.get();
+  // tag::isInMaintenance[]
+  public boolean isInMaintenance() {
+    return inMaintenance.get();
   }
-  // end::isInvInMaintenance[]
-
-  // tag::isSysInMaintenance[]
-  public boolean isSysInMaintenance() {
-    System.out.println("System is " + sysInMaintenance.get());
-    return sysInMaintenance.get();
-  }
-  // end::isSysInMaintenance[]
-
+  // end::isInMaintenance[]
 
   // tag::getEmail[]
   public Email getEmail() {
-    System.out.println("Email is " + email.get());
     return email.get();
   }
   // end::getEmail[]

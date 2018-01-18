@@ -28,7 +28,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 
 import io.openliberty.guides.common.JsonMessages;
-import io.openliberty.guides.config.ConfigResource;
+import io.openliberty.guides.system.SystemConfig;
 
 @RequestScoped
 @Path("properties")
@@ -36,13 +36,13 @@ public class PropertiesResource {
 
   // tag::config-injection[]
   @Inject
-  ConfigResource configResource;
+  SystemConfig systemConfig;
   // end::config-injection[]
 
   @GET
   @Produces(MediaType.APPLICATION_JSON)
   public JsonObject getProperties() {
-    if (!configResource.isSysInMaintenance()) {
+    if (!systemConfig.isInMaintenance()) {
       JsonObjectBuilder builder = Json.createObjectBuilder();
 
       System.getProperties().entrySet().stream()
@@ -51,7 +51,7 @@ public class PropertiesResource {
 
       return builder.build();
     } else {
-      return JsonMessages.returnMessage("PropertiesResource", configResource.getEmail());
+      return JsonMessages.returnMessage("PropertiesResource", systemConfig.getEmail());
     }
 
   }
