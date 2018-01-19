@@ -35,7 +35,7 @@ public class ConfigurationTest {
   private Client client;
 
   private final String INVENTORY_HOSTS = "inventory/hosts";
-  private final String INVENTORY_CONFIG_ALL = "inventory/config/all";
+  private final String CONFIG_MANAGER = "config/manager";
   private final String USER_DIR = System.getProperty("user.dir");
   private final String DEFAULT_CONFIG_FILE = USER_DIR
       + "/src/main/resources/META-INF/microprofile-config.properties";
@@ -88,7 +88,7 @@ public class ConfigurationTest {
 
   // tag::testOverrideConfigProperty()[]
   public void testOverrideConfigProperty() {
-    JsonObject properties = getJsonObjectFromURL(baseUrl + INVENTORY_CONFIG_ALL,
+    JsonObject properties = getJsonObjectFromURL(baseUrl + CONFIG_MANAGER,
                                                  2, "ConfigProperties");
     assertEquals(TEST_OVERWRITE_PROP
         + " should be DefaultSource in the beginning", "DefaultSource",
@@ -96,7 +96,7 @@ public class ConfigurationTest {
     ConfigurationTestUtil.changeConfigSourcePriority(CUSTOM_CONFIG_FILE, "500", "700");
 
     JsonObject newProperties = getJsonObjectFromURL(baseUrl
-        + INVENTORY_CONFIG_ALL, 2, "ConfigProperties");
+        + CONFIG_MANAGER, 2, "ConfigProperties");
     assertEquals(TEST_OVERWRITE_PROP + " should be CustomSource in the end",
                  "CustomSource", newProperties.getString(TEST_OVERWRITE_PROP));
 
