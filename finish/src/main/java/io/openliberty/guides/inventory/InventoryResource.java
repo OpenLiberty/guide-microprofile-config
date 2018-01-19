@@ -10,6 +10,8 @@
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
 // end::copyright[]
+
+// tag::config-methods[]
 package io.openliberty.guides.inventory;
 
 // CDI
@@ -40,7 +42,6 @@ public class InventoryResource {
   InventoryConfig inventoryConfig;
   // end::config-injection[]
 
-  // tag::config-methods[]
   @GET
   @Path("{hostname}")
   @Produces(MediaType.APPLICATION_JSON)

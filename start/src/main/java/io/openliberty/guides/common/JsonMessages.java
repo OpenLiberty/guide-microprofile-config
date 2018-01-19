@@ -15,6 +15,7 @@ package io.openliberty.guides.common;
 // JSON-P
 import javax.json.Json;
 import javax.json.JsonObject;
+import io.openliberty.guides.config.Email;
 
 public enum JsonMessages {
 
@@ -38,5 +39,25 @@ public enum JsonMessages {
                 .add("ERROR", "Unknown hostname or the resource may not be running on the host machine")
                 .build();
     }
+
+    public static JsonObject serviceInMaintenance(String service) {
+      return Json.createObjectBuilder()
+                 .add(service, "Service is temporarily down for maintenance")
+                 .build();
+    }
+
+
+    // tag::returnMessage[]
+    public static JsonObject returnMessage(String service, Email devEmail) {
+
+      JsonObject contact = Json.createObjectBuilder()
+                               .add("Email", devEmail.toString())
+                               .add("Name", devEmail.getEmailName())
+                               .add("Domain", devEmail.getEmailDomain()).build();
+      return Json.createObjectBuilder()
+                 .add("Status", serviceInMaintenance(service))
+                 .add("Contact", contact).build();
+    }
+    // end::returnMessage[]
 
 }
