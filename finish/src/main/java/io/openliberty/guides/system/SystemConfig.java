@@ -9,13 +9,12 @@
  * Contributors:
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
- // end::copyright[]
+// end::copyright[]
 package io.openliberty.guides.system;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 
-import org.eclipse.microprofile.config.Config;
 import javax.inject.Provider;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import io.openliberty.guides.config.Email;

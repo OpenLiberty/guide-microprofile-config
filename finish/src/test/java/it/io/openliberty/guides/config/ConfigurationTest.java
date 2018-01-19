@@ -26,7 +26,6 @@ import org.junit.Test;
 
 import it.io.openliberty.guides.config.ConfigurationTestUtil;
 
-
 // tag::class[]
 public class ConfigurationTest {
 
@@ -73,11 +72,11 @@ public class ConfigurationTest {
   public void testInitialServiceStatus() {
     JsonObject obj = getJsonObjectFromURL(baseUrl + INVENTORY_HOSTS, 1, null);
     boolean status = Boolean.valueOf(ConfigurationTestUtil.readPropertyValueInFile(INV_MAINTENANCE_PROP,
-                                                                      DEFAULT_CONFIG_FILE));
+                                                                                   DEFAULT_CONFIG_FILE));
 
     if (!status) {
-      assertEquals("The Inventory Service should be available",
-                   0, obj.getInt("total"));
+      assertEquals("The Inventory Service should be available", 0,
+                   obj.getInt("total"));
     } else {
       assertEquals("The Inventory Service should be in maintenance",
                    "Service is temporarily down for maintenance",
@@ -88,20 +87,22 @@ public class ConfigurationTest {
 
   // tag::testOverrideConfigProperty()[]
   public void testOverrideConfigProperty() {
-    JsonObject properties = getJsonObjectFromURL(baseUrl + CONFIG_MANAGER,
-                                                 2, "ConfigProperties");
+    JsonObject properties = getJsonObjectFromURL(baseUrl + CONFIG_MANAGER, 2,
+                                                 "ConfigProperties");
     assertEquals(TEST_OVERWRITE_PROP
         + " should be DefaultSource in the beginning", "DefaultSource",
                  properties.getString(TEST_OVERWRITE_PROP));
-    ConfigurationTestUtil.changeConfigSourcePriority(CUSTOM_CONFIG_FILE, "500", "700");
+    ConfigurationTestUtil.changeConfigSourcePriority(CUSTOM_CONFIG_FILE, "500",
+                                                     "700");
 
-    JsonObject newProperties = getJsonObjectFromURL(baseUrl
-        + CONFIG_MANAGER, 2, "ConfigProperties");
+    JsonObject newProperties = getJsonObjectFromURL(baseUrl + CONFIG_MANAGER, 2,
+                                                    "ConfigProperties");
     assertEquals(TEST_OVERWRITE_PROP + " should be CustomSource in the end",
                  "CustomSource", newProperties.getString(TEST_OVERWRITE_PROP));
 
     // need to set configurations back to original
-    ConfigurationTestUtil.changeConfigSourcePriority(CUSTOM_CONFIG_FILE, "700", "500");
+    ConfigurationTestUtil.changeConfigSourcePriority(CUSTOM_CONFIG_FILE, "700",
+                                                     "500");
   }
   // end::testOverrideConfigProperty()[]
 
@@ -111,8 +112,10 @@ public class ConfigurationTest {
     assertEquals("The inventory service should be up in the beginning", 0,
                  obj.getInt("total"));
 
-    ConfigurationTestUtil.changeConfigSourcePriority(CUSTOM_CONFIG_FILE, "500", "700");
-    ConfigurationTestUtil.switchInventoryMaintenance(CUSTOM_CONFIG_FILE, "false", "true");
+    ConfigurationTestUtil.changeConfigSourcePriority(CUSTOM_CONFIG_FILE, "500",
+                                                     "700");
+    ConfigurationTestUtil.switchInventoryMaintenance(CUSTOM_CONFIG_FILE,
+                                                     "false", "true");
 
     JsonObject newObj = getJsonObjectFromURL(baseUrl + INVENTORY_HOSTS, 2,
                                              "Status");
@@ -120,8 +123,10 @@ public class ConfigurationTest {
                  "Service is temporarily down for maintenance",
                  newObj.getString("InventoryResource"));
     // need to set configurations back to original
-    ConfigurationTestUtil.changeConfigSourcePriority(CUSTOM_CONFIG_FILE, "700", "500");
-    ConfigurationTestUtil.switchInventoryMaintenance(CUSTOM_CONFIG_FILE, "true", "false");
+    ConfigurationTestUtil.changeConfigSourcePriority(CUSTOM_CONFIG_FILE, "700",
+                                                     "500");
+    ConfigurationTestUtil.switchInventoryMaintenance(CUSTOM_CONFIG_FILE, "true",
+                                                     "false");
   }
   // end::testPutServiceInMaintenance()[]
 

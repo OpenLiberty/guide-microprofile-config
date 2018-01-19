@@ -9,12 +9,8 @@
  * Contributors:
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
- // end::copyright[]
+// end::copyright[]
 package io.openliberty.guides.config;
-
-// JAX-RS
-import javax.ws.rs.ApplicationPath;
-import javax.ws.rs.core.Application;
 
 import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.core.MediaType;
@@ -23,14 +19,12 @@ import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.json.Json;
 import javax.inject.Inject;
-import javax.inject.Provider;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
 import org.eclipse.microprofile.config.Config;
 import org.eclipse.microprofile.config.spi.ConfigSource;
-import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 @RequestScoped
 @Path("/")

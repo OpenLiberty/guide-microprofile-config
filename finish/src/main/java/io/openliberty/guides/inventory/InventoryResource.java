@@ -9,7 +9,7 @@
  * Contributors:
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
- // end::copyright[]
+// end::copyright[]
 package io.openliberty.guides.inventory;
 
 // CDI
@@ -28,7 +28,6 @@ import javax.ws.rs.core.MediaType;
 import io.openliberty.guides.common.JsonMessages;
 import io.openliberty.guides.inventory.InventoryConfig;
 
-
 @RequestScoped
 @Path("hosts")
 public class InventoryResource {
@@ -41,21 +40,21 @@ public class InventoryResource {
   InventoryConfig inventoryConfig;
   // end::config-injection[]
 
-
   // tag::config-methods[]
   @GET
   @Path("{hostname}")
   @Produces(MediaType.APPLICATION_JSON)
   public JsonObject getPropertiesForHost(
       @PathParam("hostname") String hostname) {
-        // tag::config-port[]
-    int port = inventoryConfig.getPortNumber();
-       // end::config-port[]
+
     if (!inventoryConfig.isInMaintenance()) {
-      return manager.get(hostname, port);
+      // tag::config-port[]
+      return manager.get(hostname, inventoryConfig.getPortNumber());
+      // end::config-port[]
     } else {
       // tag::email[]
-      return JsonMessages.returnMessage("InventoryResource", inventoryConfig.getEmail());
+      return JsonMessages.returnMessage("InventoryResource",
+                                        inventoryConfig.getEmail());
       // end::email[]
     }
   }
@@ -66,10 +65,10 @@ public class InventoryResource {
     if (!inventoryConfig.isInMaintenance()) {
       return manager.list();
     } else {
-      return JsonMessages.returnMessage("InventoryResource", inventoryConfig.getEmail());
+      return JsonMessages.returnMessage("InventoryResource",
+                                        inventoryConfig.getEmail());
     }
   }
   // end::config-methods[]
-
 
 }

@@ -9,8 +9,8 @@
  * Contributors:
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
- // end::copyright[]
- 
+// end::copyright[]
+
 // tag::customConfig[]
 package io.openliberty.guides.config;
 

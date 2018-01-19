@@ -29,8 +29,7 @@ public class ConfigurationTestUtil {
   private final static String SYS_MAINTENANCE = "io_openliberty_guides_system_inMaintenance";
   private final static String CONFIG_ORDINAL = "config_ordinal";
 
-
-  public static void setDefaultJsonFile(String source){
+  public static void setDefaultJsonFile(String source) {
     changeLineInJsonFile(INV_MAINTENANCE, "true", "false", source);
     changeLineInJsonFile(SYS_MAINTENANCE, "true", "false", source);
     changeLineInJsonFile(CONFIG_ORDINAL, "700", "500", source);

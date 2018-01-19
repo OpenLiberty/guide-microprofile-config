@@ -9,7 +9,7 @@
  * Contributors:
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
- // end::copyright[]
+// end::copyright[]
 package io.openliberty.guides.system;
 
 // JAX-RS
@@ -51,7 +51,8 @@ public class PropertiesResource {
 
       return builder.build();
     } else {
-      return JsonMessages.returnMessage("PropertiesResource", systemConfig.getEmail());
+      return JsonMessages.returnMessage("PropertiesResource",
+                                        systemConfig.getEmail());
     }
 
   }

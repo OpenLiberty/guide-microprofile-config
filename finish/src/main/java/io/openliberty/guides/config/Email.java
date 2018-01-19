@@ -9,8 +9,8 @@
  * Contributors:
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
- // end::copyright[]
- // tag::email[]
+// end::copyright[]
+// tag::email[]
 package io.openliberty.guides.config;
 
 public class Email {

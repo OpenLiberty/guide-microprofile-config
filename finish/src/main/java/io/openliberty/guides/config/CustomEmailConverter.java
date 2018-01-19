@@ -9,7 +9,7 @@
  * Contributors:
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
- // end::copyright[]
+// end::copyright[]
 
 // tag::customConfig[]
 package io.openliberty.guides.config;
@@ -23,5 +23,6 @@ public class CustomEmailConverter implements Converter<Email> {
   public Email convert(String value) {
     return new Email(value);
   }
+
 }
 // end::customConfig[]

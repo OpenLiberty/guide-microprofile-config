@@ -9,30 +9,21 @@
  * Contributors:
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
- // end::copyright[]
+// end::copyright[]
 
- // tag::config[]
+// tag::config-class[]
 package io.openliberty.guides.inventory;
 
 import javax.enterprise.context.RequestScoped;
-import javax.ws.rs.core.MediaType;
-
-import javax.json.JsonObject;
-import javax.json.JsonObjectBuilder;
-import javax.json.Json;
 import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-
-import org.eclipse.microprofile.config.Config;
-import org.eclipse.microprofile.config.spi.ConfigSource;
 import javax.inject.Provider;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import io.openliberty.guides.config.Email;
 
 @RequestScoped
 public class InventoryConfig {
+
+  // end::config-class[]
 
   // tag::port-number[]
   @Inject
@@ -50,14 +41,8 @@ public class InventoryConfig {
   @Inject
   @ConfigProperty(name = "io_openliberty_guides_email")
   private Provider<Email> email;
+
   // end::custom-converter[]
-
-
-  // tag::getPortNumber[]
-  public int getPortNumber() {
-    return portNumber;
-  }
-  // end::getPortNumber[]
 
   // tag::isInMaintenance[]
   public boolean isInMaintenance() {
@@ -71,6 +56,11 @@ public class InventoryConfig {
   }
   // end::getEmail[]
 
-}
+  // tag::getPortNumber[]
 
-// end::config[]
+  public int getPortNumber() {
+    return portNumber;
+  }
+
+}
+// end::getPortNumber[]
