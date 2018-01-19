@@ -9,7 +9,7 @@
  * Contributors:
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
- // end::copyright[]
+// end::copyright[]
 package io.openliberty.guides.system;
 
 // JAX-RS
@@ -25,23 +25,36 @@ import javax.json.JsonObjectBuilder;
 
 // CDI
 import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
+
+import io.openliberty.guides.common.JsonMessages;
+import io.openliberty.guides.system.SystemConfig;
 
 @RequestScoped
 @Path("properties")
 public class PropertiesResource {
 
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public JsonObject getProperties() {
-        JsonObjectBuilder builder = Json.createObjectBuilder();
+  // tag::config-injection[]
+  @Inject
+  SystemConfig systemConfig;
+  // end::config-injection[]
 
-        System.getProperties()
-              .entrySet()
-              .stream()
-              .forEach(entry -> builder.add((String)entry.getKey(),
-                                            (String)entry.getValue()));
+  @GET
+  @Produces(MediaType.APPLICATION_JSON)
+  public JsonObject getProperties() {
+    if (!systemConfig.isInMaintenance()) {
+      JsonObjectBuilder builder = Json.createObjectBuilder();
 
-        return builder.build();
+      System.getProperties().entrySet().stream()
+            .forEach(entry -> builder.add((String) entry.getKey(),
+                                          (String) entry.getValue()));
+
+      return builder.build();
+    } else {
+      return JsonMessages.returnMessage("PropertiesResource",
+                                        systemConfig.getEmail());
     }
-    
+
+  }
+
 }

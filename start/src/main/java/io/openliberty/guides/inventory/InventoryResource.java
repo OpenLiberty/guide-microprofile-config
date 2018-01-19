@@ -31,12 +31,12 @@ import javax.ws.rs.core.MediaType;
 public class InventoryResource {
 
     @Inject InventoryManager manager;
-    
+
     @GET
     @Path("{hostname}")
     @Produces(MediaType.APPLICATION_JSON)
     public JsonObject getPropertiesForHost(@PathParam("hostname") String hostname) {
-        return manager.get(hostname);
+        return manager.get(hostname, 9080);
     }
 
     @GET
