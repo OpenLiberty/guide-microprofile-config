@@ -70,6 +70,7 @@ public class InventoryResource {
                                         inventoryConfig.getEmail());
     }
   }
-  // end::config-methods[]
 
 }
+
+// end::config-methods[]

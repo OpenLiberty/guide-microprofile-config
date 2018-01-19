@@ -185,13 +185,6 @@ include::finish/src/main/java/io/openliberty/guides/inventory/InventoryConfig.ja
 Every time that you invoke the `inMaintenance.get()` method, the `Provider<>` interface picks up the
 latest value of the `io_openliberty_guides_inventory_inMaintenance` property from configuration sources.
 
-Open the `InventoryResource.java` file. Use the `inventoryConfig.isInMaintenance()` class method to determine whether the inventory service is in maintenance
-or not according to the configuration. If you set the `io_openliberty_guides_inventory_inMaintenance` property to `true` in the configuration, the inventory service returns the message, "Service is temporarily down for maintenance".
-Modify the existing class to the following code:
-[source, java, indent=0]
-----
-include::finish/src/main/java/io/openliberty/guides/inventory/InventoryResource.java[tags=config-methods]
-----
 
 // =================================================================================================
 // Creating custom converters
@@ -235,10 +228,14 @@ To use the custom `Email` converter, open the `InventoryConfig.java` file, injec
 include::finish/src/main/java/io/openliberty/guides/inventory/InventoryConfig.java[tags=custom-converter;getEmail]
 ----
 
-Open the `InventoryResource.java` file. Pass in the email configuration value to the `returnMessage()` method.
+Open the `InventoryResource.java` file. Use the `inventoryConfig.isInMaintenance()` class method to determine whether the inventory service is in maintenance
+or not according to the configuration. If you set the `io_openliberty_guides_inventory_inMaintenance` property to `true` in the configuration, the inventory service returns the message, "Service is temporarily down for maintenance", along with the contact email.
+Get the email configuration value by `inventoryConfig.getEmail()` and pass this value to the `returnMessage()` method.
+
+Modify the existing class to the following code:
 [source, java, indent=0]
 ----
-include::finish/src/main/java/io/openliberty/guides/inventory/InventoryResource.java[tags=email]
+include::finish/src/main/java/io/openliberty/guides/inventory/InventoryResource.java[tags=config-methods]
 ----
 
 
