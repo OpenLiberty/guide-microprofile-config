@@ -42,7 +42,7 @@ https://openliberty.io/guides/microprofile-intro.html[Creating a MicroProfile ap
 
 In addition, you will access one service that retrieves configuration information that is specific to this guide:
 
-* `http://localhost:9080/inventory/config/all`
+* `http://localhost:9080/config/manager`
 
 // =================================================================================================
 // Getting Started
@@ -171,21 +171,14 @@ include::finish/src/main/resources/META-INF/services/org.eclipse.microprofile.co
 
 Access the partially implemented `InventoryConfig.java` Java class in the `start/src/main/java/io/openliberty/guides/microprofile` directory.
 
-Add the following two configuration injections:
-
-[source, java, indent=0]
-----
-include::finish/src/main/java/io/openliberty/guides/inventory/InventoryConfig.java[tags=config]
-----
-
-The first `@Inject` annotation injects the Config object, which is request scoped.
+Add the following configuration injection:
 
 [source, java, indent=0]
 ----
 include::finish/src/main/java/io/openliberty/guides/inventory/InventoryConfig.java[tags=build-in-converter]
 ----
 
-The second `@Inject` annotation injects the `io_openliberty_guides_inventory_inMaintenance` configuration property, a dynamic injection that uses the `Provider<>` interface, which forces the service to retrieve the `inMaintenance` value just in time.
+The `@Inject` annotation injects the `io_openliberty_guides_inventory_inMaintenance` configuration property, a dynamic injection that uses the `Provider<>` interface, which forces the service to retrieve the `inMaintenance` value just in time.
 
 Add the `isInMaintenance()` class method as shown in the following example:
 [source, java, indent=0]
@@ -273,7 +266,7 @@ $ mvn liberty:start-server
 
 Once the server is running, you can find the service that retrieves configuration information that is specific to this guide at the following location:
 
-* `http://localhost:9080/inventory/config/all`
+* `http://localhost:9080/config/manager`
 
 The following two microservices should be available to access initially:
 
@@ -318,7 +311,7 @@ include::finish/src/test/java/it/io/openliberty/guides/config/ConfigurationTest.
 ----
 
 Because the `META-INF/microprofile-config.properties` default source has the highest ordinal value of `600` in the beginning,
-the `testOverrideConfigProperty()` test case first checks that the `http://localhost:9080/inventory/config/all` microservice contains
+the `testOverrideConfigProperty()` test case first checks that the `http://localhost:9080/config/manager` microservice contains
 the `io_openliberty_guides_testConfigOverwrite` test property with the `DefaultSource` value, which is set by this default file.
 Then, the test changes the ordinal value of the custom configuration source from `500` to `700` so that the custom configuration source becomes the highest priority. In the end, the `CustomSource` value overrides the test property.
 
