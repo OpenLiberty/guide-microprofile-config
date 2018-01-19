@@ -9,20 +9,14 @@
  * Contributors:
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
-// end::copyright[]
+ // end::copyright[]
+package io.openliberty.guides.system;
 
-// tag::customConfig[]
-package io.openliberty.guides.config;
+// JAX-RS
+import javax.ws.rs.core.Application;
+import javax.ws.rs.ApplicationPath;
 
-import org.eclipse.microprofile.config.spi.Converter;
-import io.openliberty.guides.config.Email;
-
-public class CustomEmailConverter implements Converter<Email> {
-
-  @Override
-  public Email convert(String value) {
-    return new Email(value);
-  }
+@ApplicationPath("system")
+public class SystemApplication extends Application {
 
 }
-// end::customConfig[]

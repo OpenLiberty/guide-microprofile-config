@@ -1,4 +1,4 @@
-// tag::comment[]
+// tag::copyright[]
 /*******************************************************************************
  * Copyright (c) 2017 IBM Corporation and others.
  * All rights reserved. This program and the accompanying materials
@@ -9,8 +9,9 @@
  * Contributors:
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
-// end::comment[]
+// end::copyright[]
 
+// tag::customConfig[]
 package io.openliberty.guides.config;
 
 import javax.json.stream.JsonParser;
@@ -24,11 +25,10 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import org.eclipse.microprofile.config.spi.ConfigSource;
 
-// tag::customConfig[]
 public class CustomConfigSource implements ConfigSource {
 
   String fileLocation = System.getProperty("user.dir").split("target")[0]
-      + "CustomConfigSource.json";
+      + "resource/CustomConfigSource.json";
   Map<String, String> map = setProperties();
 
   @Override

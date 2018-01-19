@@ -1,4 +1,4 @@
-// tag::comment[]
+// tag::copyright[]
 /*******************************************************************************
  * Copyright (c) 2017 IBM Corporation and others.
  * All rights reserved. This program and the accompanying materials
@@ -9,7 +9,8 @@
  * Contributors:
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
-// end::comment[]
+// end::copyright[]
+// tag::email[]
 package io.openliberty.guides.config;
 
 public class Email {
@@ -36,3 +37,4 @@ public class Email {
     return name + "@" + domain;
   }
 }
+// end::email[]

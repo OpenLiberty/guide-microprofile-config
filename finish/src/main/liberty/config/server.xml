@@ -9,13 +9,7 @@
     <!-- end::config[] -->
   </featureManager>
 
-  <!-- Automatically expand WAR files and EAR files -->
-  <applicationManager autoExpand="true" />
+  <httpEndpoint host="*" httpPort="${default.http.port}" httpsPort="${default.https.port}" id="defaultHttpEndpoint"/>
 
-  <httpEndpoint host="*" httpPort="${default.http.port}" httpsPort="${default.https.port}"
-    id="defaultHttpEndpoint" />
-
-  <webApplication location="io.openliberty.guides.microprofile.mpconfig.war"
-    contextRoot="/" />
-
+  <webApplication location="io.openliberty.guides.microprofile.mpconfig.war" contextRoot="/"/>
 </server>
