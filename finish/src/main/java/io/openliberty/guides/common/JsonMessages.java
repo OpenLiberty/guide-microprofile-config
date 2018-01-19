@@ -40,6 +40,12 @@ public enum JsonMessages {
                 .build();
     }
 
+    public static JsonObject serviceInMaintenance(String service) {
+      return Json.createObjectBuilder()
+                 .add(service, "Service is temporarily down for maintenance")
+                 .build();
+    }
+
 
     // tag::returnMessage[]
     public static JsonObject returnMessage(String service, Email devEmail) {
@@ -49,7 +55,7 @@ public enum JsonMessages {
                                .add("Name", devEmail.getEmailName())
                                .add("Domain", devEmail.getEmailDomain()).build();
       return Json.createObjectBuilder()
-                 .add(service, "Service is temporarily down for maintenance")
+                 .add("Status", serviceInMaintenance(service))
                  .add("Contact", contact).build();
     }
     // end::returnMessage[]

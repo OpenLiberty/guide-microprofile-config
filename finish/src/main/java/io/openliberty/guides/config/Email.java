@@ -10,6 +10,7 @@
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
  // end::copyright[]
+ // tag::email[]
 package io.openliberty.guides.config;
 
 public class Email {
@@ -36,3 +37,4 @@ public class Email {
     return name + "@" + domain;
   }
 }
+// end::email[]

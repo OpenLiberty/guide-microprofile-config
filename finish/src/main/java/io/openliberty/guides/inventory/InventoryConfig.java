@@ -10,6 +10,8 @@
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
  // end::copyright[]
+
+ // tag::config[]
 package io.openliberty.guides.inventory;
 
 import javax.enterprise.context.RequestScoped;
@@ -70,3 +72,5 @@ public class InventoryConfig {
   // end::getEmail[]
 
 }
+
+// end::config[]

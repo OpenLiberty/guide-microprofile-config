@@ -33,7 +33,7 @@ import org.eclipse.microprofile.config.spi.ConfigSource;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 @RequestScoped
-@Path("manager")
+@Path("/")
 public class ConfigResource {
 
   // tag::config[]

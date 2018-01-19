@@ -35,7 +35,7 @@ public class ConfigurationTest {
   private Client client;
 
   private final String INVENTORY_HOSTS = "inventory/hosts";
-  private final String CONFIG_MANAGER = "config/manager";
+  private final String CONFIG_MANAGER = "config";
   private final String USER_DIR = System.getProperty("user.dir");
   private final String DEFAULT_CONFIG_FILE = USER_DIR
       + "/src/main/resources/META-INF/microprofile-config.properties";
@@ -114,8 +114,8 @@ public class ConfigurationTest {
     ConfigurationTestUtil.changeConfigSourcePriority(CUSTOM_CONFIG_FILE, "500", "700");
     ConfigurationTestUtil.switchInventoryMaintenance(CUSTOM_CONFIG_FILE, "false", "true");
 
-    JsonObject newObj = getJsonObjectFromURL(baseUrl + INVENTORY_HOSTS, 1,
-                                             null);
+    JsonObject newObj = getJsonObjectFromURL(baseUrl + INVENTORY_HOSTS, 2,
+                                             "Status");
     assertEquals("The inventory service should be down in the end",
                  "Service is temporarily down for maintenance",
                  newObj.getString("InventoryResource"));

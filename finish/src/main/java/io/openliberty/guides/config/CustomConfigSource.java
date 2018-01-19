@@ -10,7 +10,8 @@
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
  // end::copyright[]
-
+ 
+// tag::customConfig[]
 package io.openliberty.guides.config;
 
 import javax.json.stream.JsonParser;
@@ -24,7 +25,6 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import org.eclipse.microprofile.config.spi.ConfigSource;
 
-// tag::customConfig[]
 public class CustomConfigSource implements ConfigSource {
 
   String fileLocation = System.getProperty("user.dir").split("target")[0]
