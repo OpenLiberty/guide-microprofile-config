@@ -27,7 +27,7 @@ You will learn how to externalise and inject both static and dynamic configurati
 
 You’ll learn to aggregate multiple configuration sources, assign prioritisation values to these sources, merge configuration values and create custom configuration sources.
 
-After starting the application, you will be able to access two microservices to test their availabilities:
+After starting the application, you will be able to access two microservices to test their availability:
 
 * `http://localhost:9080/system/properties` retrieves the information for a specific host
 
