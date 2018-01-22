@@ -23,15 +23,11 @@ Learn how to use the MicroProfile Config specification to externalize configurat
 // =================================================================================================
 
 == What you'll learn
-MicroProfile Config API enables to externalize configuration data from microservices, aggregate multiple configuration sources and merge configuration values.
+You will learn how to externalise and inject both static and dynamic configuration properties from microservices using MicroProfile Config. 
 
-You will learn how to externalize configuration data for an application, inject Config into microservices,
-enable dynamic configuration injection, and assign priorities to different configuration sources.
+You’ll learn to aggregate multiple configuration sources, assign prioritisation values to these sources, merge configuration values and create custom configuration sources.
 
-You will define a custom configuration source that can override configuration values for the application.
-In addition, you will add custom converters that provide type-safe conversions from configured Strings into target types.
-
-You will be able to access two microservices to test availability:
+After starting the application, you will be able to access two microservices to test availability:
 
 * `http://localhost:9080/system/properties` retrieves the information for a specific host
 
@@ -40,7 +36,7 @@ You will be able to access two microservices to test availability:
 To learn more about these two microservices and how you can write the MicroProfile application, see
 https://openliberty.io/guides/microprofile-intro.html[Creating a MicroProfile application].
 
-In addition, you will access one service that retrieves configuration information that is specific to this guide:
+In addition, you will be able to access a third microservice which retrieves and aggregates all of the configuration properties and sources that have been added throughout this guide. This is available at:
 
 * `http://localhost:9080/inventory/config/all`
 
@@ -52,19 +48,23 @@ include::{common-includes}/gitclone.adoc[]
 
 
 // =================================================================================================
-// Ordering multiple configuration sources
+// Background Concepts
 // =================================================================================================
-== Ordering multiple configuration sources
+== Background Concepts
+MicroProfile Config uses Contexts and Dependency Injection (CDI) to inject configuration property values directly into an application without requiring user code to retrieve them. The injected values are defined as static because they are set only at application startup.
+MicroProfile Config combines configuration values from multiple sources, each known as a ConfigSource
 
-MicroProfile Config combines configuration values from multiple sources, each known as a ConfigSource. Each ConfigSource has a specified priority, defined by its ordinal value.
+The API combines configuration values from multiple sources, each known as a ConfigSource. Each ConfigSource has a specified priority, defined by its ordinal value. A higher ordinal means that the values taken from this ConfigSource will override values from ConfigSources with a lower ordinal value.
 
-A higher ordinal means that the values taken from this ConfigSource will override values from ConfigSources with a lower ordinal value.
-
-There are three default configuration sources as following:
+MicroProfile Config has three default ConfigSources:
 
 * System properties has a default ordinal of 400. (e.g. `bootstrap.properties` file)
 * Environment variables has a default ordinal of 300. (e.g. `server.env` file)
 * The `META-INF/microprofile-config.properties` configuration property file on the classpath has a default ordinal of 100.
+
+An optional default value can be specified using Java annotations. The optional default value applies if the application does not find configuration values in any of the ConfigSources. The priority of each ConfigSource and the optional default value is shown in the following diagram:
+
+IMAGE
 
 Access the local `microprofile-config.properties` configuration file in the `start/src/main/resources/META-INF` directory. This configuration file is the default configuration source for an application that uses MicroProfile Config.
 
@@ -80,29 +80,26 @@ include::finish/src/main/resources/META-INF/microprofile-config.properties[tags=
 // =================================================================================================
 == Injecting configuration into the application
 
-To use the MicroProfile Config feature, add the required dependency to the `start/pom.xml` file:
+Begin by enabling the MicroProfile Config feature in your `pom.xml` file. This feature allows you to use the MicroProfile Config API to externalize configuration data.
+Navigate to the `start/pom.xml` file and add the required dependency:
 [source, xml, indent=0]
 ----
 include::finish/pom.xml[tags=config]
 ----
-
-Also add the `mp-config` feature to the `start/src/main/liberty/config/server.xml` file:
+The mp-config feature also needs to be added to the `start/src/main/liberty/config/server.xml` file:
 [source, xml, indent=0]
 ----
 include::finish/src/main/liberty/config/server.xml[tags=config]
 ----
+Now that the MicroProfile Config feature has been enabled, navigate to the local  `microprofile-config.properties` configuration file in the `start/src/main/resources/META-INF` directory to start enabling some static configuration. This configuration file is the default configuration source for an application that uses MicroProfile Config.
 
-Access the local `microprofile-config.properties` configuration file in the `start/src/main/resources/META-INF` directory. This configuration file is the default configuration source for an application that uses MicroProfile Config.
+The `io_openliberty_guides_port_number` property that has already been defined in this file, determines the port number of the REST service. 
 
-The `io_openliberty_guides_port_number` property determines the port number of the REST service.
 [source, java, indent=0, role="no_copy"]
 ----
 include::finish/src/main/resources/META-INF/microprofile-config.properties[tags=inventory-port-number]
 ----
-
-Access the partially implemented `InventoryConfig` Java class in the `start/src/main/java/io/openliberty/guides/inventory` directory.
-
-Open the `InventoryConfig.java` file and add the following configuration injection:
+To use this configuration property, access the partially implemented `InventoryConfig` file in the `start/src/main/java/io/openliberty/guides/microprofile` directory and add the following configuration injection:
 
 [source, java, indent=0]
 ----
