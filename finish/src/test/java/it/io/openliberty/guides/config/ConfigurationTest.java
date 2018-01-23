@@ -48,7 +48,7 @@ public class ConfigurationTest {
     port = System.getProperty("liberty.test.port");
     baseUrl = "http://localhost:" + port + "/";
     ConfigurationTestUtil.setDefaultJsonFile(CUSTOM_CONFIG_FILE);
-
+    
     client = ClientBuilder.newClient();
     client.register(JsrJsonpProvider.class);
   }
@@ -71,12 +71,10 @@ public class ConfigurationTest {
   // tag::testInitialServiceStatus()[]
   public void testInitialServiceStatus() {
     JsonObject obj = getJsonObjectFromURL(baseUrl + INVENTORY_HOSTS, 1, null);
-    boolean status = Boolean.valueOf(ConfigurationTestUtil.readPropertyValueInFile(INV_MAINTENANCE_PROP,
-                                                                                   DEFAULT_CONFIG_FILE));
-
+    boolean status = Boolean.valueOf(ConfigurationTestUtil
+        .readPropertyValueInFile(INV_MAINTENANCE_PROP,DEFAULT_CONFIG_FILE));
     if (!status) {
-      assertEquals("The Inventory Service should be available", 0,
-                   obj.getInt("total"));
+      assertEquals("The Inventory Service should be available", 0, obj.getInt("total"));
     } else {
       assertEquals("The Inventory Service should be in maintenance",
                    "Service is temporarily down for maintenance",
@@ -89,20 +87,14 @@ public class ConfigurationTest {
   public void testOverrideConfigProperty() {
     JsonObject properties = getJsonObjectFromURL(baseUrl + CONFIG_MANAGER, 2,
                                                  "ConfigProperties");
-    assertEquals(TEST_OVERWRITE_PROP
-        + " should be DefaultSource in the beginning", "DefaultSource",
-                 properties.getString(TEST_OVERWRITE_PROP));
-    ConfigurationTestUtil.changeConfigSourcePriority(CUSTOM_CONFIG_FILE, "500",
-                                                     "700");
+    assertEquals(TEST_OVERWRITE_PROP + " should be DefaultSource in the beginning",
+                 "DefaultSource", properties.getString(TEST_OVERWRITE_PROP));
+    ConfigurationTestUtil.changeConfigSourcePriority(CUSTOM_CONFIG_FILE, 700);
 
     JsonObject newProperties = getJsonObjectFromURL(baseUrl + CONFIG_MANAGER, 2,
                                                     "ConfigProperties");
     assertEquals(TEST_OVERWRITE_PROP + " should be CustomSource in the end",
                  "CustomSource", newProperties.getString(TEST_OVERWRITE_PROP));
-
-    // need to set configurations back to original
-    ConfigurationTestUtil.changeConfigSourcePriority(CUSTOM_CONFIG_FILE, "700",
-                                                     "500");
   }
   // end::testOverrideConfigProperty()[]
 
@@ -112,21 +104,13 @@ public class ConfigurationTest {
     assertEquals("The inventory service should be up in the beginning", 0,
                  obj.getInt("total"));
 
-    ConfigurationTestUtil.changeConfigSourcePriority(CUSTOM_CONFIG_FILE, "500",
-                                                     "700");
-    ConfigurationTestUtil.switchInventoryMaintenance(CUSTOM_CONFIG_FILE,
-                                                     "false", "true");
+    ConfigurationTestUtil.changeConfigSourcePriority(CUSTOM_CONFIG_FILE, 700);
+    ConfigurationTestUtil.switchInventoryMaintenance(CUSTOM_CONFIG_FILE, true);
 
-    JsonObject newObj = getJsonObjectFromURL(baseUrl + INVENTORY_HOSTS, 2,
-                                             "Status");
+    JsonObject newObj = getJsonObjectFromURL(baseUrl + INVENTORY_HOSTS, 2, "Status");
     assertEquals("The inventory service should be down in the end",
                  "Service is temporarily down for maintenance",
                  newObj.getString("InventoryResource"));
-    // need to set configurations back to original
-    ConfigurationTestUtil.changeConfigSourcePriority(CUSTOM_CONFIG_FILE, "700",
-                                                     "500");
-    ConfigurationTestUtil.switchInventoryMaintenance(CUSTOM_CONFIG_FILE, "true",
-                                                     "false");
   }
   // end::testPutServiceInMaintenance()[]
 
@@ -135,8 +119,7 @@ public class ConfigurationTest {
    */
   private JsonObject getJsonObjectFromURL(String url, int level, String key) {
     Response response = client.target(url).request().get();
-    assertEquals("Incorrect response code from " + url, 200,
-                 response.getStatus());
+    assertEquals("Incorrect response code from " + url, 200, response.getStatus());
     JsonObject obj = response.readEntity(JsonObject.class);
     JsonObject result = null;
     if (level == 1) {
