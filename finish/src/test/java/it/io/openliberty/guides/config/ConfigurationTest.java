@@ -10,6 +10,7 @@
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
 // end::comment[]
+// tag::test[]
 package it.io.openliberty.guides.config;
 
 import static org.junit.Assert.*;
@@ -17,16 +18,13 @@ import static org.junit.Assert.*;
 import javax.json.JsonObject;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.core.Response;
 
 import org.apache.cxf.jaxrs.provider.jsrjsonp.JsrJsonpProvider;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import it.io.openliberty.guides.config.ConfigurationTestUtil;
 
-// tag::class[]
 public class ConfigurationTest {
 
   private String port;
@@ -47,15 +45,15 @@ public class ConfigurationTest {
   public void setup() {
     port = System.getProperty("liberty.test.port");
     baseUrl = "http://localhost:" + port + "/";
-    ConfigurationTestUtil.setDefaultJsonFile(CUSTOM_CONFIG_FILE);
-    
+    ConfigTestUtil.setDefaultJsonFile(CUSTOM_CONFIG_FILE);
+
     client = ClientBuilder.newClient();
     client.register(JsrJsonpProvider.class);
   }
 
   @After
   public void teardown() {
-    ConfigurationTestUtil.setDefaultJsonFile(CUSTOM_CONFIG_FILE);
+    ConfigTestUtil.setDefaultJsonFile(CUSTOM_CONFIG_FILE);
     client.close();
   }
 
@@ -70,9 +68,10 @@ public class ConfigurationTest {
 
   // tag::testInitialServiceStatus()[]
   public void testInitialServiceStatus() {
-    JsonObject obj = getJsonObjectFromURL(baseUrl + INVENTORY_HOSTS, 1, null);
-    boolean status = Boolean.valueOf(ConfigurationTestUtil
-        .readPropertyValueInFile(INV_MAINTENANCE_PROP,DEFAULT_CONFIG_FILE));
+    JsonObject obj = ConfigTestUtil.getJsonObjectFromURL(
+                                       client,baseUrl + INVENTORY_HOSTS, 1, null);
+    boolean status = Boolean.valueOf(ConfigTestUtil.readPropertyValueInFile(
+                                       INV_MAINTENANCE_PROP, DEFAULT_CONFIG_FILE));
     if (!status) {
       assertEquals("The Inventory Service should be available", 0, obj.getInt("total"));
     } else {
@@ -85,14 +84,14 @@ public class ConfigurationTest {
 
   // tag::testOverrideConfigProperty()[]
   public void testOverrideConfigProperty() {
-    JsonObject properties = getJsonObjectFromURL(baseUrl + CONFIG_MANAGER, 2,
-                                                 "ConfigProperties");
+    JsonObject properties = ConfigTestUtil.getJsonObjectFromURL(client, baseUrl
+        + CONFIG_MANAGER, 2, "ConfigProperties");
     assertEquals(TEST_OVERWRITE_PROP + " should be DefaultSource in the beginning",
                  "DefaultSource", properties.getString(TEST_OVERWRITE_PROP));
-    ConfigurationTestUtil.changeConfigSourcePriority(CUSTOM_CONFIG_FILE, 700);
+    ConfigTestUtil.changeConfigSourcePriority(CUSTOM_CONFIG_FILE, 700);
 
-    JsonObject newProperties = getJsonObjectFromURL(baseUrl + CONFIG_MANAGER, 2,
-                                                    "ConfigProperties");
+    JsonObject newProperties = ConfigTestUtil.getJsonObjectFromURL(client, baseUrl
+        + CONFIG_MANAGER, 2, "ConfigProperties");
     assertEquals(TEST_OVERWRITE_PROP + " should be CustomSource in the end",
                  "CustomSource", newProperties.getString(TEST_OVERWRITE_PROP));
   }
@@ -100,37 +99,21 @@ public class ConfigurationTest {
 
   // tag::testPutServiceInMaintenance()[]
   public void testPutServiceInMaintenance() {
-    JsonObject obj = getJsonObjectFromURL(baseUrl + INVENTORY_HOSTS, 1, null);
+    JsonObject obj = ConfigTestUtil.getJsonObjectFromURL(
+                                           client,baseUrl + INVENTORY_HOSTS, 1, null);
     assertEquals("The inventory service should be up in the beginning", 0,
                  obj.getInt("total"));
 
-    ConfigurationTestUtil.changeConfigSourcePriority(CUSTOM_CONFIG_FILE, 700);
-    ConfigurationTestUtil.switchInventoryMaintenance(CUSTOM_CONFIG_FILE, true);
+    ConfigTestUtil.changeConfigSourcePriority(CUSTOM_CONFIG_FILE, 700);
+    ConfigTestUtil.switchInventoryMaintenance(CUSTOM_CONFIG_FILE, true);
 
-    JsonObject newObj = getJsonObjectFromURL(baseUrl + INVENTORY_HOSTS, 2, "Status");
+    JsonObject newObj = ConfigTestUtil.getJsonObjectFromURL(
+                                         client, baseUrl + INVENTORY_HOSTS, 2, "Status");
     assertEquals("The inventory service should be down in the end",
                  "Service is temporarily down for maintenance",
                  newObj.getString("InventoryResource"));
   }
   // end::testPutServiceInMaintenance()[]
 
-  /**
-   * Get the Json Object from the URL provided.
-   */
-  private JsonObject getJsonObjectFromURL(String url, int level, String key) {
-    Response response = client.target(url).request().get();
-    assertEquals("Incorrect response code from " + url, 200, response.getStatus());
-    JsonObject obj = response.readEntity(JsonObject.class);
-    JsonObject result = null;
-    if (level == 1) {
-      result = obj;
-    } else if (level == 2) {
-      JsonObject properties = obj.getJsonObject(key);
-      result = properties;
-    }
-    response.close();
-    return result;
-  }
-
 }
-// end::class[]
+// end::test[]

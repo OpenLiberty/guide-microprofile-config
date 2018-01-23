@@ -132,17 +132,16 @@ include::finish/src/main/java/io/openliberty/guides/inventory/InventoryResource.
 // =================================================================================================
 == Creating custom configuration sources
 
-Note that default config sources are static and fixed on application starting, so you cannot modify them while the server is running.
-However, you can externalize configuration data out of the application package so that the service updates configuration changes dynamically.
+Note that three default config sources mentioned above are static and fixed on application starting, so the properties within them cannot modify while the server is running.
+However, you can externalize configuration data out of the application package, through the creation of custom configuration sources, so that the service updates configuration changes dynamically.
 
-Now you have a `CustomConfigSource.json` file that is located outside of your application
-and peers into the `pom.xml` file. Transform the data object from the JSON file to the configuration for your application.
+Custom configuration sources can be created by implementing the `org.eclipse.microprofile.config.spi.ConfigSource` interface and using the `java.util.ServiceLoader` mechanism.
 
-In addition to the three default configuration sources, you can create custom configuration sources by
-implementing the `org.eclipse.microprofile.config.spi.ConfigSource` interface and using the `java.util.ServiceLoader` mechanism.
+In the starting repo for this guide a `CustomConfigSource.json` JSON file has already been created outside of the application (`start/resource/`).
+This file contains 4 custom config properties and has an ordinal of `500`.
+To use these properties in the application, the data object needs to be transformed from this JSON file to the configuration for your application.
 
-Create a `CustomConfigSource.java` file in the `start/src/main/java/io/openliberty/guides/config` directory.
-Add the following content to override the `ConfigSource` interface:
+To link this JSON file to your application, create a `CustomConfigSource.java` file in the `start/src/main/java/io/openliberty/guides/config` directory and add the following content to override the `ConfigSource` interface:
 
 [source, java, indent=0]
 ----
@@ -164,37 +163,32 @@ include::finish/src/main/resources/META-INF/services/org.eclipse.microprofile.co
 // =================================================================================================
 == Enabling dynamic configuration injection
 
-Access the partially implemented `InventoryConfig.java` Java class in the `start/src/main/java/io/openliberty/guides/inventory` directory.
-
-Add the following configuration injection:
+Now that the custom configuration source has successfully been set up, you can enable dynamic configuration injection of the properties being set in this ConfigSource.
+To enable this dynamic injection, first access the partially implemented `InventoryConfig.java` Java class in the `start/src/main/java/io/openliberty/guides/inventory` directory,
+add the following configuration injection and the `isInMaintenance()` class method as shown in the following example:
 
 [source, java, indent=0]
 ----
 include::finish/src/main/java/io/openliberty/guides/inventory/InventoryConfig.java[tags=build-in-converter]
 ----
 
-The `@Inject` annotation injects the `io_openliberty_guides_inventory_inMaintenance` configuration property, a dynamic injection that uses the `Provider<>` interface, which forces the service to retrieve the `inMaintenance` value just in time.
-
-Add the `isInMaintenance()` class method as shown in the following example:
 [source, java, indent=0]
 ----
 include::finish/src/main/java/io/openliberty/guides/inventory/InventoryConfig.java[tags=isInMaintenance]
 ----
 
+The `@Inject` and `@ConfigProperty` annotations inject the `io_openliberty_guides_inventory_inMaintenance` configuration property from the `CustomConfigSource.json` file.
+The `Provider<>` interface used, forces the service to retrieve the inMaintenance value just in time. This retrieval of the value just in time makes the config injection dynamic and able to change without having to restart the application.
+
 Every time that you invoke the `inMaintenance.get()` method, the `Provider<>` interface picks up the
 latest value of the `io_openliberty_guides_inventory_inMaintenance` property from configuration sources.
-
 
 // =================================================================================================
 // Creating custom converters
 // =================================================================================================
 == Adding custom converters
 Configuration values are purely Strings. MicroProfile Config API has built-in converters that automatically converts configured Strings into target types such as `int`, `Integer`, `boolean`, `Boolean`, `float`, `Float`, `double` and `Double`.
-Therefore, in the previous section, it is type-safe to directly set the variable type to `Provider<Boolean>`:
-[source, java, indent=0]
-----
-include::finish/src/main/java/io/openliberty/guides/inventory/InventoryConfig.java[tags=build-in-converter]
-----
+Therefore, in the previous section, it is type-safe to directly set the variable type to `Provider<Boolean>`.
 
 To convert configured Strings to an arbitrary class type, such as the `Email` class type, create an `Email` class file in the `start/src/main/java/io/openliberty/guides/config` directory.
 [source, java, indent=0]
@@ -202,7 +196,7 @@ To convert configured Strings to an arbitrary class type, such as the `Email` cl
 include::finish/src/main/java/io/openliberty/guides/config/Email.java[tags=email]
 ----
 
-Add a custom converter by implementing the generic interface `org.eclipse.microprofile.config.spi.Converter<T>`.
+To use this `Email` class type, add a custom converter by implementing the generic interface `org.eclipse.microprofile.config.spi.Converter<T>`.
 The Type parameter of the interface is the target type the String is converted to.
 
 Create a `CustomEmailConverter.java` file in the `start/src/main/java/io/openliberty/guides/config` directory.
@@ -213,13 +207,11 @@ Add the following content to override the `Converter<T>` interface:
 include::finish/src/main/java/io/openliberty/guides/config/CustomEmailConverter.java[tags=customConfig]
 ----
 
-You have to register your implementation in a file `/META-INF/services/org.eclipse.microprofile.config.spi.Converter` with the fully qualified class name of the custom implementation.
-To register the custom converter, create the `start/src/main/resources/META-INF/services/org.eclipse.microprofile.config.spi.Converter` file and add the full class name into it:
+To register your implementation, create the `start/src/main/resources/META-INF/services/org.eclipse.microprofile.config.spi.Converter` file and add the fully qualified class name of the custom converter into it:
 [source, java, indent=0]
 ----
 include::finish/src/main/resources/META-INF/services/org.eclipse.microprofile.config.spi.Converter[tags=register]
 ----
-
 
 To use the custom `Email` converter, open the `InventoryConfig.java` file, inject the `io_openliberty_guides_email` property, and add the `getEmail()` method:
 [source, java, indent=0]
@@ -227,11 +219,11 @@ To use the custom `Email` converter, open the `InventoryConfig.java` file, injec
 include::finish/src/main/java/io/openliberty/guides/inventory/InventoryConfig.java[tags=custom-converter;getEmail]
 ----
 
-Open the `InventoryResource.java` file. Use the `inventoryConfig.isInMaintenance()` class method to determine whether the inventory service is in maintenance
-or not according to the configuration. If you set the `io_openliberty_guides_inventory_inMaintenance` property to `true` in the configuration, the inventory service returns the message, "Service is temporarily down for maintenance", along with the contact email.
-Get the email configuration value by `inventoryConfig.getEmail()` and pass this value to the `returnMessage()` method.
+To determine whether the inventory service is in maintenance or not (according to the configuration value), use the `inventoryConfig.isInMaintenance()` class method.
+If you set the `io_openliberty_guides_inventory_inMaintenance` property to `true` in the configuration, the inventory service returns the message, "Service is temporarily down for maintenance", along with the contact email.
+The email configuration value can be get by calling `inventoryConfig.getEmail()`.
 
-Modify the existing `InventoryResource` class to finalize the code as the following:
+Open the `InventoryResource.java` file. Modify the existing class to finalize the code as the following:
 [source, java, indent=0]
 ----
 include::finish/src/main/java/io/openliberty/guides/inventory/InventoryResource.java[tags=config-methods]
@@ -243,15 +235,6 @@ include::finish/src/main/java/io/openliberty/guides/inventory/InventoryResource.
 // =================================================================================================
 
 include::{common-includes}/mvnbuild.adoc[]
-
-
-// =================================================================================================
-// Testing the application
-// =================================================================================================
-
-== Testing the application
-
-=== Manual Testing
 
 Once the server is running, the following two microservices should be available to access:
 
@@ -278,24 +261,25 @@ Play with this application by changing configuration values for each property in
 For example, change `io_openliberty_guides_inventory_inMaintenance` from `false` to `true`, then try to access `http://localhost:9080/inventory/hosts` again,
 you can see a message that says "Service is temporarily down for maintenance".
 
+include::{common-includes}/mvnpackage.adoc[]
 
-=== Automated Testing
 
-Add the following test cases to the corresponding locations in the `start/src/test/java/it/io/openliberty/guides/config/ConfigurationTest.java` file:
+// =================================================================================================
+// Testing the application
+// =================================================================================================
+
+== Testing the application
+
+Create a `ConfigurationTest.java` file in the `start/src/test/java/it/io/openliberty/guides/config` directory, add the following code:
 
 [source, java, indent=0]
 ----
-include::finish/src/test/java/it/io/openliberty/guides/config/ConfigurationTest.java[tags=testInitialServiceStatus()]
+include::finish/src/test/java/it/io/openliberty/guides/config/ConfigurationTest.java[tags=test]
 ----
 
 The `testInitialServiceStatus()` test case reads the value of the `io_openliberty_guides_inventory_inMaintenance` configuration property in the file `META-INF/microprofile-config.properties` and checks the HTTP response of the inventory service. If the configuration value is `false`, the service returns a valid response. Otherwise,
 the service returns a message that says, "Service is temporarily down for maintenance".
 
-
-[source, java, indent=0]
-----
-include::finish/src/test/java/it/io/openliberty/guides/config/ConfigurationTest.java[tags=testOverrideConfigProperty()]
-----
 
 Because the `META-INF/microprofile-config.properties` default source has the highest ordinal value of `600` in the beginning,
 the `testOverrideConfigProperty()` test case first checks that the `http://localhost:9080/config` microservice contains
@@ -303,53 +287,11 @@ the `io_openliberty_guides_testConfigOverwrite` test property with the `DefaultS
 Then, the test changes the ordinal value of the custom configuration source from `500` to `700` so that the custom configuration source becomes the highest priority. In the end, the `CustomSource` value overrides the test property.
 
 
-[source, java, indent=0]
-----
-include::finish/src/test/java/it/io/openliberty/guides/config/ConfigurationTest.java[tags=testPutServiceInMaintenance()]
-----
-
 Because the `io_openliberty_guides_inventory_inMaintenance` configuration property is set to `false` by default, the `testPutServiceInMaintenance()` test case first checks that the inventory service is not in maintenance in the beginning. Next,
 this test increases the priority of the custom configuration source and switches the value of the `io_openliberty_guides_inventory_inMaintenance` configuration property
 to `true`. In the end, the inventory service returns a message that says, "Service is temporarily down for maintenance".
 
-
-Add the test suite method:
-[source, java, indent=0]
-----
-include::finish/src/test/java/it/io/openliberty/guides/config/ConfigurationTest.java[tags=testSuite]
-----
-
-=== Running the tests
-
-Reset the `microprofile-config.properties` file and the `CustomConfigSource.json` file to the following original values before you run tests.
-Some of the test cases assume the default configuration.
-[source, java, indent=0]
-----
-include::finish/src/main/resources/META-INF/microprofile-config.properties[tags=all-props]
-----
-
-```
-{   "config_ordinal": 500,
-    "io_openliberty_guides_inventory_inMaintenance": false,
-    "io_openliberty_guides_system_inMaintenance": false,
-    "io_openliberty_guides_email": "admin@guides.openliberty.io",
-    "io_openliberty_guides_testConfigOverwrite": "CustomSource"
-}
-```
-
-To rebuild and run the tests, navigate to the `start` directory and run the `mvn clean install` command
-from the command line:
-
-[source, role="no_copy"]
-----
-# Stop the server if it is still running from previous steps:
-$ mvn liberty:stop-server
-
-# Next, execute the command:
-$ mvn clean install
-----
-
-The program might take some time to execute the tests. If the tests pass, you receive the following output:
+include::{common-includes}/mvnverify.adoc[]
 
 [source, role="no_copy"]
 ----

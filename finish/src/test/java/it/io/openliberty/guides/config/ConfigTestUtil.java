@@ -17,6 +17,11 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.FileReader;
 import java.io.IOException;
+import javax.json.bind.*;
+import javax.json.JsonObject;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.core.Response;
+import it.io.openliberty.guides.config.CustomConfig;
 
 /*
  * ===========================================================================
@@ -24,40 +29,38 @@ import java.io.IOException;
  * ===========================================================================
  *
  */
-public class ConfigurationTestUtil {
-  private final static String INV_MAINTENANCE = "io_openliberty_guides_inventory_inMaintenance";
-  private final static String SYS_MAINTENANCE = "io_openliberty_guides_system_inMaintenance";
-  private final static String CONFIG_ORDINAL = "config_ordinal";
+public class ConfigTestUtil {
+  private final static String EMAIL = "admin@guides.openliberty.io";
+  private final static String TEST_CONFIG = "CustomSource";
+
 
   public static void setDefaultJsonFile(String source) {
-    changeLineInJsonFile(INV_MAINTENANCE, "true", "false", source);
-    changeLineInJsonFile(SYS_MAINTENANCE, "true", "false", source);
-    changeLineInJsonFile(CONFIG_ORDINAL, "700", "500", source);
+    CustomConfig config = new CustomConfig(500, false, false, EMAIL, TEST_CONFIG);
+    createJsonOverwrite(source, config);
   }
 
   /**
    * Change config_ordinal value for the config source.
    */
-  public static void changeConfigSourcePriority(String source, String oldValue,
-      String newValue) {
-    changeLineInJsonFile(CONFIG_ORDINAL, oldValue, newValue, source);
+  public static void changeConfigSourcePriority(String source, int newValue) {
+    CustomConfig config = new CustomConfig(newValue, false, false, EMAIL, TEST_CONFIG);
+    createJsonOverwrite(source, config);
   }
 
   /**
    * Change the inventory.inMaintenance value for the config source.
    */
-  public static void switchInventoryMaintenance(String source, String oldValue,
-      String newValue) {
-    changeLineInJsonFile(INV_MAINTENANCE, oldValue, newValue, source);
+  public static void switchInventoryMaintenance(String source, boolean newValue) {
+    CustomConfig config = new CustomConfig(700, newValue, false, EMAIL, TEST_CONFIG);
+    createJsonOverwrite(source, config);
   }
 
-  /**
-   * Change one value in Json file.
-   */
-  public static void changeLineInJsonFile(String property, String oldValue,
-      String newValue, String source) {
-    changeLineInFile(property + "\":\\s*" + oldValue,
-                     property + "\": " + newValue, source);
+
+  public static void createJsonOverwrite(String source, CustomConfig config){
+    // Create Jsonb and serialize
+    Jsonb jsonb = JsonbBuilder.create();
+    String result = jsonb.toJson(config);
+    overwriteFile(source, result);
   }
 
   /**
@@ -88,29 +91,40 @@ public class ConfigurationTestUtil {
   }
 
   /**
-   * Rewrite one line in a local file.
+   * Overwrite a local file.
    */
-  public static void changeLineInFile(String oldLine, String newLine,
-      String fileName) {
+  public static void overwriteFile(String fileName, String newContent){
     try {
       File f = new File(fileName);
       if (f.exists()) {
-        BufferedReader reader = new BufferedReader(new FileReader(f));
-        String line = "", oldContent = "", newContent = "";
-        while ((line = reader.readLine()) != null) {
-          oldContent += line + "\r\n";
-        }
-        reader.close();
-        newContent = oldContent.replaceAll(oldLine, newLine);
-        FileWriter writer = new FileWriter(fileName);
-        writer.write(newContent);
-        writer.close();
+        FileWriter fWriter = new FileWriter(f, false); // true to append
+                                                       // false to overwrite.
+        fWriter.write(newContent);
+        fWriter.close();
       } else {
-        System.out.println("File " + fileName + " does not exist");
-      }
+      System.out.println("File " + fileName + " does not exist");
+    }
     } catch (IOException e) {
       e.printStackTrace();
     }
+  }
+
+  /**
+   * Get the Json Object from the URL provided.
+   */
+  public static JsonObject getJsonObjectFromURL(Client client, String url, int level, String key) {
+    Response response = client.target(url).request().get();
+
+    JsonObject obj = response.readEntity(JsonObject.class);
+    JsonObject result = null;
+    if (level == 1) {
+      result = obj;
+    } else if (level == 2) {
+      JsonObject properties = obj.getJsonObject(key);
+      result = properties;
+    }
+    response.close();
+    return result;
   }
 
 }
