@@ -17,8 +17,11 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.FileReader;
 import java.io.IOException;
-import it.io.openliberty.guides.config.CustomConfig;
 import javax.json.bind.*;
+import javax.json.JsonObject;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.core.Response;
+import it.io.openliberty.guides.config.CustomConfig;
 
 /*
  * ===========================================================================
@@ -26,7 +29,7 @@ import javax.json.bind.*;
  * ===========================================================================
  *
  */
-public class ConfigurationTestUtil {
+public class ConfigTestUtil {
   private final static String EMAIL = "admin@guides.openliberty.io";
   private final static String TEST_CONFIG = "CustomSource";
 
@@ -104,6 +107,24 @@ public class ConfigurationTestUtil {
     } catch (IOException e) {
       e.printStackTrace();
     }
+  }
+
+  /**
+   * Get the Json Object from the URL provided.
+   */
+  public static JsonObject getJsonObjectFromURL(Client client, String url, int level, String key) {
+    Response response = client.target(url).request().get();
+
+    JsonObject obj = response.readEntity(JsonObject.class);
+    JsonObject result = null;
+    if (level == 1) {
+      result = obj;
+    } else if (level == 2) {
+      JsonObject properties = obj.getJsonObject(key);
+      result = properties;
+    }
+    response.close();
+    return result;
   }
 
 }
