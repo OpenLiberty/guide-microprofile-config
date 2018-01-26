@@ -54,7 +54,7 @@ include::{common-includes}/gitclone.adoc[]
 
 MicroProfile Config combines configuration values from multiple sources, each known as a _ConfigSource_. Each ConfigSource has a specified priority, defined by its _config_ordinal_ value.
 
-A higher ordinal means that the values taken from this ConfigSource will override values from ConfigSources with a lower ordinal value.
+A higher ordinal value means that the values taken from this ConfigSource will override values from ConfigSources with a lower ordinal value.
 
 There are three default configuration sources as following:
 
@@ -132,7 +132,7 @@ include::finish/src/main/java/io/openliberty/guides/inventory/InventoryResource.
 // =================================================================================================
 == Creating custom configuration sources
 
-Note that three default config sources mentioned above are static and fixed on application starting, so the properties within them cannot modify while the server is running.
+Note that three default config sources mentioned above are static and fixed on application starting, so the properties within them cannot be modified while the server is running.
 However, you can externalize configuration data out of the application package, through the creation of custom configuration sources, so that the service updates configuration changes dynamically.
 
 Custom configuration sources can be created by implementing the `org.eclipse.microprofile.config.spi.ConfigSource` interface and using the `java.util.ServiceLoader` mechanism.
