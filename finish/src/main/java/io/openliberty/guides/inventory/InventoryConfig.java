@@ -23,8 +23,6 @@ import io.openliberty.guides.config.Email;
 @RequestScoped
 public class InventoryConfig {
 
-  // end::config-class[]
-
   // tag::port-number[]
   @Inject
   @ConfigProperty(name = "io_openliberty_guides_port_number")
@@ -57,10 +55,9 @@ public class InventoryConfig {
   // end::getEmail[]
 
   // tag::getPortNumber[]
-
   public int getPortNumber() {
     return portNumber;
   }
-
+  // end::getPortNumber[]
 }
-// end::getPortNumber[]
+// end::config-class[]
