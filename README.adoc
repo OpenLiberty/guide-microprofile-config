@@ -23,11 +23,11 @@ Learn how to use the MicroProfile Config specification to externalize configurat
 // =================================================================================================
 
 == What you'll learn
-You will learn how to externalise and inject both static and dynamic configuration properties from microservices using MicroProfile Config.
+You will learn how to externalize and inject both static and dynamic configuration properties from microservices using MicroProfile Config.
 
-You’ll learn to aggregate multiple configuration sources, assign prioritisation values to these sources, merge configuration values and create custom configuration sources.
+You’ll learn to aggregate multiple configuration sources, assign prioritization values to these sources, merge configuration values, and create custom configuration sources.
 
-After starting the application, you will be able to access two microservices to test their availability:
+After starting the application, you will be able to access the following two microservices to test their availability:
 
 * `http://localhost:9080/system/properties` retrieves the information for a specific host
 
@@ -36,7 +36,7 @@ After starting the application, you will be able to access two microservices to 
 To learn more about these two microservices and how you can write the MicroProfile application, see
 https://openliberty.io/guides/microprofile-intro.html[Creating a MicroProfile application].
 
-In addition, you will be able to access a third microservice which retrieves and aggregates all of the configuration properties and sources that have been added throughout this guide. This is available at:
+In addition, you will be able to access a third microservice, which retrieves and aggregates all of the configuration properties and sources that have been added throughout this guide. This is available at:
 
 * `http://localhost:9080/config`
 
@@ -52,7 +52,7 @@ include::{common-includes}/gitclone.adoc[]
 // =================================================================================================
 == Ordering multiple configuration sources
 
-MicroProfile Config combines configuration values from multiple sources, each known as a _ConfigSource_. Each ConfigSource has a specified priority, defined by its _config_ordinal_ value.
+MicroProfile Config combines configuration values from multiple sources, each are known as a _ConfigSource_. Each ConfigSource has a specified priority, which is defined by its _config_ordinal_ value.
 
 A higher ordinal value means that the values taken from this ConfigSource will override values from ConfigSources with a lower ordinal value.
 
@@ -258,8 +258,8 @@ Refresh `http://localhost:9080/config` to see the dynamic changes.
 
 Play with this application by changing configuration values for each property in the `CustomConfigSource.json` file.
 
-For example, change `io_openliberty_guides_inventory_inMaintenance` from `false` to `true`, then try to access `http://localhost:9080/inventory/hosts` again,
-you can see a message that says "Service is temporarily down for maintenance".
+For example, change `io_openliberty_guides_inventory_inMaintenance` from `false` to `true`, then try to access `http://localhost:9080/inventory/hosts` again.
+The following message displays: `Service is temporarily down for maintenance`.
 
 include::{common-includes}/mvnpackage.adoc[]
 
@@ -270,15 +270,14 @@ include::{common-includes}/mvnpackage.adoc[]
 
 == Testing the application
 
-Create a `ConfigurationTest.java` file in the `start/src/test/java/it/io/openliberty/guides/config` directory, add the following code:
+Create a `ConfigurationTest.java` file in the `start/src/test/java/it/io/openliberty/guides/config` directory and add the following code:
 
 [source, java, indent=0]
 ----
 include::finish/src/test/java/it/io/openliberty/guides/config/ConfigurationTest.java[tags=test]
 ----
 
-The `testInitialServiceStatus()` test case reads the value of the `io_openliberty_guides_inventory_inMaintenance` configuration property in the file `META-INF/microprofile-config.properties` and checks the HTTP response of the inventory service. If the configuration value is `false`, the service returns a valid response. Otherwise,
-the service returns a message that says, "Service is temporarily down for maintenance".
+The `testInitialServiceStatus()` test case reads the value of the `io_openliberty_guides_inventory_inMaintenance` configuration property in the file `META-INF/microprofile-config.properties` and checks the HTTP response of the inventory service. If the configuration value is `false`, the service returns a valid response. Otherwise, the service returns the following message: `Service is temporarily down for maintenance`.
 
 
 Because the `META-INF/microprofile-config.properties` default source has the highest ordinal value of `600` in the beginning,
@@ -287,9 +286,7 @@ the `io_openliberty_guides_testConfigOverwrite` test property with the `DefaultS
 Then, the test changes the ordinal value of the custom configuration source from `500` to `700` so that the custom configuration source becomes the highest priority. In the end, the `CustomSource` value overrides the test property.
 
 
-Because the `io_openliberty_guides_inventory_inMaintenance` configuration property is set to `false` by default, the `testPutServiceInMaintenance()` test case first checks that the inventory service is not in maintenance in the beginning. Next,
-this test increases the priority of the custom configuration source and switches the value of the `io_openliberty_guides_inventory_inMaintenance` configuration property
-to `true`. In the end, the inventory service returns a message that says, "Service is temporarily down for maintenance".
+Because the `io_openliberty_guides_inventory_inMaintenance` configuration property is set to `false` by default, the `testPutServiceInMaintenance()` test case first checks that the inventory service is not in maintenance in the beginning. Next, this test increases the priority of the custom configuration source and switches the value of the `io_openliberty_guides_inventory_inMaintenance` configuration property to `true`. In the end, the inventory service returns the following message: `Service is temporarily down for maintenance`.
 
 include::{common-includes}/mvnverify.adoc[]
 
