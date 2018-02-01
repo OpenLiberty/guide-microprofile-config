@@ -33,9 +33,6 @@ After starting the application, you will be able to access the following two mic
 
 * `http://localhost:9080/inventory/hosts` retrieves the information for a list of all previously registered hosts
 
-To learn more about these two microservices and how you can write the MicroProfile application, see
-https://openliberty.io/guides/microprofile-intro.html[Creating a MicroProfile application].
-
 In addition, you will be able to access a third microservice, which retrieves and aggregates all of the configuration properties and sources that have been added throughout this guide. This is available at:
 
 * `http://localhost:9080/config`
@@ -99,11 +96,11 @@ include::finish/src/main/resources/META-INF/microprofile-config.properties[tags=
 
 To use this configuration property, create an `InventoryConfig.java` file in the `start/src/main/java/io/openliberty/guides/inventory` directory.
 
-Add the following code to the `InventoryConfig.java` file:
+Inject the `io_openliberty_guides_port_number` property, and add the `getPortNumber()` class method to the `InventoryConfig.java` file:
 
 [source, java, indent=0]
 ----
-include::finish/src/main/java/io/openliberty/guides/inventory/InventoryConfig.java[tags=config-class;port-number;getPortNumber]
+include::finish/src/main/java/io/openliberty/guides/inventory/InventoryConfig.java[tags=config-class]
 ----
 
 The `@Inject` annotation injects the port number directly, the injection value is static and fixed on application starting.
@@ -111,17 +108,11 @@ The `@Inject` annotation injects the port number directly, the injection value i
 The `getPortNumber()` method directly returns the value of `portNumber` because it has been injected.
 
 
-Open the `InventoryResource.java` file. Inject the `InventoryConfig` object to modify the existing class.
-[source, java, indent=0]
-----
-include::finish/src/main/java/io/openliberty/guides/inventory/InventoryResource.java[tags=config-injection]
-----
-
-Modify the `getPropertiesForHost()` service. Get the port number from the configuration and pass this value to the `manager.get()` method to get the system properties.
+Open the `InventoryResource.java` file. Inject the `InventoryConfig` object to modify the existing class. Modify the `getPropertiesForHost()` service. Get the port number from the configuration and pass this value to the `manager.get()` method to get the system properties.
 
 [source, java, indent=0]
 ----
-include::finish/src/main/java/io/openliberty/guides/inventory/InventoryResource.java[tags=config-port]
+include::finish/src/main/java/io/openliberty/guides/inventory/InventoryResource.java[tags=config-methods]
 ----
 
 
@@ -163,16 +154,11 @@ include::finish/src/main/resources/META-INF/services/org.eclipse.microprofile.co
 
 Now that the custom configuration source has successfully been set up, you can enable dynamic configuration injection of the properties being set in this ConfigSource.
 To enable this dynamic injection, first access the partially implemented `InventoryConfig.java` Java class in the `start/src/main/java/io/openliberty/guides/inventory` directory,
-add the following configuration injection and the `isInMaintenance()` class method as shown in the following example:
+inject the `io_openliberty_guides_inventory_inMaintenance` property, and add the `isInMaintenance()` class method as shown in the following example:
 
 [source, java, indent=0]
 ----
-include::finish/src/main/java/io/openliberty/guides/inventory/InventoryConfig.java[tags=build-in-converter]
-----
-
-[source, java, indent=0]
-----
-include::finish/src/main/java/io/openliberty/guides/inventory/InventoryConfig.java[tags=isInMaintenance]
+include::finish/src/main/java/io/openliberty/guides/inventory/InventoryConfig.java[tags=config-class]
 ----
 
 The `@Inject` and `@ConfigProperty` annotations inject the `io_openliberty_guides_inventory_inMaintenance` configuration property from the `CustomConfigSource.json` file.
@@ -214,7 +200,7 @@ include::finish/src/main/resources/META-INF/services/org.eclipse.microprofile.co
 To use the custom `Email` converter, open the `InventoryConfig.java` file, inject the `io_openliberty_guides_email` property, and add the `getEmail()` method:
 [source, java, indent=0]
 ----
-include::finish/src/main/java/io/openliberty/guides/inventory/InventoryConfig.java[tags=custom-converter;getEmail]
+include::finish/src/main/java/io/openliberty/guides/inventory/InventoryConfig.java[tags=config-class]
 ----
 
 To determine whether the inventory service is in maintenance or not (according to the configuration value), use the `inventoryConfig.isInMaintenance()` class method.
