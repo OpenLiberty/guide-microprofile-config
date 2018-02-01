@@ -52,7 +52,7 @@ include::{common-includes}/gitclone.adoc[]
 // =================================================================================================
 == Ordering multiple configuration sources
 
-MicroProfile Config combines configuration values from multiple sources, each are known as a _ConfigSource_. Each ConfigSource has a specified priority, which is defined by its _config_ordinal_ value.
+MicroProfile Config combines configuration properties from multiple sources, each known as a _ConfigSource_. Each ConfigSource has a specified priority, defined by its _config_ordinal_ value.
 
 A higher ordinal value means that the values taken from this ConfigSource will override values from ConfigSources with a lower ordinal value.
 
@@ -64,11 +64,9 @@ There are three default configuration sources as following:
 
 Access the local `microprofile-config.properties` configuration file in the `start/src/main/resources/META-INF` directory. This configuration file is the default configuration source for an application that uses MicroProfile Config.
 
-Open the configuration file. The current value of the `config_ordinal` source in the `META-INF/microprofile-config.properties` file is set to `600` instead of the default ordinal of `100`. Therefore, the `META-INF/microprofile-config.properties` file gets the highest priority to override any other configuration values.
-
 [source, java, indent=0, role="no_copy"]
 ----
-include::finish/src/main/resources/META-INF/microprofile-config.properties[tags=ordinal]
+include::finish/src/main/resources/META-INF/microprofile-config.properties[tags=all-props]
 ----
 
 // =================================================================================================
@@ -137,8 +135,8 @@ However, you can externalize configuration data out of the application package, 
 
 Custom configuration sources can be created by implementing the `org.eclipse.microprofile.config.spi.ConfigSource` interface and using the `java.util.ServiceLoader` mechanism.
 
-In the starting repo for this guide a `CustomConfigSource.json` JSON file has already been created outside of the application (`start/resource/`).
-This file contains 4 custom config properties and has an ordinal of `500`.
+In the starting repo for this guide a `CustomConfigSource.json` JSON file has already been created outside of the application (`start/resources/`).
+This file contains 4 custom config properties and has an ordinal of `50`.
 To use these properties in the application, the data object needs to be transformed from this JSON file to the configuration for your application.
 
 To link this JSON file to your application, create a `CustomConfigSource.java` file in the `start/src/main/java/io/openliberty/guides/config` directory and add the following content to override the `ConfigSource` interface:
@@ -248,8 +246,8 @@ You can find the service that retrieves configuration information that is specif
 * `http://localhost:9080/config`
 
 
-At first, the `config_ordinal` value of the custom configuration source is set to `500`.
-A value of `500` does not override configuration values of the default `microprofile-config.properties` source, which has a `config_ordinal` value of `600`.
+At first, the `config_ordinal` value of the custom configuration source is set to `50`.
+A value of `50` does not override configuration values of the default `microprofile-config.properties` source, which has a `config_ordinal` value of `100`.
 
 However, you can manually change the `config_ordinal` value to a larger number in the `CustomConfigSource.json` file.
 
@@ -277,16 +275,19 @@ Create a `ConfigurationTest.java` file in the `start/src/test/java/it/io/openlib
 include::finish/src/test/java/it/io/openliberty/guides/config/ConfigurationTest.java[tags=test]
 ----
 
-The `testInitialServiceStatus()` test case reads the value of the `io_openliberty_guides_inventory_inMaintenance` configuration property in the file `META-INF/microprofile-config.properties` and checks the HTTP response of the inventory service. If the configuration value is `false`, the service returns a valid response. Otherwise, the service returns the following message: `Service is temporarily down for maintenance`.
+The `testInitialServiceStatus()` test case reads the value of the `io_openliberty_guides_inventory_inMaintenance` configuration property in the file `META-INF/microprofile-config.properties` and checks the HTTP response of the inventory service.
+If the configuration value is `false`, the service returns a valid response. Otherwise, the service returns the following message: `Service is temporarily down for maintenance`.
 
 
-Because the `META-INF/microprofile-config.properties` default source has the highest ordinal value of `600` in the beginning,
+Because the `META-INF/microprofile-config.properties` default source has the ordinal value of `100` in the beginning,
 the `testOverrideConfigProperty()` test case first checks that the `http://localhost:9080/config` microservice contains
 the `io_openliberty_guides_testConfigOverwrite` test property with the `DefaultSource` value, which is set by this default file.
-Then, the test changes the ordinal value of the custom configuration source from `500` to `700` so that the custom configuration source becomes the highest priority. In the end, the `CustomSource` value overrides the test property.
+Then, the test changes the ordinal value of the custom configuration source from `50` to `150` so that the custom configuration source has the higher priority. In the end, the `CustomSource` value overrides the test property.
 
 
-Because the `io_openliberty_guides_inventory_inMaintenance` configuration property is set to `false` by default, the `testPutServiceInMaintenance()` test case first checks that the inventory service is not in maintenance in the beginning. Next, this test increases the priority of the custom configuration source and switches the value of the `io_openliberty_guides_inventory_inMaintenance` configuration property to `true`. In the end, the inventory service returns the following message: `Service is temporarily down for maintenance`.
+Because the `io_openliberty_guides_inventory_inMaintenance` configuration property is set to `false` by default, the `testPutServiceInMaintenance()` test case first checks that the inventory service is not in maintenance in the beginning.
+Next, this test increases the priority of the custom configuration source and switches the value of the `io_openliberty_guides_inventory_inMaintenance` configuration property to `true`.
+In the end, the inventory service returns the following message: `Service is temporarily down for maintenance`.
 
 include::{common-includes}/mvnverify.adoc[]
 

@@ -35,7 +35,7 @@ public class ConfigTestUtil {
 
 
   public static void setDefaultJsonFile(String source) {
-    CustomConfig config = new CustomConfig(500, false, false, EMAIL, TEST_CONFIG);
+    CustomConfig config = new CustomConfig(50, false, false, EMAIL, TEST_CONFIG);
     createJsonOverwrite(source, config);
   }
 
@@ -51,7 +51,7 @@ public class ConfigTestUtil {
    * Change the inventory.inMaintenance value for the config source.
    */
   public static void switchInventoryMaintenance(String source, boolean newValue) {
-    CustomConfig config = new CustomConfig(700, newValue, false, EMAIL, TEST_CONFIG);
+    CustomConfig config = new CustomConfig(150, newValue, false, EMAIL, TEST_CONFIG);
     createJsonOverwrite(source, config);
   }
 
