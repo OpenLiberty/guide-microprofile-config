@@ -7,41 +7,63 @@
 //   IBM Corporation
 :projectid: microprofile-config
 :page-layout: guide
-:page-duration: 30 minutes
+:page-duration: 20 minutes
 :page-releasedate: 2017-12-11
 :page-description: Learn how to use the MicroProfile Config specification to externalize configuration data for an application
 :page-tags: ['REST', 'MicroProfile', 'Config', 'ConfigSource', 'ConfigProperty']
 :page-permalink: /guides/{projectid}
+:page-related-guides: ['microprofile-intro']
 :common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/master
 :source-highlighter: prettify
-= Configuring Microservices using MicroProfile Config
+= Configuring Microservices
 
-Learn how to use the MicroProfile Config specification to externalize configuration data for an application.
+Learn how to provide external configuration to microservices using MicroProfile Config.
 
 // =================================================================================================
 // What you'll learn
 // =================================================================================================
 
 == What you'll learn
-You will learn how to externalize and inject both static and dynamic configuration properties from microservices using MicroProfile Config.
+You will learn how to externalize and inject both static and dynamic configuration properties for microservices using MicroProfile Config.
 
-You’ll learn to aggregate multiple configuration sources, assign prioritization values to these sources, merge configuration values, and create custom configuration sources.
+You will learn to aggregate multiple configuration sources, assign prioritization values to these sources, merge configuration values, and create custom configuration sources.
 
-After starting the application, you will be able to access the following two microservices to test their availability:
-
-* `http://localhost:9080/system/properties` retrieves the information for a specific host
-
-* `http://localhost:9080/inventory/hosts` retrieves the information for a list of all previously registered hosts
-
-In addition, you will be able to access a third microservice, which retrieves and aggregates all of the configuration properties and sources that have been added throughout this guide. This is available at:
-
-* `http://localhost:9080/config`
+The application that you will be working with is an `inventory` service which stores the information about various JVMs running on different hosts.
+Whenever a request is made to the `inventory` service to retrieve the JVM
+system properties of a particular host, the `inventory` service will communicate with the `system`
+service on that host to get these system properties. You will learn how to add externalized configurations to set services to the `in maintenance` mode.
 
 // =================================================================================================
 // Getting Started
 // =================================================================================================
 
 include::{common-includes}/gitclone.adoc[]
+
+=== Try what you'll build
+
+The `finish` directory in the root of this guide contains the finished inventory application. Feel
+free to give it a try before you proceed.
+
+To try out the application, first navigate to the `finish` directory and then run the following
+Maven goals to build the application and run it inside Open Liberty:
+
+```
+mvn install liberty:start-server
+```
+
+After starting the application, you can access the following two microservices to test their availability:
+
+* `http://localhost:9080/system/properties` retrieves the information for a specific host
+
+* `http://localhost:9080/inventory/hosts` retrieves the information for a list of all previously registered hosts
+
+Once you are done checking out the application, stop the Open Liberty server:
+
+```
+mvn liberty:stop-server
+```
+
+Now, navigate back to the `start` directory to begin.
 
 
 // =================================================================================================
@@ -71,37 +93,23 @@ include::finish/src/main/resources/META-INF/microprofile-config.properties[tags=
 // =================================================================================================
 == Injecting static configuration into the application
 
-Begin by enabling the MicroProfile Config feature in your `pom.xml` file. This feature allows you to use the MicroProfile Config API to externalize configuration data.
+Begin by navigating to the `pom.xml` file to check the required dependency. The `microprofile-config-api` dependency has been added for you in the `start/pom.xml` file:
 
-Navigate to the `start/pom.xml` file and add the required dependency:
-[source, xml, indent=0]
-----
-include::finish/pom.xml[tags=config]
-----
-
-The mp-config feature also needs to be added to the `start/src/main/liberty/config/server.xml` file:
-[source, xml, indent=0]
-----
-include::finish/src/main/liberty/config/server.xml[tags=config]
-----
+The `mpConfig-1.1` feature has also been enabled in the `start/src/main/liberty/config/server.xml` file.
 
 Now that the MicroProfile Config feature has been enabled, navigate to the local  `microprofile-config.properties` configuration file in the `start/src/main/resources/META-INF` directory to check some static configuration.
 This configuration file is the default configuration source for an application that uses MicroProfile Config.
 
 The `io_openliberty_guides_port_number` property that has already been defined in this file, determines the port number of the REST service.
-[source, java, indent=0, role="no_copy"]
-----
-include::finish/src/main/resources/META-INF/microprofile-config.properties[tags=inventory-port-number]
-----
 
-To use this configuration property, create an `InventoryConfig.java` file in the `start/src/main/java/io/openliberty/guides/inventory` directory.
-
-Inject the `io_openliberty_guides_port_number` property, and add the `getPortNumber()` class method to the `InventoryConfig.java` file:
+To use this configuration property, create a `start/src/main/java/io/openliberty/guides/inventory/InventoryConfig.java` file:
 
 [source, java, indent=0]
 ----
 include::finish/src/main/java/io/openliberty/guides/inventory/InventoryConfig.java[tags=config-class]
 ----
+
+Inject the `io_openliberty_guides_port_number` property, and add the `getPortNumber()` class method to the `InventoryConfig.java` file.
 
 The `@Inject` annotation injects the port number directly, the injection value is static and fixed on application starting.
 
@@ -130,7 +138,7 @@ In the starting repo for this guide a `CustomConfigSource.json` JSON file has al
 This file contains 4 custom config properties and has an ordinal of `50`.
 To use these properties in the application, the data object needs to be transformed from this JSON file to the configuration for your application.
 
-To link this JSON file to your application, create a `CustomConfigSource.java` file in the `start/src/main/java/io/openliberty/guides/config` directory and add the following content to override the `ConfigSource` interface:
+To link this JSON file to your application, create a `start/src/main/java/io/openliberty/guides/config/CustomConfigSource.java` file and add the following content to override the `ConfigSource` interface:
 
 [source, java, indent=0]
 ----
@@ -139,7 +147,7 @@ include::finish/src/main/java/io/openliberty/guides/config/CustomConfigSource.ja
 
 The `setProperties()` private method reads the key value pairs from the `CustomConfigSource.json` JSON file and writes the information into a map.
 
-To register the custom configuration source, create the `start/src/main/resources/META-INF/services/org.eclipse.microprofile.config.spi.ConfigSource` file and add the full class name into it:
+To register the custom configuration source, create a `start/src/main/resources/META-INF/services/org.eclipse.microprofile.config.spi.ConfigSource` file and add the full class name into it:
 
 [source, java, indent=0]
 ----
@@ -174,7 +182,7 @@ latest value of the `io_openliberty_guides_inventory_inMaintenance` property fro
 Configuration values are purely Strings. MicroProfile Config API has built-in converters that automatically converts configured Strings into target types such as `int`, `Integer`, `boolean`, `Boolean`, `float`, `Float`, `double` and `Double`.
 Therefore, in the previous section, it is type-safe to directly set the variable type to `Provider<Boolean>`.
 
-To convert configured Strings to an arbitrary class type, such as the `Email` class type, create an `Email` class file in the `start/src/main/java/io/openliberty/guides/config` directory.
+To convert configured Strings to an arbitrary class type, such as the `Email` class type, create a `start/src/main/java/io/openliberty/guides/config/Email.java` file:
 [source, java, indent=0]
 ----
 include::finish/src/main/java/io/openliberty/guides/config/Email.java[tags=email]
@@ -183,15 +191,14 @@ include::finish/src/main/java/io/openliberty/guides/config/Email.java[tags=email
 To use this `Email` class type, add a custom converter by implementing the generic interface `org.eclipse.microprofile.config.spi.Converter<T>`.
 The Type parameter of the interface is the target type the String is converted to.
 
-Create a `CustomEmailConverter.java` file in the `start/src/main/java/io/openliberty/guides/config` directory.
-Add the following content to override the `Converter<T>` interface:
+Create a `start/src/main/java/io/openliberty/guides/config/CustomEmailConverter.java` file, and add the following content to override the `Converter<T>` interface:
 
 [source, java, indent=0]
 ----
 include::finish/src/main/java/io/openliberty/guides/config/CustomEmailConverter.java[tags=customConfig]
 ----
 
-To register your implementation, create the `start/src/main/resources/META-INF/services/org.eclipse.microprofile.config.spi.Converter` file and add the fully qualified class name of the custom converter into it:
+To register your implementation, create a `start/src/main/resources/META-INF/services/org.eclipse.microprofile.config.spi.Converter` file and add the fully qualified class name of the custom converter into it:
 [source, java, indent=0]
 ----
 include::finish/src/main/resources/META-INF/services/org.eclipse.microprofile.config.spi.Converter[tags=register]
@@ -222,12 +229,12 @@ include::{common-includes}/mvnbuild.adoc[]
 
 Once the server is running, the following two microservices should be available to access:
 
-* `http://localhost:9080/inventory/hosts`
-
 * `http://localhost:9080/system/properties`
 
+* `http://localhost:9080/inventory/hosts`
 
-You can find the service that retrieves configuration information that is specific to this guide at the following location:
+
+In addition, you can access a third microservice, which retrieves and aggregates all of the configuration properties and sources that have been added throughout this guide. This is available at:
 
 * `http://localhost:9080/config`
 
@@ -254,7 +261,7 @@ include::{common-includes}/mvnpackage.adoc[]
 
 == Testing the application
 
-Create a `ConfigurationTest.java` file in the `start/src/test/java/it/io/openliberty/guides/config` directory and add the following code:
+Create a `start/src/test/java/it/io/openliberty/guides/config/ConfigurationTest.java` file and add the following code:
 
 [source, java, indent=0]
 ----
@@ -293,8 +300,15 @@ Tests run: 2, Failures: 0, Errors: 0, Skipped: 0
 
 ----
 
+To see whether the tests detect a failure, remove the configuration resetting line in the `setup()` method of the ``ConfigurationTest.java` file.
+Then manually change some configuration values in the `start/resources/CustomConfigSource.json` file.
+Re-run the Maven build. You will see a test failure occur.
+
 == Great work! You're done!
 
 You just built and tested a MicroProfile application with MicroProfile Config and Open Liberty.
+
+Feel free to try one of the related guides. They demonstrate new technologies that you can learn and
+expand on top what you built in this guide.
 
 include::{common-includes}/finish.adoc[]
