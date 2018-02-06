@@ -57,6 +57,10 @@ After starting the application, you can access the following two microservices t
 
 * `http://localhost:9080/inventory/hosts` retrieves the information for a list of all previously registered hosts
 
+In addition, you can access a third microservice, which retrieves and aggregates all of the configuration properties and sources that have been added throughout this guide. This is available at:
+
+* `http://localhost:9080/config`
+
 Once you are done checking out the application, stop the Open Liberty server:
 
 ```
@@ -234,7 +238,7 @@ Once the server is running, the following two microservices should be available 
 * `http://localhost:9080/inventory/hosts`
 
 
-In addition, you can access a third microservice, which retrieves and aggregates all of the configuration properties and sources that have been added throughout this guide. This is available at:
+You can find the service that retrieves configuration information that is specific to this guide at the following location:
 
 * `http://localhost:9080/config`
 
