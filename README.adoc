@@ -55,7 +55,7 @@ After starting the application, you can access the following two microservices t
 
 * `http://localhost:9080/system/properties` retrieves the information for a specific host
 
-* `http://localhost:9080/inventory/hosts` retrieves the information for a list of all previously registered hosts
+* `http://localhost:9080/inventory/systems` retrieves the information for a list of all previously registered hosts
 
 In addition, you can access a third microservice, which retrieves and aggregates all of the configuration properties and sources that have been added throughout this guide. This is available at:
 
@@ -93,15 +93,14 @@ include::finish/src/main/resources/META-INF/microprofile-config.properties[tags=
 ----
 
 // =================================================================================================
-// Injecting configuration into the application
+// Injecting static configuration
 // =================================================================================================
-== Injecting static configuration into the application
+== Injecting static configuration
 
-Begin by navigating to the `pom.xml` file to check the required dependency. The `microprofile-config-api` dependency has been added for you in the `start/pom.xml` file:
-
+Begin by navigating to the `pom.xml` file to check the required dependency. The `microprofile-config-api` dependency has been added for you in the `start/pom.xml` file.
 The `mpConfig-1.1` feature has also been enabled in the `start/src/main/liberty/config/server.xml` file.
 
-Now that the MicroProfile Config feature has been enabled, navigate to the local  `microprofile-config.properties` configuration file in the `start/src/main/resources/META-INF` directory to check some static configuration.
+Now navigate to the local  `microprofile-config.properties` configuration file in the `start/src/main/resources/META-INF` directory to check some static configuration.
 This configuration file is the default configuration source for an application that uses MicroProfile Config.
 
 The `io_openliberty_guides_port_number` property that has already been defined in this file, determines the port number of the REST service.
@@ -118,14 +117,6 @@ Inject the `io_openliberty_guides_port_number` property, and add the `getPortNum
 The `@Inject` annotation injects the port number directly, the injection value is static and fixed on application starting.
 
 The `getPortNumber()` method directly returns the value of `portNumber` because it has been injected.
-
-
-Open the `InventoryResource.java` file. Inject the `InventoryConfig` object to modify the existing class. Modify the `getPropertiesForHost()` service. Get the port number from the configuration and pass this value to the `manager.get()` method to get the system properties.
-
-[source, java, indent=0]
-----
-include::finish/src/main/java/io/openliberty/guides/inventory/InventoryResource.java[tags=config-methods]
-----
 
 
 // =================================================================================================
@@ -182,7 +173,7 @@ latest value of the `io_openliberty_guides_inventory_inMaintenance` property fro
 // =================================================================================================
 // Creating custom converters
 // =================================================================================================
-== Adding custom converters
+== Creating custom converters
 Configuration values are purely Strings. MicroProfile Config API has built-in converters that automatically converts configured Strings into target types such as `int`, `Integer`, `boolean`, `Boolean`, `float`, `Float`, `double` and `Double`.
 Therefore, in the previous section, it is type-safe to directly set the variable type to `Provider<Boolean>`.
 
@@ -214,15 +205,25 @@ To use the custom `Email` converter, open the `InventoryConfig.java` file, injec
 include::finish/src/main/java/io/openliberty/guides/inventory/InventoryConfig.java[tags=config-class]
 ----
 
-To determine whether the inventory service is in maintenance or not (according to the configuration value), use the `inventoryConfig.isInMaintenance()` class method.
-If you set the `io_openliberty_guides_inventory_inMaintenance` property to `true` in the configuration, the inventory service returns the message, "Service is temporarily down for maintenance", along with the contact email.
-The email configuration value can be get by calling `inventoryConfig.getEmail()`.
+// =================================================================================================
+// Adding configuration to the service
+// =================================================================================================
+== Adding configuration to the microservice
 
-Open the `InventoryResource.java` file. Modify the existing class to finalize the code as the following:
+To use externalized configuration in the `inventory` service, open the `src/main/java/io/openliberty/guides/inventory/InventoryResource.java` file.
+Modify the existing class to finalize the code as the following:
 [source, java, indent=0]
 ----
 include::finish/src/main/java/io/openliberty/guides/inventory/InventoryResource.java[tags=config-methods]
 ----
+
+To add configuration to the `inventory` service, the `InventoryConfig` object is injected to the existing class.
+
+The port number from the configuration is retrieved by the `inventoryConfig.getPortNumber()` method and passed to the `manager.get()` method as a parameter.
+
+To determine whether the inventory service is in maintenance or not (according to the configuration value), `inventoryConfig.isInMaintenance()` class method is used.
+If you set the `io_openliberty_guides_inventory_inMaintenance` property to `true` in the configuration, the inventory service returns the message, "ERROR: Serive is currently in maintenance", along with the contact email.
+The email configuration value can be get by calling `inventoryConfig.getEmail()` method.
 
 
 // =================================================================================================
@@ -235,7 +236,7 @@ Once the server is running, the following two microservices should be available 
 
 * `http://localhost:9080/system/properties`
 
-* `http://localhost:9080/inventory/hosts`
+* `http://localhost:9080/inventory/systems`
 
 
 You can find the service that retrieves configuration information that is specific to this guide at the following location:
@@ -253,8 +254,8 @@ Refresh `http://localhost:9080/config` to see the dynamic changes.
 
 Play with this application by changing configuration values for each property in the `CustomConfigSource.json` file.
 
-For example, change `io_openliberty_guides_inventory_inMaintenance` from `false` to `true`, then try to access `http://localhost:9080/inventory/hosts` again.
-The following message displays: `Service is temporarily down for maintenance`.
+For example, change `io_openliberty_guides_inventory_inMaintenance` from `false` to `true`, then try to access `http://localhost:9080/inventory/systems` again.
+The following message displays: `ERROR: Serive is currently in maintenance`.
 
 include::{common-includes}/mvnpackage.adoc[]
 
@@ -273,7 +274,7 @@ include::finish/src/test/java/it/io/openliberty/guides/config/ConfigurationTest.
 ----
 
 The `testInitialServiceStatus()` test case reads the value of the `io_openliberty_guides_inventory_inMaintenance` configuration property in the file `META-INF/microprofile-config.properties` and checks the HTTP response of the inventory service.
-If the configuration value is `false`, the service returns a valid response. Otherwise, the service returns the following message: `Service is temporarily down for maintenance`.
+If the configuration value is `false`, the service returns a valid response. Otherwise, the service returns the following message: `ERROR: Serive is currently in maintenance`.
 
 
 Because the `META-INF/microprofile-config.properties` default source has the ordinal value of `100` in the beginning,
@@ -284,7 +285,7 @@ Then, the test changes the ordinal value of the custom configuration source from
 
 Because the `io_openliberty_guides_inventory_inMaintenance` configuration property is set to `false` by default, the `testPutServiceInMaintenance()` test case first checks that the inventory service is not in maintenance in the beginning.
 Next, this test increases the priority of the custom configuration source and switches the value of the `io_openliberty_guides_inventory_inMaintenance` configuration property to `true`.
-In the end, the inventory service returns the following message: `Service is temporarily down for maintenance`.
+In the end, the inventory service returns the following message: `ERROR: Serive is currently in maintenance`.
 
 include::{common-includes}/mvnverify.adoc[]
 
