@@ -67,17 +67,16 @@ public class ConfigurationTest {
 
   // tag::testInitialServiceStatus()[]
   public void testInitialServiceStatus() {
-    boolean status = Boolean.valueOf(ConfigTestUtil.readPropertyValueInFile(INV_MAINTENANCE_PROP,
-                                                                            DEFAULT_CONFIG_FILE));
+    boolean status = Boolean.valueOf(ConfigTestUtil.readPropertyValueInFile(
+        INV_MAINTENANCE_PROP, DEFAULT_CONFIG_FILE));
     if (!status) {
       assertEquals("The Inventory Service should be available", 0,
-                   ConfigTestUtil.getJsonObjectFromURL(client, baseUrl + INVENTORY_HOSTS,
-                                                       1, null)
-                                 .getInt("total"));
+          ConfigTestUtil.getJsonObjectFromURL(client, baseUrl + INVENTORY_HOSTS, 1,
+              null).getInt("total"));
     } else {
       assertEquals("The Inventory Service should be in maintenance",
-                   "ERROR: Serive is currently in maintenance. Please contact: admin@guides.openliberty.io",
-                   ConfigTestUtil.getStringFromURL(client, baseUrl + INVENTORY_HOSTS));
+          "ERROR: Serive is currently in maintenance. Please contact: admin@guides.openliberty.io",
+          ConfigTestUtil.getStringFromURL(client, baseUrl + INVENTORY_HOSTS));
     }
   }
   // end::testInitialServiceStatus()[]
@@ -85,36 +84,38 @@ public class ConfigurationTest {
   // tag::testOverrideConfigProperty()[]
   public void testOverrideConfigProperty() {
     JsonObject properties = ConfigTestUtil.getJsonObjectFromURL(client,
-                                                                baseUrl + CONFIG_MANAGER,
-                                                                2, "ConfigProperties");
+        baseUrl + CONFIG_MANAGER, 2, "ConfigProperties");
+    
     assertEquals(TEST_OVERWRITE_PROP + " should be DefaultSource in the beginning",
-                 "DefaultSource", properties.getString(TEST_OVERWRITE_PROP));
+        "DefaultSource", properties.getString(TEST_OVERWRITE_PROP));
+    
     ConfigTestUtil.changeConfigSourcePriority(CUSTOM_CONFIG_FILE, 150);
 
     JsonObject newProperties = ConfigTestUtil.getJsonObjectFromURL(client,
-                                                                   baseUrl
-                                                                       + CONFIG_MANAGER,
-                                                                   2, "ConfigProperties");
+        baseUrl + CONFIG_MANAGER, 2, "ConfigProperties");
+    
     assertEquals(TEST_OVERWRITE_PROP + " should be CustomSource in the end",
-                 "CustomSource", newProperties.getString(TEST_OVERWRITE_PROP));
+        "CustomSource", newProperties.getString(TEST_OVERWRITE_PROP));
   }
   // end::testOverrideConfigProperty()[]
 
   // tag::testPutServiceInMaintenance()[]
   public void testPutServiceInMaintenance() {
     JsonObject obj = ConfigTestUtil.getJsonObjectFromURL(client,
-                                                         baseUrl + INVENTORY_HOSTS, 1,
-                                                         null);
+        baseUrl + INVENTORY_HOSTS, 1, null);
+    
     assertEquals("The inventory service should be up in the beginning", 0,
-                 obj.getInt("total"));
+        obj.getInt("total"));
 
     ConfigTestUtil.changeConfigSourcePriority(CUSTOM_CONFIG_FILE, 150);
     ConfigTestUtil.switchInventoryMaintenance(CUSTOM_CONFIG_FILE, true);
 
-    String error = ConfigTestUtil.getStringFromURL(client, baseUrl + INVENTORY_HOSTS);
+    String error = ConfigTestUtil.getStringFromURL(client,
+        baseUrl + INVENTORY_HOSTS);
+    
     assertEquals("The inventory service should be down in the end",
-                 "ERROR: Serive is currently in maintenance. Please contact: admin@guides.openliberty.io",
-                 error);
+        "ERROR: Serive is currently in maintenance. Please contact: admin@guides.openliberty.io",
+        error);
   }
   // end::testPutServiceInMaintenance()[]
 
