@@ -127,4 +127,13 @@ public class ConfigTestUtil {
     return result;
   }
 
+  public static String getStringFromURL(Client client, String url) {
+    Response response = client.target(url).request().get();
+    String result = response.readEntity(String.class);
+    response.close();
+    return result;
+  }
+
+
+
 }

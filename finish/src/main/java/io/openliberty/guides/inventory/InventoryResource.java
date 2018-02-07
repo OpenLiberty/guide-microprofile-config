@@ -14,24 +14,23 @@
 // tag::config-methods[]
 package io.openliberty.guides.inventory;
 
+import java.util.Properties;
+
 // CDI
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
-
-// JSON-P
-import javax.json.JsonObject;
-
-// JAX-RS
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import io.openliberty.guides.common.JsonMessages;
+import javax.ws.rs.core.Response;
+
+import io.openliberty.guides.inventory.model.InventoryList;
 import io.openliberty.guides.inventory.InventoryConfig;
 
 @RequestScoped
-@Path("hosts")
+@Path("systems")
 public class InventoryResource {
 
   @Inject
@@ -45,29 +44,36 @@ public class InventoryResource {
   @GET
   @Path("{hostname}")
   @Produces(MediaType.APPLICATION_JSON)
-  public JsonObject getPropertiesForHost(
-      @PathParam("hostname") String hostname) {
+  public Response getPropertiesForHost(@PathParam("hostname") String hostname) {
 
     if (!inventoryConfig.isInMaintenance()) {
       // tag::config-port[]
-      return manager.get(hostname, inventoryConfig.getPortNumber());
+      Properties props = manager.get(hostname, inventoryConfig.getPortNumber());
       // end::config-port[]
+      if (props == null) {
+        return Response.status(Response.Status.NOT_FOUND)
+                       .entity("ERROR: Unknown hostname or the resource may not be running on the host machine")
+                       .build();
+      }
+      return Response.ok(props).build();
     } else {
       // tag::email[]
-      return JsonMessages.returnMessage("InventoryResource",
-                                        inventoryConfig.getEmail());
+      return Response.status(Response.Status.SERVICE_UNAVAILABLE)
+                     .entity("ERROR: Serive is currently in maintenance. Please contact: "+ inventoryConfig.getEmail().toString())
+                     .build();
       // end::email[]
     }
   }
 
   @GET
   @Produces(MediaType.APPLICATION_JSON)
-  public JsonObject listContents() {
+  public Response listContents() {
     if (!inventoryConfig.isInMaintenance()) {
-      return manager.list();
+      return Response.ok(manager.list()).build();
     } else {
-      return JsonMessages.returnMessage("InventoryResource",
-                                        inventoryConfig.getEmail());
+      return Response.status(Response.Status.SERVICE_UNAVAILABLE)
+                     .entity("ERROR: Serive is currently in maintenance. Please contact: "+ inventoryConfig.getEmail().toString())
+                     .build();
     }
   }
 
