@@ -33,7 +33,6 @@ public class ConfigTestUtil {
   private final static String EMAIL = "admin@guides.openliberty.io";
   private final static String TEST_CONFIG = "CustomSource";
 
-
   public static void setDefaultJsonFile(String source) {
     CustomConfig config = new CustomConfig(50, false, false, EMAIL, TEST_CONFIG);
     createJsonOverwrite(source, config);
@@ -55,8 +54,7 @@ public class ConfigTestUtil {
     createJsonOverwrite(source, config);
   }
 
-
-  public static void createJsonOverwrite(String source, CustomConfig config){
+  public static void createJsonOverwrite(String source, CustomConfig config) {
     // Create Jsonb and serialize
     Jsonb jsonb = JsonbBuilder.create();
     String result = jsonb.toJson(config);
@@ -66,8 +64,7 @@ public class ConfigTestUtil {
   /**
    * Read the property values from a local file.
    */
-  public static String readPropertyValueInFile(String propName,
-      String fileName) {
+  public static String readPropertyValueInFile(String propName, String fileName) {
     String propValue = "";
     String line = "";
     try {
@@ -93,7 +90,7 @@ public class ConfigTestUtil {
   /**
    * Overwrite a local file.
    */
-  public static void overwriteFile(String fileName, String newContent){
+  public static void overwriteFile(String fileName, String newContent) {
     try {
       File f = new File(fileName);
       if (f.exists()) {
@@ -102,8 +99,8 @@ public class ConfigTestUtil {
         fWriter.write(newContent);
         fWriter.close();
       } else {
-      System.out.println("File " + fileName + " does not exist");
-    }
+        System.out.println("File " + fileName + " does not exist");
+      }
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -112,7 +109,8 @@ public class ConfigTestUtil {
   /**
    * Get the Json Object from the URL provided.
    */
-  public static JsonObject getJsonObjectFromURL(Client client, String url, int level, String key) {
+  public static JsonObject getJsonObjectFromURL(Client client, String url, int level,
+      String key) {
     Response response = client.target(url).request().get();
 
     JsonObject obj = response.readEntity(JsonObject.class);
@@ -133,7 +131,5 @@ public class ConfigTestUtil {
     response.close();
     return result;
   }
-
-
 
 }

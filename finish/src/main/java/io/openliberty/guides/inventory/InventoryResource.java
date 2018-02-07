@@ -26,7 +26,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import io.openliberty.guides.inventory.model.InventoryList;
 import io.openliberty.guides.inventory.InventoryConfig;
 
 @RequestScoped
@@ -59,7 +58,8 @@ public class InventoryResource {
     } else {
       // tag::email[]
       return Response.status(Response.Status.SERVICE_UNAVAILABLE)
-                     .entity("ERROR: Serive is currently in maintenance. Please contact: "+ inventoryConfig.getEmail().toString())
+                     .entity("ERROR: Serive is currently in maintenance. Please contact: "
+                         + inventoryConfig.getEmail().toString())
                      .build();
       // end::email[]
     }
@@ -72,7 +72,8 @@ public class InventoryResource {
       return Response.ok(manager.list()).build();
     } else {
       return Response.status(Response.Status.SERVICE_UNAVAILABLE)
-                     .entity("ERROR: Serive is currently in maintenance. Please contact: "+ inventoryConfig.getEmail().toString())
+                     .entity("ERROR: Serive is currently in maintenance. Please contact: "
+                         + inventoryConfig.getEmail().toString())
                      .build();
     }
   }

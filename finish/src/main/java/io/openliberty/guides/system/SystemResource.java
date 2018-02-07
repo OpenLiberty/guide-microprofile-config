@@ -12,8 +12,6 @@
 // end::copyright[]
 package io.openliberty.guides.system;
 
-import java.util.Properties;
-
 // CDI
 import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.GET;
@@ -41,7 +39,8 @@ public class SystemResource {
       return Response.ok(System.getProperties()).build();
     } else {
       return Response.status(Response.Status.SERVICE_UNAVAILABLE)
-                     .entity("ERROR: Serive is currently in maintenance. Please contact: "+ systemConfig.getEmail().toString())
+                     .entity("ERROR: Serive is currently in maintenance. Please contact: "
+                         + systemConfig.getEmail().toString())
                      .build();
     }
   }
