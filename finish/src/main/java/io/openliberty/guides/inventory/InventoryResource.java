@@ -51,15 +51,17 @@ public class InventoryResource {
       // end::config-port[]
       if (props == null) {
         return Response.status(Response.Status.NOT_FOUND)
-                       .entity("ERROR: Unknown hostname or the resource may not be running on the host machine")
+                       .entity(
+                           "ERROR: Unknown hostname or the resource may not be running on the host machine")
                        .build();
       }
       return Response.ok(props).build();
     } else {
       // tag::email[]
       return Response.status(Response.Status.SERVICE_UNAVAILABLE)
-                     .entity("ERROR: Serive is currently in maintenance. Please contact: "
-                         + inventoryConfig.getEmail().toString())
+                     .entity(
+                         "ERROR: Serive is currently in maintenance. Please contact: "
+                             + inventoryConfig.getEmail().toString())
                      .build();
       // end::email[]
     }
@@ -72,8 +74,9 @@ public class InventoryResource {
       return Response.ok(manager.list()).build();
     } else {
       return Response.status(Response.Status.SERVICE_UNAVAILABLE)
-                     .entity("ERROR: Serive is currently in maintenance. Please contact: "
-                         + inventoryConfig.getEmail().toString())
+                     .entity(
+                         "ERROR: Serive is currently in maintenance. Please contact: "
+                             + inventoryConfig.getEmail().toString())
                      .build();
     }
   }
