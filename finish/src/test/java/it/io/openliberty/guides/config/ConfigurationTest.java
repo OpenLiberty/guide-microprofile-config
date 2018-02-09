@@ -35,7 +35,7 @@ public class ConfigurationTest {
   private final String USER_DIR = System.getProperty("user.dir");
   private final String DEFAULT_CONFIG_FILE = USER_DIR
       + "/src/main/resources/META-INF/microprofile-config.properties";
-  private final String CUSTOM_CONFIG_FILE = USER_DIR.split("src")[0]
+  private final String CUSTOM_CONFIG_FILE = USER_DIR.split("finish")[0]
       + "/resources/CustomConfigSource.json";
   private final String INV_MAINTENANCE_PROP = "io_openliberty_guides_inventory_inMaintenance";
   private final String TEST_OVERWRITE_PROP = "io_openliberty_guides_testConfigOverwrite";
@@ -85,15 +85,15 @@ public class ConfigurationTest {
   public void testOverrideConfigProperty() {
     JsonObject properties = ConfigTestUtil.getJsonObjectFromURL(client,
         baseUrl + CONFIG_MANAGER, 2, "ConfigProperties");
-    
+
     assertEquals(TEST_OVERWRITE_PROP + " should be DefaultSource in the beginning",
         "DefaultSource", properties.getString(TEST_OVERWRITE_PROP));
-    
+
     ConfigTestUtil.changeConfigSourcePriority(CUSTOM_CONFIG_FILE, 150);
 
     JsonObject newProperties = ConfigTestUtil.getJsonObjectFromURL(client,
         baseUrl + CONFIG_MANAGER, 2, "ConfigProperties");
-    
+
     assertEquals(TEST_OVERWRITE_PROP + " should be CustomSource in the end",
         "CustomSource", newProperties.getString(TEST_OVERWRITE_PROP));
   }
@@ -103,7 +103,7 @@ public class ConfigurationTest {
   public void testPutServiceInMaintenance() {
     JsonObject obj = ConfigTestUtil.getJsonObjectFromURL(client,
         baseUrl + INVENTORY_HOSTS, 1, null);
-    
+
     assertEquals("The inventory service should be up in the beginning", 0,
         obj.getInt("total"));
 
@@ -112,7 +112,7 @@ public class ConfigurationTest {
 
     String error = ConfigTestUtil.getStringFromURL(client,
         baseUrl + INVENTORY_HOSTS);
-    
+
     assertEquals("The inventory service should be down in the end",
         "ERROR: Serive is currently in maintenance. Please contact: admin@guides.openliberty.io",
         error);
