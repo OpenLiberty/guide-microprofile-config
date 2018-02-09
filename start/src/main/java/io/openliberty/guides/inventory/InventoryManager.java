@@ -25,15 +25,15 @@ import javax.enterprise.context.ApplicationScoped;
 public class InventoryManager {
 
   private InventoryList invList = new InventoryList();
+  private SystemClient systemClient = new SystemClient();
 
   public Properties get(String hostname, int port) {
-    SystemClient systemClient = new SystemClient(hostname, port);
-    if (systemClient.isResponseOk()) {
-      Properties properties = systemClient.getContent();
-      invList.addToInventoryList(hostname, properties);
-      return properties;
-    }
-    return null;
+    systemClient.init(hostname, port);
+    Properties properties = systemClient.getProperties();
+    if (properties != null) {
+        invList.addToInventoryList(hostname, properties);
+      }
+    return properties;
   }
 
   public InventoryList list() {
