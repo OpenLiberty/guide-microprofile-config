@@ -129,7 +129,7 @@ However, you can externalize configuration data out of the application package, 
 
 Custom configuration sources can be created by implementing the `org.eclipse.microprofile.config.spi.ConfigSource` interface and using the `java.util.ServiceLoader` mechanism.
 
-In the starting repo for this guide a `CustomConfigSource.json` JSON file has already been created outside of the application (`start/resources/`).
+A `CustomConfigSource.json` JSON file has already been created outside of the application (`guide-microprofile-config/resources/`).
 This file contains 4 custom config properties and has an ordinal of `50`.
 To use these properties in the application, the data object needs to be transformed from this JSON file to the configuration for your application.
 
@@ -306,7 +306,7 @@ Tests run: 2, Failures: 0, Errors: 0, Skipped: 0
 ----
 
 To see whether the tests detect a failure, remove the configuration resetting line in the `setup()` method of the ``ConfigurationTest.java` file.
-Then manually change some configuration values in the `start/resources/CustomConfigSource.json` file.
+Then manually change some configuration values in the `guide-microprofile-config/resources/CustomConfigSource.json` file.
 Re-run the Maven build. You will see a test failure occur.
 
 == Great work! You're done!
