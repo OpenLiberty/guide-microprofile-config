@@ -15,7 +15,7 @@
 :page-related-guides: ['microprofile-intro']
 :common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/master
 :source-highlighter: prettify
-= Configuring Microservices
+= Configuring microservices
 
 Learn how to provide external configuration to microservices using MicroProfile Config.
 
