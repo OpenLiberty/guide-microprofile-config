@@ -43,7 +43,7 @@ that is provided in the `start` directory. To do this, run the following command
 [subs="attributes"]
 ----
 git clone https://github.com/OpenLiberty/draft-guide-microprofile-config.git
-cd draft-guide-microprofile-config
+cd draft-guide-microprofile-config/start
 ----
 
 === Try what you'll build
