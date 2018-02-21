@@ -98,10 +98,11 @@ public class ConfigTestUtil {
                                                        // false to overwrite.
         fWriter.write(newContent);
         fWriter.close();
+        Thread.sleep(600);
       } else {
         System.out.println("File " + fileName + " does not exist");
       }
-    } catch (IOException e) {
+    } catch (Exception e) {
       e.printStackTrace();
     }
   }
