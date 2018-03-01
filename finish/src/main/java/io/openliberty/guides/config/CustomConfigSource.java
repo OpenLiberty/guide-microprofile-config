@@ -27,28 +27,22 @@ import org.eclipse.microprofile.config.spi.ConfigSource;
 
 public class CustomConfigSource implements ConfigSource {
 
-  String fileLocation = System.getProperty("user.dir").split("finish")[0]
-      + "resources/CustomConfigSource.json";
-  Map<String, String> map = setProperties();
+  String fileLocation = System.getProperty("user.dir").split("target")[0]
+      + "../resources/CustomConfigSource.json";
 
   @Override
   public int getOrdinal() {
-    return Integer.parseInt(this.map.get("config_ordinal"));
+    return Integer.parseInt(getProperties().get("config_ordinal"));
   }
 
   @Override
   public Set<String> getPropertyNames() {
-    return this.map.keySet();
-  }
-
-  @Override
-  public Map<String, String> getProperties() {
-    return this.map;
+    return getProperties().keySet();
   }
 
   @Override
   public String getValue(String key) {
-    return this.map.get(key);
+    return getProperties().get(key);
   }
 
   @Override
@@ -56,7 +50,7 @@ public class CustomConfigSource implements ConfigSource {
     return "Custom Config Source: file:" + this.fileLocation;
   }
 
-  private Map<String, String> setProperties() {
+  public Map<String, String> getProperties() {
     Map<String, String> m = new HashMap<String, String>();
     String jsonData = this.readFile(this.fileLocation);
     JsonParser parser = Json.createParser(new StringReader(jsonData));
