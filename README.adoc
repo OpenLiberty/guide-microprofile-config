@@ -37,14 +37,7 @@ service on that host to get these system properties. You will learn how to add e
 // Getting Started
 // =================================================================================================
 
-The fastest way to work through this guide is to clone the Git repository and use the starting project
-that is provided in the `start` directory. To do this, run the following commands:
-
-[subs="attributes"]
-----
-git clone https://github.com/OpenLiberty/draft-guide-microprofile-config.git
-cd draft-guide-microprofile-config/start
-----
+include::{common-includes}/gitclone.adoc[]
 
 === Try what you'll build
 
@@ -302,13 +295,15 @@ include::{common-includes}/mvnverify.adoc[]
  T E S T S
 -------------------------------------------------------
 Running it.io.openliberty.guides.config.ConfigurationTest
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.322 sec - in it.io.openliberty.guides.config.ConfigurationTest
-Running it.io.openliberty.guides.inventory.EndpointTest
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.307 sec - in it.io.openliberty.guides.inventory.EndpointTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.729 sec - in it.io.openliberty.guides.config.ConfigurationTest
+Running it.io.openliberty.guides.inventory.InventoryEndpointTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.477 sec - in it.io.openliberty.guides.inventory.InventoryEndpointTest
+Running it.io.openliberty.guides.system.SystemEndpointTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.013 sec - in it.io.openliberty.guides.system.SystemEndpointTest
 
 Results :
 
-Tests run: 2, Failures: 0, Errors: 0, Skipped: 0
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0
 
 ----
 
