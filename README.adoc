@@ -10,7 +10,7 @@
 :page-duration: 20 minutes
 :page-releasedate: 2018-03-09
 :page-description: Learn how to use the MicroProfile Config specification to externalize configuration data for an application
-:page-tags: ['REST', 'MicroProfile', 'Config', 'ConfigProperty', 'Custom ConfigSource', 'Dynamic Configuration Injection', 'Microservices']
+:page-tags: ['REST', 'MicroProfile', 'Config', 'ConfigProperty', 'Custom ConfigSource', 'Dynamic Configuration Injection', 'microservices']
 :page-permalink: /guides/{projectid}
 :page-related-guides: ['rest-intro', 'cdi-intro', 'microprofile-config-intro']
 :common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/master
