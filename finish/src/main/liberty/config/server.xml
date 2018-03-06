@@ -11,5 +11,5 @@
 
   <httpEndpoint host="*" httpPort="${default.http.port}" httpsPort="${default.https.port}" id="defaultHttpEndpoint"/>
 
-  <webApplication location="io.openliberty.guides.microprofile.mpconfig.war" contextRoot="/"/>
+  <webApplication location="microprofile-config.war" contextRoot="/"/>
 </server>
