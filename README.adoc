@@ -1,4 +1,4 @@
-// Copyright (c) 2017 IBM Corporation and others.
+// Copyright (c) 2017, 2018 IBM Corporation and others.
 // Licensed under Creative Commons Attribution-NoDerivatives
 // 4.0 International (CC BY-ND 4.0)
 //   https://creativecommons.org/licenses/by-nd/4.0/
@@ -8,11 +8,11 @@
 :projectid: microprofile-config
 :page-layout: guide
 :page-duration: 20 minutes
-:page-releasedate: 2017-12-11
+:page-releasedate: 2018-03-09
 :page-description: Learn how to use the MicroProfile Config specification to externalize configuration data for an application
-:page-tags: ['REST', 'MicroProfile', 'Config', 'ConfigSource', 'ConfigProperty']
+:page-tags: ['REST', 'MicroProfile', 'Config', 'ConfigProperty', 'Custom ConfigSource', 'Dynamic Configuration Injection', 'microservices']
 :page-permalink: /guides/{projectid}
-:page-related-guides: ['cdi-intro', 'microprofile-config-intro']
+:page-related-guides: ['rest-intro', 'cdi-intro', 'microprofile-config-intro']
 :common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/master
 :source-highlighter: prettify
 = Configuring microservices
@@ -31,7 +31,7 @@ You will learn to aggregate multiple configuration sources, assign prioritizatio
 The application that you will be working with is an `inventory` service which stores the information about various JVMs running on different hosts.
 Whenever a request is made to the `inventory` service to retrieve the JVM
 system properties of a particular host, the `inventory` service will communicate with the `system`
-service on that host to get these system properties. You will learn how to add externalized configurations to set services to the `in maintenance` mode.
+service on that host to get these system properties. You will add configuration properties to simulate if a service is down for maintenance.
 
 // =================================================================================================
 // Getting Started
@@ -222,7 +222,7 @@ To add configuration to the `inventory` service, the `InventoryConfig` object is
 The port number from the configuration is retrieved by the `inventoryConfig.getPortNumber()` method and passed to the `manager.get()` method as a parameter.
 
 To determine whether the inventory service is in maintenance or not (according to the configuration value), `inventoryConfig.isInMaintenance()` class method is used.
-If you set the `io_openliberty_guides_inventory_inMaintenance` property to `true` in the configuration, the inventory service returns the message, "ERROR: Serive is currently in maintenance", along with the contact email.
+If you set the `io_openliberty_guides_inventory_inMaintenance` property to `true` in the configuration, the inventory service returns the message, "ERROR: Service is currently in maintenance", along with the contact email.
 The email configuration value can be get by calling `inventoryConfig.getEmail()` method.
 
 
@@ -255,7 +255,7 @@ Refresh `http://localhost:9080/config` to see the dynamic changes.
 Play with this application by changing configuration values for each property in the `CustomConfigSource.json` file.
 
 For example, change `io_openliberty_guides_inventory_inMaintenance` from `false` to `true`, then try to access `http://localhost:9080/inventory/systems` again.
-The following message displays: `ERROR: Serive is currently in maintenance`.
+The following message displays: `ERROR: Service is currently in maintenance`.
 
 include::{common-includes}/mvnpackage.adoc[]
 
@@ -274,7 +274,7 @@ include::finish/src/test/java/it/io/openliberty/guides/config/ConfigurationTest.
 ----
 
 The `testInitialServiceStatus()` test case reads the value of the `io_openliberty_guides_inventory_inMaintenance` configuration property in the file `META-INF/microprofile-config.properties` and checks the HTTP response of the inventory service.
-If the configuration value is `false`, the service returns a valid response. Otherwise, the service returns the following message: `ERROR: Serive is currently in maintenance`.
+If the configuration value is `false`, the service returns a valid response. Otherwise, the service returns the following message: `ERROR: Service is currently in maintenance`.
 
 
 Because the `META-INF/microprofile-config.properties` default source has the ordinal value of `100` in the beginning,
@@ -285,7 +285,9 @@ Then, the test changes the ordinal value of the custom configuration source from
 
 Because the `io_openliberty_guides_inventory_inMaintenance` configuration property is set to `false` by default, the `testPutServiceInMaintenance()` test case first checks that the inventory service is not in maintenance in the beginning.
 Next, this test increases the priority of the custom configuration source and switches the value of the `io_openliberty_guides_inventory_inMaintenance` configuration property to `true`.
-In the end, the inventory service returns the following message: `ERROR: Serive is currently in maintenance`.
+In the end, the inventory service returns the following message: `ERROR: Service is currently in maintenance`.
+
+In addition, a few endpoint tests have been provided for you to test the basic functionality of the `inventory` and `system` services. If a test failure occurs, then you must have introduced a bug into the code.
 
 include::{common-includes}/mvnverify.adoc[]
 
