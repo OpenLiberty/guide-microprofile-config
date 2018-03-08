@@ -140,15 +140,14 @@ To link this JSON file to your application, create a `start/src/main/java/io/ope
 include::finish/src/main/java/io/openliberty/guides/config/CustomConfigSource.java[tags=customConfig]
 ----
 
-The `setProperties()` private method reads the key value pairs from the `CustomConfigSource.json` JSON file and writes the information into a map.
+The `getProperties()` method reads the key value pairs from the `resources/CustomConfigSource.json` JSON file and writes the information into a map.
 
-To register the custom configuration source, create a `start/src/main/resources/META-INF/services/org.eclipse.microprofile.config.spi.ConfigSource` file and add the full class name into it:
+Last but important, register the custom configuration source. Create a `start/src/main/resources/META-INF/services/org.eclipse.microprofile.config.spi.ConfigSource` file. Add the following fully qualified class name of the configuration source into it:
 
 [source, java, indent=0]
 ----
 include::finish/src/main/resources/META-INF/services/org.eclipse.microprofile.config.spi.ConfigSource[tags=register]
 ----
-
 
 // =================================================================================================
 // Enabling dynamic configuration injection
@@ -193,7 +192,7 @@ Create a `start/src/main/java/io/openliberty/guides/config/CustomEmailConverter.
 include::finish/src/main/java/io/openliberty/guides/config/CustomEmailConverter.java[tags=customConfig]
 ----
 
-To register your implementation, create a `start/src/main/resources/META-INF/services/org.eclipse.microprofile.config.spi.Converter` file and add the fully qualified class name of the custom converter into it:
+To register your implementation, create a `start/src/main/resources/META-INF/services/org.eclipse.microprofile.config.spi.Converter` file. Add the following fully qualified class name of the custom converter into it:
 [source, java, indent=0]
 ----
 include::finish/src/main/resources/META-INF/services/org.eclipse.microprofile.config.spi.Converter[tags=register]
@@ -288,6 +287,7 @@ Next, this test increases the priority of the custom configuration source and sw
 In the end, the inventory service returns the following message: `ERROR: Service is currently in maintenance`.
 
 In addition, a few endpoint tests have been provided for you to test the basic functionality of the `inventory` and `system` services. If a test failure occurs, then you must have introduced a bug into the code.
+Reminder that you must register the custom configuration source and custom converter in the `start/src/main/resources/META-INF/services/` directory, if you miss to complete these steps, the tests will fail.
 
 include::{common-includes}/mvnverify.adoc[]
 
