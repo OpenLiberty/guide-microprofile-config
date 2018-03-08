@@ -142,7 +142,7 @@ include::finish/src/main/java/io/openliberty/guides/config/CustomConfigSource.ja
 
 The `getProperties()` method reads the key value pairs from the `resources/CustomConfigSource.json` JSON file and writes the information into a map.
 
-Lastly, it is an important step to register the custom configuration source, create a `start/src/main/resources/META-INF/services/org.eclipse.microprofile.config.spi.ConfigSource` file and add the full class name into it:
+Lastly, it is an important step to register the custom configuration source, open the `start/src/main/resources/META-INF/services/org.eclipse.microprofile.config.spi.ConfigSource` file and add the full class name into it:
 
 [source, java, indent=0]
 ----
@@ -192,7 +192,7 @@ Create a `start/src/main/java/io/openliberty/guides/config/CustomEmailConverter.
 include::finish/src/main/java/io/openliberty/guides/config/CustomEmailConverter.java[tags=customConfig]
 ----
 
-To register your implementation, create a `start/src/main/resources/META-INF/services/org.eclipse.microprofile.config.spi.Converter` file and add the fully qualified class name of the custom converter into it:
+To register your implementation, open the `start/src/main/resources/META-INF/services/org.eclipse.microprofile.config.spi.Converter` file and add the fully qualified class name of the custom converter into it:
 [source, java, indent=0]
 ----
 include::finish/src/main/resources/META-INF/services/org.eclipse.microprofile.config.spi.Converter[tags=register]
