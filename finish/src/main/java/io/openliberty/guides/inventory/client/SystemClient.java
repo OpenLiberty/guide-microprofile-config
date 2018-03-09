@@ -72,7 +72,7 @@ public class SystemClient {
       URI uri = new URI(protocol, null, host, port, path, null, null);
       return uri.toString();
     } catch (Exception e) {
-      System.out.println("URISyntaxException");
+      System.err.println("Exception thrown while building the URL: " + e.getMessage());
       return null;
     }
   }
@@ -84,7 +84,7 @@ public class SystemClient {
       Builder builder = client.target(urlString).request();
       return builder.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON);
     } catch (Exception e) {
-      System.out.println("ClientBuilderException");
+      System.err.println("Exception thrown while building the client: " + e.getMessage());
       return null;
     }
   }
@@ -96,12 +96,12 @@ public class SystemClient {
       if (response.getStatus() == Status.OK.getStatusCode()) {
         return response.readEntity(Properties.class);
       } else {
-        System.out.println("Response Status is not OK.");
+        System.err.println("Response Status is not OK.");
       }
     } catch (RuntimeException e) {
-      System.out.println("Runtime exception: " + e.getMessage());
+      System.err.println("Runtime exception: " + e.getMessage());
     } catch (Exception e) {
-      System.out.println("Exception thrown while invoking the request.");
+      System.err.println("Exception thrown while invoking the request: " + e.getMessage());
     }
     return null;
   }
