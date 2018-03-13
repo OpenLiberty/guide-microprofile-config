@@ -185,7 +185,7 @@ include::finish/src/main/java/io/openliberty/guides/config/Email.java[tags=email
 To use this `Email` class type, add a custom converter by implementing the generic interface `org.eclipse.microprofile.config.spi.Converter<T>`.
 The Type parameter of the interface is the target type the String is converted to.
 
-Create a `src/main/java/io/openliberty/guides/config/CustomEmailConverter.java` file, and add the following content to override the `Converter<T>` interface:
+Create a `src/main/java/io/openliberty/guides/config/CustomEmailConverter.java` file, and add the following content to implement the `Converter<T>` interface:
 
 [source, java, indent=0]
 ----
