@@ -97,8 +97,9 @@ include::finish/src/main/resources/META-INF/microprofile-config.properties[tags=
 // =================================================================================================
 == Injecting static configuration
 
-Begin by opening the `pom.xml` file to check the required dependency. The `microprofile-config-api` dependency has been added for you in the `pom.xml` file.
-The `mpConfig-1.1` feature has also been enabled in the `src/main/liberty/config/server.xml` file.
+The MicroProfile Health API was added as a dependency to your `pom.xml` file. Look for the dependency with the `microprofile-config-api` group ID.
+This feature allows you to use the MicroProfile Config API to externalize configurations for your microservices.
+The `mpConfig-1.1` feature is also enabled in the `src/main/liberty/config/server.xml` file.
 
 Now navigate to the `src/main/resources/META-INF/microprofile-config.properties` local configuration file to check some static configuration.
 This configuration file is the default configuration source for an application that uses MicroProfile Config.
@@ -129,18 +130,18 @@ However, you can externalize configuration data out of the application package, 
 
 Custom configuration sources can be created by implementing the `org.eclipse.microprofile.config.spi.ConfigSource` interface and using the `java.util.ServiceLoader` mechanism.
 
-A `CustomConfigSource.json` JSON file has already been created outside of the `start` directory (`guide-microprofile-config/resources/CustomConfigSource.json`).
+A `CustomConfigSource.json` JSON file has already been created in the `resources` directory.
 This file contains 4 custom config properties and has an ordinal of `50`.
 To use these properties in the application, the data object needs to be transformed from this JSON file to the configuration for your application.
 
-To link this JSON file to your application, create a `src/main/java/io/openliberty/guides/config/CustomConfigSource.java` file in the `start` directory. Add the following content to implement the `ConfigSource` interface:
+To link this JSON file to your application, create a `CustomConfigSource` class in the `src/main/java/io/openliberty/guides/config/CustomConfigSource.java` file. Add the following content to implement the `ConfigSource` interface:
 
 [source, java, indent=0]
 ----
 include::finish/src/main/java/io/openliberty/guides/config/CustomConfigSource.java[tags=customConfig]
 ----
 
-The `getProperties()` method reads the key value pairs from the `guide-microprofile-config/resources/CustomConfigSource.json` JSON file and writes the information into a map.
+The `getProperties()` method reads the key value pairs from the `resources/CustomConfigSource.json` JSON file and writes the information into a map.
 
 Last but important, register the custom configuration source. Create a `src/main/resources/META-INF/services/org.eclipse.microprofile.config.spi.ConfigSource` file. Add the following fully qualified class name of the configuration source into it:
 
@@ -246,12 +247,12 @@ You can find the service that retrieves configuration information that is specif
 At first, the `config_ordinal` value of the custom configuration source is set to `50`.
 A value of `50` does not override configuration values of the default `microprofile-config.properties` source, which has a `config_ordinal` value of `100`.
 
-However, you can manually change the `config_ordinal` value to a larger number in the `guide-microprofile-config/resources/CustomConfigSource.json` file.
+However, you can manually change the `config_ordinal` value to a larger number in the `resources/CustomConfigSource.json` file.
 
 Your changes are added dynamically, and you do not need to restart the server.
 Refresh `http://localhost:9080/config` to see the dynamic changes.
 
-Play with this application by changing configuration values for each property in the `CustomConfigSource.json` file.
+Play with this application by changing configuration values for each property in the `resources/CustomConfigSource.json` file.
 
 For example, change `io_openliberty_guides_inventory_inMaintenance` from `false` to `true`, then try to access `http://localhost:9080/inventory/systems` again.
 The following message displays: `ERROR: Service is currently in maintenance`.
@@ -265,7 +266,7 @@ include::{common-includes}/mvnpackage.adoc[]
 
 == Testing the application
 
-Create a `src/test/java/it/io/openliberty/guides/config/ConfigurationTest.java` file in the `start` directory and add the following code:
+Create a `src/test/java/it/io/openliberty/guides/config/ConfigurationTest.java` file and add the following code:
 
 [source, java, indent=0]
 ----
@@ -310,7 +311,7 @@ Tests run: 3, Failures: 0, Errors: 0, Skipped: 0
 ----
 
 To see whether the tests detect a failure, remove the configuration resetting line in the `setup()` method of the `ConfigurationTest.java` file.
-Then manually change some configuration values in the `guide-microprofile-config/resources/CustomConfigSource.json` file.
+Then manually change some configuration values in the `resources/CustomConfigSource.json` file.
 Re-run the Maven build. You will see a test failure occur.
 
 == Great work! You're done!
