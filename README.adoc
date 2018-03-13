@@ -100,7 +100,7 @@ include::finish/src/main/resources/META-INF/microprofile-config.properties[tags=
 Begin by navigating to the `pom.xml` file to check the required dependency. The `microprofile-config-api` dependency has been added for you in the `pom.xml` file.
 The `mpConfig-1.1` feature has also been enabled in the `src/main/liberty/config/server.xml` file.
 
-Now navigate to the local  `microprofile-config.properties` configuration file in the `src/main/resources/META-INF` directory to check some static configuration.
+Now navigate to the `src/main/resources/META-INF/microprofile-config.properties` local configuration file to check some static configuration.
 This configuration file is the default configuration source for an application that uses MicroProfile Config.
 
 The `io_openliberty_guides_port_number` property that has already been defined in this file, determines the port number of the REST service.
@@ -129,11 +129,11 @@ However, you can externalize configuration data out of the application package, 
 
 Custom configuration sources can be created by implementing the `org.eclipse.microprofile.config.spi.ConfigSource` interface and using the `java.util.ServiceLoader` mechanism.
 
-A `CustomConfigSource.json` JSON file has already been created outside of the application (`guide-microprofile-config/resources/CustomConfigSource.json`).
+A `CustomConfigSource.json` JSON file has already been created outside of the `start` directory (`guide-microprofile-config/resources/CustomConfigSource.json`).
 This file contains 4 custom config properties and has an ordinal of `50`.
 To use these properties in the application, the data object needs to be transformed from this JSON file to the configuration for your application.
 
-To link this JSON file to your application, create a `src/main/java/io/openliberty/guides/config/CustomConfigSource.java` file and add the following content to override the `ConfigSource` interface:
+To link this JSON file to your application, create a `src/main/java/io/openliberty/guides/config/CustomConfigSource.java` file in the `start` directory. Add the following content to implement the `ConfigSource` interface:
 
 [source, java, indent=0]
 ----
