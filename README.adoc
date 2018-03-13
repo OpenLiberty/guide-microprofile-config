@@ -97,7 +97,7 @@ include::finish/src/main/resources/META-INF/microprofile-config.properties[tags=
 // =================================================================================================
 == Injecting static configuration
 
-Begin by navigating to the `pom.xml` file to check the required dependency. The `microprofile-config-api` dependency has been added for you in the `pom.xml` file.
+Begin by opening the `pom.xml` file to check the required dependency. The `microprofile-config-api` dependency has been added for you in the `pom.xml` file.
 The `mpConfig-1.1` feature has also been enabled in the `src/main/liberty/config/server.xml` file.
 
 Now navigate to the `src/main/resources/META-INF/microprofile-config.properties` local configuration file to check some static configuration.
@@ -246,7 +246,7 @@ You can find the service that retrieves configuration information that is specif
 At first, the `config_ordinal` value of the custom configuration source is set to `50`.
 A value of `50` does not override configuration values of the default `microprofile-config.properties` source, which has a `config_ordinal` value of `100`.
 
-However, you can manually change the `config_ordinal` value to a larger number in the `CustomConfigSource.json` file.
+However, you can manually change the `config_ordinal` value to a larger number in the `guide-microprofile-config/resources/CustomConfigSource.json` file.
 
 Your changes are added dynamically, and you do not need to restart the server.
 Refresh `http://localhost:9080/config` to see the dynamic changes.
@@ -265,7 +265,7 @@ include::{common-includes}/mvnpackage.adoc[]
 
 == Testing the application
 
-Create a `src/test/java/it/io/openliberty/guides/config/ConfigurationTest.java` file and add the following code:
+Create a `src/test/java/it/io/openliberty/guides/config/ConfigurationTest.java` file in the `start` directory and add the following code:
 
 [source, java, indent=0]
 ----
