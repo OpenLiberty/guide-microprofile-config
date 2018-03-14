@@ -29,7 +29,7 @@ public class SystemClient {
   private final String SYSTEM_PROPERTIES = "/system/properties";
   private final String PROTOCOL = "http";
 
-  private String url;
+  private URI uri;
   private Builder clientBuilder;
 
   // Used by the following guide(s): CDI, MP-METRICS, FAULT-TOLERANCE
@@ -44,8 +44,8 @@ public class SystemClient {
 
   // Helper method to set the attributes.
   private void initHelper(String hostname, int port) {
-    this.url = buildUrl(PROTOCOL, hostname, port, SYSTEM_PROPERTIES);
-    this.clientBuilder = buildClientBuilder(this.url);
+    this.uri = buildUri(PROTOCOL, hostname, port, SYSTEM_PROPERTIES);
+    this.clientBuilder = buildClientBuilder();
   }
 
   // Wrapper function that gets properties
@@ -64,13 +64,12 @@ public class SystemClient {
    *          - port number.
    * @param path
    *          - Note that the path needs to start with a slash!!!
-   * @return String representation of the URI to the system properties service.
+   * @return URI of the system properties service.
    */
   // end::doc[]
-  protected String buildUrl(String protocol, String host, int port, String path) {
+  protected URI buildUri(String protocol, String host, int port, String path) {
     try {
-      URI uri = new URI(protocol, null, host, port, path, null, null);
-      return uri.toString();
+      return new URI(protocol, null, host, port, path, null, null);
     } catch (Exception e) {
       System.err.println("Exception thrown while building the URL: " + e.getMessage());
       return null;
@@ -78,10 +77,10 @@ public class SystemClient {
   }
 
   // Method that creates the client builder
-  protected Builder buildClientBuilder(String urlString) {
+  protected Builder buildClientBuilder() {
     try {
       Client client = ClientBuilder.newClient();
-      Builder builder = client.target(urlString).request();
+      Builder builder = client.target(this.uri).request();
       return builder.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON);
     } catch (Exception e) {
       System.err.println("Exception thrown while building the client: " + e.getMessage());
