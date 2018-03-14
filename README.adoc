@@ -119,18 +119,22 @@ The `@Inject` annotation injects the port number directly, the injection value i
 
 The `getPortNumber()` method directly returns the value of `portNumber` because it has been injected.
 
-
 // =================================================================================================
-// Creating custom configuration sources
+// Injecting dynamic configuration
 // =================================================================================================
-== Creating custom configuration sources
+== Injecting dynamic configuration
 
 Note that three default config sources mentioned above are static and fixed on application starting, so the properties within them cannot be modified while the server is running.
 However, you can externalize configuration data out of the application package, through the creation of custom configuration sources, so that the service updates configuration changes dynamically.
 
+// =================================================================================================
+// Creating custom configuration sources
+// =================================================================================================
+=== Creating custom configuration sources
+
 Custom configuration sources can be created by implementing the `org.eclipse.microprofile.config.spi.ConfigSource` interface and using the `java.util.ServiceLoader` mechanism.
 
-A `CustomConfigSource.json` JSON file has already been created in the `resources` directory.
+A `CustomConfigSource.json` JSON file has already been created in the `resources` directory. This JSON file simulates a remote configuration resource in real life.
 This file contains 4 custom config properties and has an ordinal of `50`.
 To use these properties in the application, the data object needs to be transformed from this JSON file to the configuration for your application.
 
@@ -153,7 +157,7 @@ include::finish/src/main/resources/META-INF/services/org.eclipse.microprofile.co
 // =================================================================================================
 // Enabling dynamic configuration injection
 // =================================================================================================
-== Enabling dynamic configuration injection
+=== Enabling dynamic configuration injection
 
 Now that the custom configuration source has successfully been set up, you can enable dynamic configuration injection of the properties being set in this ConfigSource.
 To enable this dynamic injection, first access the partially implemented Java class in the `src/main/java/io/openliberty/guides/inventory/InventoryConfig.java` file,
