@@ -226,7 +226,7 @@ To add configuration to the `inventory` service, the `InventoryConfig` object is
 The port number from the configuration is retrieved by the `inventoryConfig.getPortNumber()` method and passed to the `manager.get()` method as a parameter.
 
 To determine whether the inventory service is in maintenance or not (according to the configuration value), `inventoryConfig.isInMaintenance()` class method is used.
-If you set the `io_openliberty_guides_inventory_inMaintenance` property to `true` in the configuration, the inventory service returns the message, "ERROR: Service is currently in maintenance", along with the contact email.
+If you set the `io_openliberty_guides_inventory_inMaintenance` property to `true` in the configuration, the inventory service returns the message, `ERROR: Service is currently in maintenance`, along with the contact email.
 The email configuration value can be get by calling `inventoryConfig.getEmail()` method.
 
 
