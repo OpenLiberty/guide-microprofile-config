@@ -99,7 +99,7 @@ include::finish/src/main/resources/META-INF/microprofile-config.properties[tags=
 
 The MicroProfile Health API was added as a dependency to your `pom.xml` file. Look for the dependency with the `microprofile-config-api` group ID.
 This feature allows you to use the MicroProfile Config API to externalize configurations for your microservices.
-The `mpConfig-1.1` feature is also enabled in the `src/main/liberty/config/server.xml` file.
+The `mpConfig-1.2` feature is also enabled in the `src/main/liberty/config/server.xml` file.
 
 Now navigate to the `src/main/resources/META-INF/microprofile-config.properties` local configuration file to check some static configuration.
 This configuration file is the default configuration source for an application that uses MicroProfile Config.

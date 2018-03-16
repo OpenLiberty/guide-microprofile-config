@@ -5,7 +5,7 @@
     <feature>jsonp-1.0</feature>
     <feature>cdi-1.2</feature>
     <!-- tag::config[] -->
-    <feature>mpConfig-1.1</feature>
+    <feature>mpConfig-1.2</feature>
     <!-- end::config[] -->
   </featureManager>
 
