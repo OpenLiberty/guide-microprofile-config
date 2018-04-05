@@ -60,8 +60,8 @@ public class ConfigurationTest {
   @Test
   public void testSuite() {
     this.testInitialServiceStatus();
-    this.testOverrideConfigProperty();
     this.testPutServiceInMaintenance();
+    this.testChangeEmail();
   }
   // end::testSuite[]
 
@@ -81,24 +81,6 @@ public class ConfigurationTest {
   }
   // end::testInitialServiceStatus()[]
 
-  // tag::testOverrideConfigProperty()[]
-  public void testOverrideConfigProperty() {
-    JsonObject properties = ConfigTestUtil.getJsonObjectFromURL(client,
-        baseUrl + CONFIG_MANAGER, 2, "ConfigProperties");
-
-    assertEquals(TEST_OVERWRITE_PROP + " should be DefaultSource in the beginning",
-        "DefaultSource", properties.getString(TEST_OVERWRITE_PROP));
-
-    ConfigTestUtil.changeConfigSourcePriority(CUSTOM_CONFIG_FILE, 150);
-
-    JsonObject newProperties = ConfigTestUtil.getJsonObjectFromURL(client,
-        baseUrl + CONFIG_MANAGER, 2, "ConfigProperties");
-
-    assertEquals(TEST_OVERWRITE_PROP + " should be CustomSource in the end",
-        "CustomSource", newProperties.getString(TEST_OVERWRITE_PROP));
-  }
-  // end::testOverrideConfigProperty()[]
-
   // tag::testPutServiceInMaintenance()[]
   public void testPutServiceInMaintenance() {
     JsonObject obj = ConfigTestUtil.getJsonObjectFromURL(client,
@@ -107,7 +89,6 @@ public class ConfigurationTest {
     assertEquals("The inventory service should be up in the beginning", 0,
         obj.getInt("total"));
 
-    ConfigTestUtil.changeConfigSourcePriority(CUSTOM_CONFIG_FILE, 150);
     ConfigTestUtil.switchInventoryMaintenance(CUSTOM_CONFIG_FILE, true);
 
     String error = ConfigTestUtil.getStringFromURL(client,
@@ -118,6 +99,28 @@ public class ConfigurationTest {
         error);
   }
   // end::testPutServiceInMaintenance()[]
+
+  // tag::testChangeEmail()[]
+  public void testChangeEmail() {
+    ConfigTestUtil.switchInventoryMaintenance(CUSTOM_CONFIG_FILE, true);
+
+    String error = ConfigTestUtil.getStringFromURL(client,
+        baseUrl + INVENTORY_HOSTS);
+
+    assertEquals("The email should be admin@guides.openliberty.io in the beginning",
+        "ERROR: Service is currently in maintenance. Contact: admin@guides.openliberty.io",
+        error);
+
+    ConfigTestUtil.changeEmail(CUSTOM_CONFIG_FILE, "service@guides.openliberty.io");
+
+    error = ConfigTestUtil.getStringFromURL(client,
+        baseUrl + INVENTORY_HOSTS);
+
+    assertEquals("The email should be service@guides.openliberty.io in the beginning",
+        "ERROR: Service is currently in maintenance. Contact: service@guides.openliberty.io",
+        error);
+  }
+  // end::testChangeEmail()[]
 
 }
 // end::test[]
