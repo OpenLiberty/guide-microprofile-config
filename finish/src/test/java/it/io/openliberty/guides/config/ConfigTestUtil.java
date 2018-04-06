@@ -34,15 +34,7 @@ public class ConfigTestUtil {
   private final static String TEST_CONFIG = "CustomSource";
 
   public static void setDefaultJsonFile(String source) {
-    CustomConfig config = new CustomConfig(50, false, false, EMAIL, TEST_CONFIG);
-    createJsonOverwrite(source, config);
-  }
-
-  /**
-   * Change config_ordinal value for the config source.
-   */
-  public static void changeConfigSourcePriority(String source, int newValue) {
-    CustomConfig config = new CustomConfig(newValue, false, false, EMAIL, TEST_CONFIG);
+    CustomConfig config = new CustomConfig(150, false, false, EMAIL, TEST_CONFIG);
     createJsonOverwrite(source, config);
   }
 
@@ -51,6 +43,14 @@ public class ConfigTestUtil {
    */
   public static void switchInventoryMaintenance(String source, boolean newValue) {
     CustomConfig config = new CustomConfig(150, newValue, false, EMAIL, TEST_CONFIG);
+    createJsonOverwrite(source, config);
+  }
+
+  /**
+   * Change the email for the config source.
+   */
+  public static void changeEmail(String source, String newEmail) {
+    CustomConfig config = new CustomConfig(150, true, false, newEmail, TEST_CONFIG);
     createJsonOverwrite(source, config);
   }
 
