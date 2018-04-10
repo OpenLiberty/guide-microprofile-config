@@ -97,7 +97,7 @@ include::finish/src/main/resources/META-INF/microprofile-config.properties[tags=
 // =================================================================================================
 == Injecting static configuration
 
-The MicroProfile Config API was added as a dependency to your `pom.xml` file. Look for the dependency with the `microprofile-config-api` group ID.
+The MicroProfile Config API was added as a dependency to your `pom.xml` file. Look for the dependency with the `microprofile-config-api` artifact ID.
 This feature allows you to use the MicroProfile Config API to externalize configurations for your microservices.
 The `mpConfig-1.2` feature is also enabled in the `src/main/liberty/config/server.xml` file.
 
