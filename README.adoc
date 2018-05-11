@@ -9,7 +9,7 @@
 :page-layout: guide
 :page-duration: 20 minutes
 :page-releasedate: 2018-03-09
-:page-description: Learn how to use the MicroProfile Config specification to externalize configuration data for an application
+:page-description: Learn how to use the MicroProfile Config specification to externalize configuration data for an application.
 :page-tags: ['REST', 'MicroProfile', 'Config', 'ConfigProperty', 'Custom ConfigSource', 'Dynamic Configuration Injection', 'microservices']
 :page-permalink: /guides/{projectid}
 :page-related-guides: ['rest-intro', 'cdi-intro', 'microprofile-config-intro']
@@ -67,13 +67,12 @@ Once you are done checking out the application, stop the Open Liberty server:
 mvn liberty:stop-server
 ```
 
-Now, navigate back to the `start` directory to begin.
-
-
 // =================================================================================================
 // Ordering multiple configuration sources
 // =================================================================================================
 == Ordering multiple configuration sources
+
+Now, navigate to the `start` directory to begin.
 
 MicroProfile Config combines configuration properties from multiple sources, each known as a _ConfigSource_. Each ConfigSource has a specified priority, defined by its _config_ordinal_ value.
 
@@ -97,7 +96,7 @@ include::finish/src/main/resources/META-INF/microprofile-config.properties[tags=
 // =================================================================================================
 == Injecting static configuration
 
-The MicroProfile Config API was added as a dependency to your `pom.xml` file. Look for the dependency with the `microprofile-config-api` group ID.
+The MicroProfile Config API was added as a dependency to your `pom.xml` file. Look for the dependency with the `microprofile-config-api` artifact ID.
 This feature allows you to use the MicroProfile Config API to externalize configurations for your microservices.
 The `mpConfig-1.2` feature is also enabled in the `src/main/liberty/config/server.xml` file.
 
