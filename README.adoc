@@ -9,7 +9,7 @@
 :page-layout: guide
 :page-duration: 20 minutes
 :page-releasedate: 2018-03-09
-:page-description: Learn how to use the MicroProfile Config specification to externalize configuration data for an application
+:page-description: Learn how to use the MicroProfile Config specification to externalize configuration data for an application.
 :page-tags: ['REST', 'MicroProfile', 'Config', 'ConfigProperty', 'Custom ConfigSource', 'Dynamic Configuration Injection', 'microservices']
 :page-permalink: /guides/{projectid}
 :page-related-guides: ['rest-intro', 'cdi-intro', 'microprofile-config-intro']
@@ -67,13 +67,12 @@ Once you are done checking out the application, stop the Open Liberty server:
 mvn liberty:stop-server
 ```
 
-Now, navigate back to the `start` directory to begin.
-
-
 // =================================================================================================
 // Ordering multiple configuration sources
 // =================================================================================================
 == Ordering multiple configuration sources
+
+Now, navigate to the `start` directory to begin.
 
 MicroProfile Config combines configuration properties from multiple sources, each known as a _ConfigSource_. Each ConfigSource has a specified priority, defined by its _config_ordinal_ value.
 
