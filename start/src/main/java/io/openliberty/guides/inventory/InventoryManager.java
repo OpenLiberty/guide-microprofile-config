@@ -28,8 +28,9 @@ public class InventoryManager {
 
   public Properties get(String hostname, int portNumber) {
 
-    Properties properties = invUtils.getPropertiesWithGivenHostName(hostname, portNumber);
-    
+    Properties properties = invUtils.getPropertiesWithGivenHostName(hostname,
+        portNumber);
+
     if (properties != null) {
       invList.addToInventoryList(hostname, properties);
     }

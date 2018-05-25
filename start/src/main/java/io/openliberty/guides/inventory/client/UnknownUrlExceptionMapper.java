@@ -27,7 +27,7 @@ public class UnknownUrlExceptionMapper
   @Override
   public boolean handles(int status, MultivaluedMap<String, Object> headers) {
     LOG.info("status = " + status);
-    return status == 404; 
+    return status == 404;
   }
 
   @Override
