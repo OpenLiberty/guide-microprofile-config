@@ -104,7 +104,6 @@
         </dependency>
         <!-- end::config[] -->
         <dependency>
-
             <groupId>org.eclipse.microprofile.rest.client</groupId>
             <artifactId>microprofile-rest-client-api</artifactId>
             <version>1.0</version>
