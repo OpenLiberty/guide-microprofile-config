@@ -4,7 +4,6 @@
     <feature>jaxrs-2.0</feature>
     <feature>jsonp-1.0</feature>
     <feature>cdi-1.2</feature>
-    <feature>mpConfig-1.2</feature>
     <feature>mpRestClient-1.0</feature>
     <!-- tag::config[] -->
     <feature>mpConfig-1.2</feature>
