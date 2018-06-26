@@ -14,11 +14,8 @@
 package io.openliberty.guides.inventory;
 
 import java.util.Properties;
-import javax.inject.Inject;
 import javax.enterprise.context.ApplicationScoped;
-import org.eclipse.microprofile.rest.client.inject.RestClient;
 import io.openliberty.guides.inventory.model.InventoryList;
-import io.openliberty.guides.inventory.client.SystemClient;
 
 @ApplicationScoped
 public class InventoryManager {
