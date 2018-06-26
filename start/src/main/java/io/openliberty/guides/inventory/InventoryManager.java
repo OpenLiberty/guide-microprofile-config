@@ -25,7 +25,7 @@ public class InventoryManager {
 
   public Properties get(String hostname, int portNumber) {
 
-    Properties properties = invUtils.getPropertiesWithGivenHostName(hostname,
+    Properties properties = invUtils.getProperties(hostname,
         portNumber);
 
     if (properties != null) {

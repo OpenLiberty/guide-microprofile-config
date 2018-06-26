@@ -26,7 +26,7 @@ import io.openliberty.guides.inventory.client.UnknownUrlExceptionMapper;
 public class InventoryUtils {
 
   // tag::builder[]
-  public Properties getPropertiesWithGivenHostName(String hostname, int portNumber) {
+  public Properties getProperties(String hostname, int portNumber) {
     String customURLString = "http://" + hostname + ":" + portNumber + "/system";
     URL customURL = null;
     try {
