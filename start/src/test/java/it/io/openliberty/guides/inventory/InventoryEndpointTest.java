@@ -76,7 +76,7 @@ public class InventoryEndpointTest {
     int expected = 0;
     int actual = obj.getInt("total");
     assertEquals("The inventory should be empty on application start but it wasn't",
-                 expected, actual);
+        expected, actual);
 
     response.close();
   }
@@ -94,13 +94,11 @@ public class InventoryEndpointTest {
     int expected = 1;
     int actual = obj.getInt("total");
     assertEquals("The inventory should have one entry for localhost", expected,
-                 actual);
+        actual);
 
     boolean localhostExists = obj.getJsonArray("systems").getJsonObject(0)
-                                 .get("hostname").toString()
-                                 .contains("localhost");
-    assertTrue("A host was registered, but it was not localhost",
-               localhostExists);
+                                 .get("hostname").toString().contains("localhost");
+    assertTrue("A host was registered, but it was not localhost", localhostExists);
 
     response.close();
   }
@@ -114,22 +112,20 @@ public class InventoryEndpointTest {
     this.assertResponse(baseUrl, invResponse);
     this.assertResponse(baseUrl, sysResponse);
 
-    JsonObject jsonFromInventory = (JsonObject) invResponse.readEntity(JsonObject.class)
-                                                           .getJsonArray("systems")
-                                                           .getJsonObject(0)
-                                                           .get("properties");
+    JsonObject jsonFromInventory = (JsonObject) invResponse.readEntity(
+        JsonObject.class).getJsonArray("systems").getJsonObject(0).get("properties");
 
     JsonObject jsonFromSystem = sysResponse.readEntity(JsonObject.class);
 
     String osNameFromInventory = jsonFromInventory.getString("os.name");
     String osNameFromSystem = jsonFromSystem.getString("os.name");
     this.assertProperty("os.name", "localhost", osNameFromSystem,
-                        osNameFromInventory);
+        osNameFromInventory);
 
     String userNameFromInventory = jsonFromInventory.getString("user.name");
     String userNameFromSystem = jsonFromSystem.getString("user.name");
     this.assertProperty("user.name", "localhost", userNameFromSystem,
-                        userNameFromInventory);
+        userNameFromInventory);
 
     invResponse.close();
     sysResponse.close();
@@ -141,14 +137,15 @@ public class InventoryEndpointTest {
     Response response = this.getResponse(baseUrl + INVENTORY_SYSTEMS);
     this.assertResponse(baseUrl, response);
 
-    Response badResponse = client.target(baseUrl + INVENTORY_SYSTEMS + "/"
-        + "badhostname").request(MediaType.APPLICATION_JSON).get();
+    Response badResponse = client.target(
+        baseUrl + INVENTORY_SYSTEMS + "/" + "badhostname")
+                                 .request(MediaType.APPLICATION_JSON).get();
 
     String obj = badResponse.readEntity(String.class);
 
     boolean isError = obj.contains("ERROR");
     assertTrue("badhostname is not a valid host but it didn't raise an error",
-               isError);
+        isError);
 
     response.close();
     badResponse.close();
@@ -185,8 +182,7 @@ public class InventoryEndpointTest {
    */
   // end::javadoc[]
   private void assertResponse(String url, Response response) {
-    assertEquals("Incorrect response code from " + url, 200,
-                 response.getStatus());
+    assertEquals("Incorrect response code from " + url, 200, response.getStatus());
   }
 
   // tag::javadoc[]
@@ -204,8 +200,8 @@ public class InventoryEndpointTest {
    *          - actual name.
    */
   // end::javadoc[]
-  private void assertProperty(String propertyName, String hostname,
-      String expected, String actual) {
+  private void assertProperty(String propertyName, String hostname, String expected,
+      String actual) {
     assertEquals("JVM system property [" + propertyName + "] "
         + "in the system service does not match the one stored in "
         + "the inventory service for " + hostname, expected, actual);
@@ -221,8 +217,8 @@ public class InventoryEndpointTest {
     this.assertResponse(baseUrl, response);
     response.close();
 
-    Response targetResponse = client.target(baseUrl + INVENTORY_SYSTEMS
-        + "/localhost").request().get();
+    Response targetResponse = client.target(
+        baseUrl + INVENTORY_SYSTEMS + "/localhost").request().get();
     targetResponse.close();
   }
   // end::helpers[]

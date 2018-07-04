@@ -9,3 +9,4 @@ finish/.gitignore
 start/src/main/webapp/META-INF/
 start/.gitignore
 temp/
+WebContent/
