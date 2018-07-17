@@ -55,6 +55,9 @@ public class InventoryResource {
                            "ERROR: Unknown hostname or the resource may not be running on the host machine")
                        .build();
       }
+
+      // Add to inventory
+      manager.add(hostname, props);
       return Response.ok(props).build();
     } else {
       // tag::email[]
