@@ -9,7 +9,7 @@
 :page-layout: guide
 :page-duration: 20 minutes
 :page-releasedate: 2018-03-09
-:page-guide-catagory: microprofile
+:page-guide-category: microprofile
 :page-essential: false
 :page-description: Learn how to use the MicroProfile Config specification to externalize configuration data for an application.
 :page-tags: ['REST', 'MicroProfile', 'Config', 'ConfigProperty', 'Custom ConfigSource', 'Dynamic Configuration Injection', 'microservices']
