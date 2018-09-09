@@ -4,14 +4,14 @@ before_script:
 - cd finish
 script:
 - mvn clean install
-- serverName=$(target/liberty/wlp/bin/server list | cut -d '.' -f2| tr -d '\n'); 
+- serverName=$(target/liberty/wlp/bin/server list | cut -d '.' -f2| tr -d '\n');
 - build=$(grep "Open Liberty" target/liberty/wlp/usr/servers/"$serverName"/logs/console.log
   | cut -d' ' -f5 | cut -d')' -f1 ); release=$( echo "$build" | cut -d'/' -f1); number=$(
   echo "$build" | cut -d'/' -f2); ol_jv=$(grep -i "on java" target/liberty/wlp/usr/servers/"$serverName"/logs/console.log);
   jv=$(printf '%s\n' "${ol_jv//$' on '/$'\n'}" | sed '2q;d'); echo -e "\n"; echo -e  "\033[1;34mOpen
   Liberty release:\033[0m \033[1;36m$release\033[0m"; echo -e "\033[1;34mOpen Liberty
   build number:\033[0m \033[1;36m$number\033[0m"; echo -e "\033[1;34mJava version:\033[0m
-  \033[1;36m$jv\033[0m"; 
+  \033[1;36m$jv\033[0m";
 - cd target/liberty/wlp/usr/servers/"$serverName"/logs/; repo_name=$(echo "$TRAVIS_REPO_SLUG"
   | sed -e "s/\//-/g"); if [ "$TRAVIS_TEST_RESULT" -eq 0 ]; then result="passed";
   else result="failed"; fi; serverlogsarchive="$repo_name-$TRAVIS_BUILD_NUMBER-$result.zip";zip
@@ -25,7 +25,7 @@ notifications:
     - 'Author: %{author}'
     - 'Summary: %{result} in %{duration}'
     rooms:
-      secure: qnhyfwSk3eRdJu+f/FWo9hXPidaQg4yGek/4M23JifMnvylW89HllTAcYPi4D4BDAYmIjgOb+EheixFphJ8eFG9DDey1nv5k5mvT0ELRcnINuNxg7HcgBznXmA1XqE0MqfrJn9awFlRudX01w57rRhcEWUW0EnJZ8XyxHl6hCiiepimutP7XOOmqp4Y4v6f4Tf0aDFl7uEBa+rMj3U4CDmC4A8MbT9gXVjEPuQ7fCs1UkFSHgI8h/7dfpdt1uArGKnAa76T0cPgqH7ppsRGh7FA8l85UhxyTmxpNEl/n8r0zlKsQFx6Q4ygdjpZhP7S6XonLlNjZU4lbnscIsNZrvob+EGWw2SjRu3w4vNmD27p/Rel3B0JLxL9zz67HoY5D6jLa/SsiOYch9S+1soPRDBCebWiQhxf0Mhodhs6+J325/2/5c50e0QBwoduyTCprSw1kn1UWq+LwWBj71cunVO9qLb5CfukuaOyz3gMxkPn4CYAoeJWYcwJcFVlSl7yh8M6sWLABQK2PUQ64gZtMVsXSy7MTfDHBnuJp75QOfv1eYuVVHjnbT+qyGg2+PJUsci9N96U1HSap1ryl2Zaw40/vkl2VMSqqGe1yw0IKmNqkSwpV9zxCts1t2e/d4p06+W+TsU7ypUv+aAipFsYfIhIx9tzTMnMy7IE27q+GFzU=
+      secure: eWnuyX3rl0F0RxHKpmbSfv12gJ9U34w7NSWoEYRNfFlhMCv62pCq8emL3C0dA9ohnm4bN+evnal613JoGZEUfYDfAoTqtkZJImZ/ohC3OlE7dFd9FJPtSnmDjXh8M2sbJYFgiMS+5+k5QEkZ4QQOHVMPaFE4n0WKYBxAdtw8FP862dzDODf7r+mNHOcDUVKSSibM217t2eQRCSKaLU76wLT7IbddRa4fGAeiH3pGuVIvkmOguWxTNbWO5rukCtfVp2064zmwUyOc+JVE7lNcMNhVNeTeXpp6+6rYh4jagz1ySW5AOKXqLWaBb7PX3U514LtCzqduZ7Des6gkJ528+FW6MQDEkkoXzgh/m0vG9YFxDSfiYMUUiq/aLGW+ALZlyoCrRXOb91AR4s52CL62RuI8551Co12YdsI5w41j9e0o/FYClXuWkfCyXWI+w1fyFG6gFtwmJ4ew5f13FDRcKcnwJ3P/BFpZasUtE9DiDo+Q5osFBvSI5PiD734Zfxohh5Qs4qAEleD0osvDI+nxNqvzRxYpG8zu7dPThi4U7/f4ELoelU/pb58EKn4Idsu1EM4Dpbu1hwFphUL1C6xU5bNH9TTot8M40J638RSwE+/vcnkHDQvihcihh73vltsSQxAO/FMKBaYjGvJ73n8/t4OVbPuTpzzU6iJHarvUFew=
     on_success: never
     on_failure: always
 branches:
