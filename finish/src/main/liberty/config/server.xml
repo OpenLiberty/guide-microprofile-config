@@ -1,12 +1,12 @@
 <server description="Sample Liberty server">
 
   <featureManager>
-    <feature>jaxrs-2.0</feature>
-    <feature>jsonp-1.0</feature>
-    <feature>cdi-1.2</feature>
-    <feature>mpRestClient-1.0</feature>
+    <feature>jaxrs-2.1</feature>
+    <feature>jsonp-1.1</feature>
+    <feature>cdi-2.0</feature>
+    <feature>mpRestClient-1.1</feature>
     <!-- tag::config[] -->
-    <feature>mpConfig-1.2</feature>
+    <feature>mpConfig-1.3</feature>
     <!-- end::config[] -->
   </featureManager>
 
