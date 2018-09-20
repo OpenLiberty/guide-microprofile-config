@@ -25,6 +25,13 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import org.eclipse.microprofile.config.spi.ConfigSource;
 
+/**
+ * User-provided ConfigSources are dynamic.
+ * The getProperties() method will be periodically invoked by the runtime
+ * to retrieve up-to-date values. The frequency is controlled by
+ * the microprofile.config.refresh.rate Java system property,
+ * which is in milliseconds and can be customized.
+ */
 public class CustomConfigSource implements ConfigSource {
 
   String fileLocation = System.getProperty("user.dir").split("target")[0]
