@@ -15,11 +15,9 @@ package it.io.openliberty.guides.config;
 
 import static org.junit.Assert.*;
 
-import java.util.Optional;
-
-import javax.json.JsonObject;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.core.Response;
 
 import org.apache.cxf.jaxrs.provider.jsrjsonp.JsrJsonpProvider;
 import org.junit.After;
@@ -70,8 +68,12 @@ public class ConfigurationTest {
     boolean status = Boolean.valueOf(ConfigTestUtil.readPropertyValueInFile(
         INV_MAINTENANCE_PROP, DEFAULT_CONFIG_FILE));
     if (!status) {
-        ConfigTestUtil.getJsonObjectFromURL(client, baseUrl + INVENTORY_HOSTS, 1,
-            null, Optional.of(200));
+        Response response = ConfigTestUtil.getResponse(
+            client, baseUrl + INVENTORY_HOSTS);
+
+        int expected = Response.Status.OK.getStatusCode();
+        int actual = response.getStatus();
+        assertEquals(expected, actual);
     } else {
       assertEquals("The Inventory Service should be in maintenance",
           "ERROR: Service is currently in maintenance. Contact: admin@guides.openliberty.io",
@@ -82,8 +84,12 @@ public class ConfigurationTest {
 
   // tag::testPutServiceInMaintenance()[]
   public void testPutServiceInMaintenance() {
-    ConfigTestUtil.getJsonObjectFromURL(client,
-        baseUrl + INVENTORY_HOSTS, 1, null, Optional.of(200));
+    Response response = ConfigTestUtil.getResponse(
+        client, baseUrl + INVENTORY_HOSTS);
+
+    int expected = Response.Status.OK.getStatusCode();
+    int actual = response.getStatus();
+    assertEquals(expected, actual);
 
     ConfigTestUtil.switchInventoryMaintenance(CUSTOM_CONFIG_FILE, true);
 

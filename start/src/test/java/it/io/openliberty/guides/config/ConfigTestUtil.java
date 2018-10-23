@@ -12,17 +12,13 @@
 // end::comment[]
 package it.io.openliberty.guides.config;
 
-import static org.junit.Assert.assertEquals;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Optional;
 
 import javax.json.bind.*;
-import javax.json.JsonObject;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.core.Response;
 import it.io.openliberty.guides.config.CustomConfig;
@@ -111,29 +107,9 @@ public class ConfigTestUtil {
     }
   }
 
-  /**
-   * Get the Json Object from the URL provided.
-   */
-  public static JsonObject getJsonObjectFromURL(Client client, String url, int level,
-      String key, Optional<Integer> expectedStatus) {
+  public static Response getResponse(Client client, String url) {
     Response response = client.target(url).request().get();
-
-    if (expectedStatus.isPresent()) {
-      Integer expected = expectedStatus.get();
-      Integer actual = response.getStatus();
-      assertEquals(expected, actual);
-    }
-
-    JsonObject obj = response.readEntity(JsonObject.class);
-    JsonObject result = null;
-    if (level == 1) {
-      result = obj;
-    } else if (level == 2) {
-      JsonObject properties = obj.getJsonObject(key);
-      result = properties;
-    }
-    response.close();
-    return result;
+    return response;
   }
 
   public static String getStringFromURL(Client client, String url) {
