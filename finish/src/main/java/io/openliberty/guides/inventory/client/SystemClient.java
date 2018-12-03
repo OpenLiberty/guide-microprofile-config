@@ -24,7 +24,7 @@ import org.eclipse.microprofile.rest.client.annotation.RegisterProvider;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
 // tag::annotations[]
-@Dependent
+
 @RegisterRestClient
 @RegisterProvider(UnknownUrlExceptionMapper.class)
 @Path("/properties")
