@@ -10,7 +10,6 @@
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
 // end::copyright[]
-
 // tag::config-methods[]
 package io.openliberty.guides.inventory;
 
@@ -51,8 +50,8 @@ public class InventoryResource {
       // end::config-port[]
       if (props == null) {
         return Response.status(Response.Status.NOT_FOUND)
-                       .entity(
-                           "ERROR: Unknown hostname or the resource may not be running on the host machine")
+                       .entity("ERROR: Unknown hostname or the resource may not be " + 
+                               "running on the host machine")
                        .build();
       }
 
@@ -62,8 +61,8 @@ public class InventoryResource {
     } else {
       // tag::email[]
       return Response.status(Response.Status.SERVICE_UNAVAILABLE)
-                     .entity("ERROR: Service is currently in maintenance. Contact: "
-                         + inventoryConfig.getEmail().toString())
+                     .entity("ERROR: Service is currently in maintenance. Contact: " +
+                             inventoryConfig.getEmail().toString())
                      .build();
       // end::email[]
     }
@@ -76,8 +75,8 @@ public class InventoryResource {
       return Response.ok(manager.list()).build();
     } else {
       return Response.status(Response.Status.SERVICE_UNAVAILABLE)
-                     .entity("ERROR: Service is currently in maintenance. Contact: "
-                         + inventoryConfig.getEmail().toString())
+                     .entity("ERROR: Service is currently in maintenance. Contact: " +
+                             inventoryConfig.getEmail().toString())
                      .build();
     }
   }

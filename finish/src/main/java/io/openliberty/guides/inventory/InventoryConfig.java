@@ -10,7 +10,6 @@
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
 // end::copyright[]
-
 // tag::config-class[]
 package io.openliberty.guides.inventory;
 

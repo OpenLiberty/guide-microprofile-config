@@ -10,7 +10,6 @@
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
 // end::copyright[]
-
 // tag::customConfig[]
 package io.openliberty.guides.config;
 
