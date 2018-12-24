@@ -60,13 +60,13 @@ mvn install liberty:start-server
 
 After starting the application, you can access the following two microservices to test their availability:
 
-* `http://localhost:9080/system/properties` retrieves the information for a specific host
+* http://localhost:9080/system/properties retrieves the information for a specific host
 
-* `http://localhost:9080/inventory/systems` retrieves the information for a list of all previously registered hosts
+* http://localhost:9080/inventory/systems retrieves the information for a list of all previously registered hosts
 
 In addition, you can access a third microservice, which retrieves and aggregates all of the configuration properties and sources that have been added throughout this guide. This is available at:
 
-* `http://localhost:9080/config`
+* http://localhost:9080/config
 
 Once you are done checking out the application, stop the Open Liberty server:
 
@@ -97,7 +97,7 @@ Access the [hotspot=1-5]`src/main/resources/META-INF/microprofile-config.propert
 microprofile-config.properties
 [source, properties, linenums, role='code_column']
 ----
-include::finish/src/main/resources/META-INF/microprofile-config.properties[tags=**]
+include::finish/src/main/resources/META-INF/microprofile-config.properties[tags=**;!copyright]
 ----
 
 // =================================================================================================
@@ -105,9 +105,9 @@ include::finish/src/main/resources/META-INF/microprofile-config.properties[tags=
 // =================================================================================================
 == Injecting static configuration
 
-The MicroProfile Config API was added as a dependency to your [hotspot=1-252 file=0]`pom.xml` file. Look for the dependency with the [hotspot=111 file=0]`mpConfig` artifact ID.
+The MicroProfile Config API was added as a dependency to your [hotspot=1-252 file=0]`pom.xml` file. Look for the dependency with the [hotspot=108 file=0]`mpConfig` artifact ID.
 This feature allows you to use the MicroProfile Config API to externalize configurations for your microservices.
-The [hotspot=9 file=1]`mpConfig` feature is also enabled in the [hotspot=1-17 file=1]`src/main/liberty/config/server.xml` file.
+The [hotspot=8 file=1]`mpConfig` feature is also enabled in the [hotspot=1-17 file=1]`src/main/liberty/config/server.xml` file.
 
 pom.xml
 [source,xml,linenums,role="code_column"]
@@ -129,7 +129,7 @@ The [hotspot=2 file=2]`io_openliberty_guides_port_number` property that has alre
 microprofile-config.properties
 [source, properties, linenums, role='code_column']
 ----
-include::finish/src/main/resources/META-INF/microprofile-config.properties[tags=**]
+include::finish/src/main/resources/META-INF/microprofile-config.properties[tags=**;!copyright]
 ----
 
 To use this configuration property, 
@@ -141,7 +141,7 @@ Create the `InventoryConfig.java` class.
 InventoryConfig.java
 [source, Java, linenums, role='code_column']
 ----
-include::finish/src/main/java/io/openliberty/guides/inventory/InventoryConfig.java[tags=**;!copyrights]
+include::finish/src/main/java/io/openliberty/guides/inventory/InventoryConfig.java[tags=**;!copyright]
 ----
 
 Inject the [hotspot=13 file=3]`io_openliberty_guides_port_number` property, and add the [hotspot=16-18 file=3]`getPortNumber()` class method to the [hotspot=10-35 file=3]`InventoryConfig.java` file.
@@ -185,7 +185,7 @@ Create the `CustomConfigSource` class.
 CustomConfigSource.java
 [source, Java, linenums, role='code_column']
 ----
-include::finish/src/main/java/io/openliberty/guides/config/CustomConfigSource.java[tags=**]
+include::finish/src/main/java/io/openliberty/guides/config/CustomConfigSource.java[tags=**;!copyright]
 ----
 
 The [hotspot=45-76 file=1]`getProperties()` method reads the key value pairs from the `resources/CustomConfigSource.json` JSON file and writes the information into a map.
@@ -260,7 +260,7 @@ Create the `CustomEmailConverter` class.
 CustomEmailConverter.java
 [source, Java, linenums, role='code_column']
 ----
-include::finish/src/main/java/io/openliberty/guides/config/CustomEmailConverter.java[tags=**]
+include::finish/src/main/java/io/openliberty/guides/config/CustomEmailConverter.java[tags=**;!copyright]
 ----
 
 This implements the `Converter<T>` interface.
@@ -287,7 +287,7 @@ Edit the `InventoryConfig` class.
 InventoryConfig.java
 [source, Java, linenums, role='code_column']
 ----
-include::finish/src/main/java/io/openliberty/guides/inventory/InventoryConfig.java[tags=**]
+include::finish/src/main/java/io/openliberty/guides/inventory/InventoryConfig.java[tags=**;!copyright]
 ----
 Inject the `io_openliberty_guides_email` property, and add the `getEmail()` method. Simply copy all the following code and replace the contents of the file.
 
@@ -305,7 +305,7 @@ Edit the `InventoryResource` class.
 InventoryResource.java
 [source, Java, linenums, role='code_column']
 ----
-include::finish/src/main/java/io/openliberty/guides/inventory/InventoryResource.java[tags=**]
+include::finish/src/main/java/io/openliberty/guides/inventory/InventoryResource.java[tags=**;!copyright]
 ----
 Simply copy all the following code and replace the contents of the file.
 To add configuration to the `inventory` service, the `InventoryConfig` object is injected to the existing class.
@@ -368,7 +368,7 @@ Create the `ConfigurationTest` class.
 ConfigurationTest.java
 [source, Java, linenums, role='code_column']
 ----
-include::finish/src/test/java/it/io/openliberty/guides/config/ConfigurationTest.java[tags=**]
+include::finish/src/test/java/it/io/openliberty/guides/config/ConfigurationTest.java[tags=**;!copyright]
 ----
 
 The [hotspot=52-67]`testInitialServiceStatus()` test case reads the value of the `io_openliberty_guides_inventory_inMaintenance` configuration property in the file `META-INF/microprofile-config.properties` and checks the HTTP response of the inventory service.
