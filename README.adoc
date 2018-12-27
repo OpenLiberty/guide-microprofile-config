@@ -144,7 +144,7 @@ InventoryConfig.java
 include::finish/src/main/java/io/openliberty/guides/inventory/InventoryConfig.java[tags=**;!copyright;!build-in-converter;!custom-converter;!isInMaintenance;!getEmail]
 ----
 
-Inject the [hotspot=13 file=3]`io_openliberty_guides_port_number` property, and add the [hotspot=16-18 file=3]`getPortNumber()` class method to the [hotspot=1-35 file=3]`InventoryConfig.java` file.
+Inject the [hotspot=13 file=3]`io_openliberty_guides_port_number` property, and add the [hotspot=16-18 file=3]`getPortNumber()` class method to the `InventoryConfig.java` file.
 
 The [hotspot=12 file=3]`@Inject` annotation injects the port number directly, the injection value is static and fixed on application starting.
 
@@ -212,7 +212,7 @@ include::finish/resources/CustomConfigSource.json[tags=**]
 Now that the custom configuration source has successfully been set up, you can enable dynamic configuration injection of the properties being set in this ConfigSource.
 To enable this dynamic injection, 
 
-[role="code_command hotspot=10-35", subs="quotes"]
+[role="code_command hotspot=10-28", subs="quotes"]
 ----
 Edit the `InventoryConfig.java` class.
 `src/main/java/io/openliberty/guides/inventory/InventoryConfig.java`
@@ -222,12 +222,12 @@ InventoryConfig.java
 ----
 include::finish/src/main/java/io/openliberty/guides/inventory/InventoryConfig.java[tags=**;!copyright;!custom-converter;!getEmail]
 ----
-inject the `io_openliberty_guides_inventory_inMaintenance` property, and add the [hotspot=31-33]`isInMaintenance()` class method. Simply copy all the code and replace the contents of the file.
+inject the `io_openliberty_guides_inventory_inMaintenance` property, and add the [hotspot=24-26]`isInMaintenance()` class method. Simply copy all the code and replace the contents of the file.
 
-The [hotspot=12]`@Inject` and [hotspot=13]`@ConfigProperty` annotations inject the `io_openliberty_guides_inventory_inMaintenance` configuration property from the `CustomConfigSource.json` file.
+The [hotspot=16]`@Inject` and [hotspot=17]`@ConfigProperty` annotations inject the `io_openliberty_guides_inventory_inMaintenance` configuration property from the `CustomConfigSource.json` file.
 The `Provider<>` interface used, forces the service to retrieve the inMaintenance value just in time. This retrieval of the value just in time makes the config injection dynamic and able to change without having to restart the application.
 
-Every time that you invoke the [hotspot=32]`inMaintenance.get()` method, the `Provider<>` interface picks up the
+Every time that you invoke the [hotspot=25]`inMaintenance.get()` method, the `Provider<>` interface picks up the
 latest value of the `io_openliberty_guides_inventory_inMaintenance` property from configuration sources.
 
 // =================================================================================================
@@ -312,9 +312,9 @@ To add configuration to the `inventory` service, the `InventoryConfig` object is
 
 The port number from the configuration is retrieved by the [hotspot=33]`inventoryConfig.getPortNumber()` method and passed to the [hotspot=33]`manager.get()` method as a parameter.
 
-To determine whether the inventory service is in maintenance or not (according to the configuration value), [hotspot=54]`inventoryConfig.isInMaintenance()` class method is used.
+To determine whether the inventory service is in maintenance or not (according to the configuration value), [hotspot=55]`inventoryConfig.isInMaintenance()` class method is used.
 If you set the `io_openliberty_guides_inventory_inMaintenance` property to `true` in the configuration, the inventory service returns the message, `ERROR: Service is currently in maintenance`, along with the contact email.
-The email configuration value can be get by calling [hotspot=59]`inventoryConfig.getEmail()` method.
+The email configuration value can be get by calling [hotspot=60]`inventoryConfig.getEmail()` method.
 
 
 // =================================================================================================
