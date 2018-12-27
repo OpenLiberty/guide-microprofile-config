@@ -144,11 +144,11 @@ InventoryConfig.java
 include::finish/src/main/java/io/openliberty/guides/inventory/InventoryConfig.java[tags=**;!copyright;!build-in-converter;!custom-converter;!isInMaintenance;!getEmail]
 ----
 
-Inject the [hotspot=13 file=3]`io_openliberty_guides_port_number` property, and add the [hotspot=24-26 file=3]`getPortNumber()` class method to the [hotspot=10-35 file=3]`InventoryConfig.java` file.
+Inject the [hotspot=13 file=3]`io_openliberty_guides_port_number` property, and add the [hotspot=16-18 file=3]`getPortNumber()` class method to the [hotspot=1-35 file=3]`InventoryConfig.java` file.
 
 The [hotspot=12 file=3]`@Inject` annotation injects the port number directly, the injection value is static and fixed on application starting.
 
-The [hotspot=24-26 file=3]`getPortNumber()` method directly returns the value of `portNumber` because it has been injected.
+The [hotspot=16-18 file=3]`getPortNumber()` method directly returns the value of `portNumber` because it has been injected.
 
 // =================================================================================================
 // Injecting dynamic configuration
@@ -165,13 +165,7 @@ However, you can externalize configuration data out of the application package, 
 
 Custom configuration sources can be created by implementing the `org.eclipse.microprofile.config.spi.ConfigSource` interface and using the `java.util.ServiceLoader` mechanism.
 
-CustomConfigSource.json
-[source, Json, linenums, role='code_column']
-----
-include::finish/resources/CustomConfigSource.json[tags=**]
-----
-
-A [hotspot=1-7 file=0]`CustomConfigSource.json` JSON file has already been created in the `resources` directory. This JSON file simulates a remote configuration resource in real life.
+A [hotspot=1-7 file=2]`CustomConfigSource.json` JSON file has already been created in the `resources` directory. This JSON file simulates a remote configuration resource in real life.
 This file contains 4 custom config properties and has an ordinal of `150`.
 To use these properties in the application, the data object needs to be transformed from this JSON file to the configuration for your application.
 
@@ -188,7 +182,7 @@ CustomConfigSource.java
 include::finish/src/main/java/io/openliberty/guides/config/CustomConfigSource.java[tags=**;!copyright]
 ----
 
-The [hotspot=46-77 file=1]`getProperties()` method reads the key value pairs from the `resources/CustomConfigSource.json` JSON file and writes the information into a map.
+The [hotspot=46-77 file=0]`getProperties()` method reads the key value pairs from the `resources/CustomConfigSource.json` JSON file and writes the information into a map.
 
 Last but important, register the custom configuration source. 
 
@@ -203,6 +197,12 @@ org.eclipse.microprofile.config.spi.ConfigSource
 include::finish/src/main/resources/META-INF/services/org.eclipse.microprofile.config.spi.ConfigSource[tags=**]
 ----
 Add the fully qualified class name of the configuration source into it.
+
+CustomConfigSource.json
+[source, Json, linenums, role='code_column']
+----
+include::finish/resources/CustomConfigSource.json[tags=**]
+----
 
 // =================================================================================================
 // Enabling dynamic configuration injection
