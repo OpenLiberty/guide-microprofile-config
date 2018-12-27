@@ -133,7 +133,7 @@ include::finish/src/main/resources/META-INF/microprofile-config.properties[tags=
 ----
 
 To use this configuration property, 
-[role="code_command hotspot=10-35", subs="quotes"]
+[role="code_command hotspot=10-20", subs="quotes"]
 ----
 Create the `InventoryConfig.java` class.
 `src/main/java/io/openliberty/guides/inventory/InventoryConfig.java`
@@ -165,15 +165,15 @@ However, you can externalize configuration data out of the application package, 
 
 Custom configuration sources can be created by implementing the `org.eclipse.microprofile.config.spi.ConfigSource` interface and using the `java.util.ServiceLoader` mechanism.
 
-A [hotspot=1-7 file=0]`CustomConfigSource.json` JSON file has already been created in the `resources` directory. This JSON file simulates a remote configuration resource in real life.
-This file contains 4 custom config properties and has an ordinal of `150`.
-To use these properties in the application, the data object needs to be transformed from this JSON file to the configuration for your application.
-
 CustomConfigSource.json
 [source, Json, linenums, role='code_column']
 ----
 include::finish/resources/CustomConfigSource.json[tags=**]
 ----
+
+A [hotspot=1-7 file=0]`CustomConfigSource.json` JSON file has already been created in the `resources` directory. This JSON file simulates a remote configuration resource in real life.
+This file contains 4 custom config properties and has an ordinal of `150`.
+To use these properties in the application, the data object needs to be transformed from this JSON file to the configuration for your application.
 
 To link this JSON file to your application and to implement the `ConfigSource` interface,
 
@@ -360,7 +360,7 @@ include::{common-includes}/mvncompile.adoc[]
 
 == Testing the application
 
-[role="code_command hotspot=14-106", subs="quotes"]
+[role="code_command hotspot=14-107", subs="quotes"]
 ----
 Create the `ConfigurationTest` class.
 `src/test/java/it/io/openliberty/guides/config/ConfigurationTest.java`
@@ -378,7 +378,7 @@ Because the `io_openliberty_guides_inventory_inMaintenance` configuration proper
 Next, this test switches the value of the `io_openliberty_guides_inventory_inMaintenance` configuration property to `true`.
 In the end, the inventory service returns the following message: `ERROR: Service is currently in maintenance`.
 
-The [hotspot=87-104]`testChangeEmail()` test case first puts the `inventory` service in maintenance, then it changes the email address in the configuration file. In the end, the `inventory` service should display the error message with the latest email address.
+The [hotspot=87-105]`testChangeEmail()` test case first puts the `inventory` service in maintenance, then it changes the email address in the configuration file. In the end, the `inventory` service should display the error message with the latest email address.
 
 In addition, a few endpoint tests have been provided for you to test the basic functionality of the `inventory` and `system` services. If a test failure occurs, then you must have introduced a bug into the code.
 Reminder that you must register the custom configuration source and custom converter in the `src/main/resources/META-INF/services/` directory, if you miss to complete these steps, the tests will fail.
