@@ -171,7 +171,7 @@ To use these properties in the application, the data object needs to be transfor
 
 To link this JSON file to your application and to implement the `ConfigSource` interface,
 
-[role="code_command hotspot=20-95", subs="quotes"]
+[role="code_command hotspot=21-96", subs="quotes"]
 ----
 Create the `CustomConfigSource` class.
 `src/main/java/io/openliberty/guides/config/CustomConfigSource.java`
@@ -186,7 +186,7 @@ The [hotspot=46-77 file=0]`getProperties()` method reads the key value pairs fro
 
 Last but important, register the custom configuration source. 
 
-[role="code_command hotspot=1", subs="quotes"]
+[role="code_command hotspot=1 file=1", subs="quotes"]
 ----
 Create the configuration file.
 `src/main/resources/META-INF/services/org.eclipse.microprofile.config.spi.ConfigSource`
