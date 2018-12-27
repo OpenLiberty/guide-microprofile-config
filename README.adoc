@@ -252,7 +252,7 @@ include::finish/src/main/java/io/openliberty/guides/config/Email.java[tags=email
 To use this [hotspot=3-26 file=0]`Email` class type, add a custom converter by implementing the generic interface `org.eclipse.microprofile.config.spi.Converter<T>`.
 The Type parameter of the interface is the target type the String is converted to.
 
-[role="code_command hotspot=1-24", subs="quotes"]
+[role="code_command hotspot=6-24", subs="quotes"]
 ----
 Create the `CustomEmailConverter` class.
 `src/main/java/io/openliberty/guides/config/CustomEmailConverter.java`
@@ -279,7 +279,7 @@ include::finish/src/main/resources/META-INF/services/org.eclipse.microprofile.co
 Add the fully qualified class name of the custom converter into it.
 
 To use the custom `Email` converter,
-[role="code_command hotspot=1-35", subs="quotes"]
+[role="code_command hotspot=10-35", subs="quotes"]
 ---- 
 Edit the `InventoryConfig` class.
 `src/main/java/io/openliberty/guides/inventory/InventoryConfig.java`
@@ -297,7 +297,7 @@ Inject the `io_openliberty_guides_email` property, and add the [hotspot=32-34 fi
 == Adding configuration to the microservice
 
 To use externalized configuration in the `inventory` service, 
-[role="code_command hotspot=19-51", subs="quotes"]
+[role="code_command hotspot=19-65", subs="quotes"]
 ----
 Edit the `InventoryResource` class.
 `src/main/java/io/openliberty/guides/inventory/InventoryResource.java`
@@ -310,11 +310,11 @@ include::finish/src/main/java/io/openliberty/guides/inventory/InventoryResource.
 Simply copy all the following code and replace the contents of the file.
 To add configuration to the `inventory` service, the `InventoryConfig` object is injected to the existing class.
 
-The port number from the configuration is retrieved by the [hotspot=36]`inventoryConfig.getPortNumber()` method and passed to the [hotspot=36]`manager.get()` method as a parameter.
+The port number from the configuration is retrieved by the [hotspot=33]`inventoryConfig.getPortNumber()` method and passed to the [hotspot=33]`manager.get()` method as a parameter.
 
-To determine whether the inventory service is in maintenance or not (according to the configuration value), [hotspot=61]`inventoryConfig.isInMaintenance()` class method is used.
+To determine whether the inventory service is in maintenance or not (according to the configuration value), [hotspot=54]`inventoryConfig.isInMaintenance()` class method is used.
 If you set the `io_openliberty_guides_inventory_inMaintenance` property to `true` in the configuration, the inventory service returns the message, `ERROR: Service is currently in maintenance`, along with the contact email.
-The email configuration value can be get by calling [hotspot=66]`inventoryConfig.getEmail()` method.
+The email configuration value can be get by calling [hotspot=59]`inventoryConfig.getEmail()` method.
 
 
 // =================================================================================================
@@ -368,7 +368,7 @@ Create the `ConfigurationTest` class.
 ConfigurationTest.java
 [source, Java, linenums, role='code_column']
 ----
-include::finish/src/test/java/it/io/openliberty/guides/config/ConfigurationTest.java[tags=**;!copyrights]
+include::finish/src/test/java/it/io/openliberty/guides/config/ConfigurationTest.java[tags=test]
 ----
 
 The [hotspot=52-67]`testInitialServiceStatus()` test case reads the value of the `io_openliberty_guides_inventory_inMaintenance` configuration property in the file `META-INF/microprofile-config.properties` and checks the HTTP response of the inventory service.
