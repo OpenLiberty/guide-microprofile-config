@@ -12,6 +12,7 @@
 :page-guide-category: microprofile
 :page-essential: false
 :page-description: Learn how to use the MicroProfile Config specification to externalize configuration data for an application.
+:guide-author: Open Liberty
 :page-tags: [MicroProfile']
 :page-permalink: /guides/{projectid}
 :page-related-guides: ['rest-intro', 'cdi-intro', 'microprofile-config-intro']
@@ -55,6 +56,7 @@ Maven goals to build the application and run it inside Open Liberty:
 
 [role=command]
 ```
+cd finish
 mvn install liberty:start-server
 ```
 
