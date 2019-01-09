@@ -388,12 +388,6 @@ include::finish/src/test/java/it/io/openliberty/guides/config/ConfigurationTest.
 The [hotspot=52-67 file=0]`testInitialServiceStatus()` test case reads the value of the [hotspot=3 file=1]`io_openliberty_guides_inventory_inMaintenance` configuration property in the file [hotspot1-5 file=1]`META-INF/microprofile-config.properties` and checks the HTTP response of the inventory service.
 If the configuration value is `false`, the service returns a valid response. Otherwise, the service returns the following message: `ERROR: Service is currently in maintenance`.
 
-microprofile-config.properties
-[source, properties, linenums, role='code_column']
-----
-include::finish/src/main/resources/META-INF/microprofile-config.properties[tags=**;!copyright]
-----
-
 Because the [hotspot=3 file=1]`io_openliberty_guides_inventory_inMaintenance` configuration property is set to `false` by default, the [hotspot=69-85]`testPutServiceInMaintenance()` test case first checks that the inventory service is not in maintenance in the beginning.
 Next, this test switches the value of the [hotspot=3 file=1]`io_openliberty_guides_inventory_inMaintenance` configuration property to `true`.
 In the end, the inventory service returns the following message: `ERROR: Service is currently in maintenance`.
