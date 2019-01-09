@@ -364,12 +364,6 @@ Your changes are added dynamically, and you do not need to restart the server. R
 For example, change [hotspot=4 file=0]`io_openliberty_guides_inventory_inMaintenance` from `false` to `true`, then try to access http://localhost:9080/inventory/systems again.
 The following message displays: `ERROR: Service is currently in maintenance`.
 
-//// microprofile-config.properties
-[source, properties, linenums, role='code_column']
-----
-include::finish/src/main/resources/META-INF/microprofile-config.properties[tags=**;!copyright]
----- ////
-
 [role=command]
 include::{common-includes}/mvncompile.adoc[]
 
