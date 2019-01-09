@@ -419,14 +419,9 @@ Tests run: 3, Failures: 0, Errors: 0, Skipped: 0
 ----
 
 To see whether the tests detect a failure, remove the configuration resetting line in the [hotspot=30-37 file=0]`setup()` method of the [hotspot=1-107 file=0]`ConfigurationTest.java` file.
-Then manually change some configuration values in the [hotspot=1-7 file=1]`resources/CustomConfigSource.json` file.
+Then manually change some configuration values in the `resources/CustomConfigSource.json` file.
 Re-run the Maven build. You will see a test failure occur.
 
-CustomConfigSource.json
-[source, Json, linenums, role='code_column']
-----
-include::finish/resources/CustomConfigSource.json[tags=**]
-----
 
 == Great work! You're done!
 
