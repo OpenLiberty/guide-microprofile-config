@@ -216,7 +216,7 @@ To enable this dynamic injection,
 
 [role="code_command hotspot=10-28", subs="quotes"]
 ----
-#Edit the `InventoryConfig.java` class.#
+#Replace the `InventoryConfig.java` class.#
 `src/main/java/io/openliberty/guides/inventory/InventoryConfig.java`
 ----
 InventoryConfig.java
@@ -286,10 +286,10 @@ include::finish/src/main/resources/META-INF/services/org.eclipse.microprofile.co
 ----
 Add the fully qualified class name of the custom converter into it.
 
-To use the custom `Email` converter,
+To use the custom [hotspot=10-35]`Email` converter,
 [role="code_command hotspot=10-35", subs="quotes"]
 ---- 
-#Edit the `InventoryConfig` class.#
+#Replace the `InventoryConfig` class.#
 `src/main/java/io/openliberty/guides/inventory/InventoryConfig.java`
 ----
 InventoryConfig.java
