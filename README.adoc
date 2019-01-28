@@ -307,7 +307,7 @@ Inject the `io_openliberty_guides_email` property, and add the [hotspot=32-34 fi
 To use externalized configuration in the `inventory` service, 
 [role="code_command hotspot=19-65", subs="quotes"]
 ----
-#Edit the `InventoryResource` class.#
+#Replace the `InventoryResource` class.#
 `src/main/java/io/openliberty/guides/inventory/InventoryResource.java`
 ----
 InventoryResource.java
@@ -315,7 +315,6 @@ InventoryResource.java
 ----
 include::finish/src/main/java/io/openliberty/guides/inventory/InventoryResource.java[tags=**;!copyright]
 ----
-Simply copy all the following code and replace the contents of the file.
 To add configuration to the `inventory` service, the [hotspot=25 file=0]`InventoryConfig` object is injected to the existing class.
 
 The port number from the configuration is retrieved by the [hotspot=33 file=0]`inventoryConfig.getPortNumber()` method and passed to the [hotspot=33 file=0]`manager.get()` method as a parameter.
