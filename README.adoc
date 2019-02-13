@@ -107,7 +107,7 @@ include::finish/src/main/resources/META-INF/microprofile-config.properties[tags=
 // =================================================================================================
 == Injecting static configuration
 
-The MicroProfile Config API was added as a dependency to your [hotspot file=0]`pom.xml` file. Look for the dependency with the [hotspot=108 file=0]`mpConfig` artifact ID.
+The MicroProfile Config API was added as a dependency to your [hotspot file=0]`pom.xml` file. Look for the dependency with the [hotspot=71 file=0]`mpConfig` artifact ID.
 This feature allows you to use the MicroProfile Config API to externalize configurations for your microservices.
 The [hotspot=8 file=1]`mpConfig` feature is also enabled in the [hotspot file=1]`src/main/liberty/config/server.xml` file.
 
@@ -358,7 +358,7 @@ include::finish/resources/CustomConfigSource.json[tags=**]
 ----
 
 Play with this application by changing configuration values for each property in the [hotspot file=0]`resources/CustomConfigSource.json` file.
-Your changes are added dynamically, and you do not need to restart the server. Refresh `http://localhost:9080/config[http://localhost:9080/config^]` to see the dynamic changes.
+Your changes are added dynamically, and you do not need to restart the server. Refresh http://localhost:9080/config[http://localhost:9080/config^] to see the dynamic changes.
 
 For example, change [hotspot=4 file=0]`io_openliberty_guides_inventory_inMaintenance` from `false` to `true`, then try to access http://localhost:9080/inventory/systems[http://localhost:9080/inventory/systems^] again.
 The following message displays: `ERROR: Service is currently in maintenance`.
