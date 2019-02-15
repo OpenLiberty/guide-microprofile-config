@@ -164,16 +164,21 @@ However, you can externalize configuration data out of the application package, 
 // Creating custom configuration sources
 // =================================================================================================
 === Creating custom configuration sources
+CustomConfigSource.json
+[source, Json, linenums, role='code_column']
+----
+include::finish/resources/CustomConfigSource.json[tags=**]
+----
 
 Custom configuration sources can be created by implementing the `org.eclipse.microprofile.config.spi.ConfigSource` interface and using the `java.util.ServiceLoader` mechanism.
 
-A [hotspot file=2]`CustomConfigSource.json` JSON file has already been created in the `resources` directory. This JSON file simulates a remote configuration resource in real life.
-This file contains 4 custom config properties and has an ordinal of [hotspot=2 file=2]`150`.
+A [hotspot file=0]`CustomConfigSource.json` JSON file has already been created in the `resources` directory. This JSON file simulates a remote configuration resource in real life.
+This file contains 4 custom config properties and has an ordinal of [hotspot=0 file=2]`150`.
 To use these properties in the application, the data object needs to be transformed from this JSON file to the configuration for your application.
 
 To link this JSON file to your application and to implement the `ConfigSource` interface,
 
-[role="code_command hotspot", subs="quotes"]
+[role="code_command hotspot file=1", subs="quotes"]
 ----
 #Create the `CustomConfigSource` class.#
 `src/main/java/io/openliberty/guides/config/CustomConfigSource.java`
@@ -184,27 +189,25 @@ CustomConfigSource.java
 include::finish/src/main/java/io/openliberty/guides/config/CustomConfigSource.java[tags=**;!copyright]
 ----
 
-The [hotspot=46-77 file=0]`getProperties()` method reads the key value pairs from the `resources/CustomConfigSource.json` JSON file and writes the information into a map.
+The [hotspot=46-77 file=1]`getProperties()` method reads the key value pairs from the `resources/CustomConfigSource.json` JSON file and writes the information into a map.
 
 Last but important, register the custom configuration source. 
 
-[role="code_command hotspot file=1", subs="quotes"]
+[role="code_command hotspot file=2", subs="quotes"]
 ----
 #Create the configuration file.#
 `src/main/resources/META-INF/services/org.eclipse.microprofile.config.spi.ConfigSource`
 ----
+
 org.eclipse.microprofile.config.spi.ConfigSource
 [source, Java, linenums, role='code_column']
 ----
 include::finish/src/main/resources/META-INF/services/org.eclipse.microprofile.config.spi.ConfigSource[tags=**]
 ----
+
 Add the fully qualified class name of the configuration source into it.
 
-CustomConfigSource.json
-[source, Json, linenums, role='code_column']
-----
-include::finish/resources/CustomConfigSource.json[tags=**]
-----
+
 
 // =================================================================================================
 // Enabling dynamic configuration injection
