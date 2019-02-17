@@ -263,7 +263,7 @@ include::finish/src/main/java/io/openliberty/guides/config/Email.java[tags=email
 To use this [hotspot=3-26 file=0]`Email` class type, add a custom converter by implementing the generic interface `org.eclipse.microprofile.config.spi.Converter<T>`.
 The Type parameter of the interface is the target type the String is converted to.
 
-[role="code_command", subs="quotes"]
+[role="code_command hotspot", subs="quotes"]
 ----
 #Create the `CustomEmailConverter` class.#
 `src/main/java/io/openliberty/guides/config/CustomEmailConverter.java`
