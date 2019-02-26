@@ -432,4 +432,4 @@ You just built and tested a MicroProfile application with MicroProfile Config in
 Feel free to try one of the related guides. They demonstrate new technologies that you can learn and
 expand on top what you built in this guide.
 
-include::https://raw.githubusercontent.com/OpenLiberty/guides-common/multipane/attribution.adoc[subs="attributes"]
+include::{common-includes}/attribution.adoc[subs="attributes"]
