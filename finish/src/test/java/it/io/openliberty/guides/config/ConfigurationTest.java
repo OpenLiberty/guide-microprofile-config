@@ -1,6 +1,6 @@
 // tag::comment[]
 /*******************************************************************************
- * Copyright (c) 2017, 2018 IBM Corporation and others.
+ * Copyright (c) 2017, 2019 IBM Corporation and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -36,7 +36,8 @@ public class ConfigurationTest {
       + "/src/main/resources/META-INF/microprofile-config.properties";
   private final String CUSTOM_CONFIG_FILE = USER_DIR.split("target")[0]
       + "/resources/CustomConfigSource.json";
-  private final String INV_MAINTENANCE_PROP = "io_openliberty_guides_inventory_inMaintenance";
+  private final String INV_MAINTENANCE_PROP = 
+        "io_openliberty_guides_inventory_inMaintenance";
 
   @Before
   public void setup() {
@@ -76,8 +77,8 @@ public class ConfigurationTest {
         assertEquals(expected, actual);
     } else {
       assertEquals("The Inventory Service should be in maintenance",
-          "ERROR: Service is currently in maintenance. Contact: admin@guides.openliberty.io",
-          ConfigTestUtil.getStringFromURL(client, baseUrl + INVENTORY_HOSTS));
+       "ERROR: Service is currently in maintenance. Contact: admin@guides.openliberty.io",
+        ConfigTestUtil.getStringFromURL(client, baseUrl + INVENTORY_HOSTS));
     }
   }
   // end::testInitialServiceStatus()[]
@@ -97,7 +98,7 @@ public class ConfigurationTest {
         baseUrl + INVENTORY_HOSTS);
 
     assertEquals("The inventory service should be down in the end",
-        "ERROR: Service is currently in maintenance. Contact: admin@guides.openliberty.io",
+       "ERROR: Service is currently in maintenance. Contact: admin@guides.openliberty.io",
         error);
   }
   // end::testPutServiceInMaintenance()[]
@@ -110,7 +111,7 @@ public class ConfigurationTest {
         baseUrl + INVENTORY_HOSTS);
 
     assertEquals("The email should be admin@guides.openliberty.io in the beginning",
-        "ERROR: Service is currently in maintenance. Contact: admin@guides.openliberty.io",
+       "ERROR: Service is currently in maintenance. Contact: admin@guides.openliberty.io",
         error);
 
     ConfigTestUtil.changeEmail(CUSTOM_CONFIG_FILE, "service@guides.openliberty.io");
@@ -119,8 +120,8 @@ public class ConfigurationTest {
         baseUrl + INVENTORY_HOSTS);
 
     assertEquals("The email should be service@guides.openliberty.io in the beginning",
-        "ERROR: Service is currently in maintenance. Contact: service@guides.openliberty.io",
-        error);
+     "ERROR: Service is currently in maintenance. Contact: service@guides.openliberty.io",
+      error);
   }
   // end::testChangeEmail()[]
 
