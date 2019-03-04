@@ -227,7 +227,7 @@ InventoryConfig.java
 ----
 include::finish/src/main/java/io/openliberty/guides/inventory/InventoryConfig.java[tags=**;!copyright;!custom-converter;!getEmail]
 ----
-inject the [hotspot=16-17 file=0]`io_openliberty_guides_inventory_inMaintenance` property, and add the [hotspot=24-26 file=0]`isInMaintenance()` class method. Simply copy all the code and replace the contents of the file.
+Inject the [hotspot=16-17 file=0]`io_openliberty_guides_inventory_inMaintenance` property, and add the [hotspot=24-26 file=0]`isInMaintenance()` class method. Simply copy all the code and replace the contents of the file.
 
 The [hotspot=16 file=0]`@Inject` and [hotspot=17 file=0]`@ConfigProperty` annotations inject the [hotspot=4 file=1]`io_openliberty_guides_inventory_inMaintenance` configuration property from the [hotspot file=1]`CustomConfigSource.json` file.
 The `Provider<>` interface used, forces the service to retrieve the inMaintenance value just in time. This retrieval of the value just in time makes the config injection dynamic and able to change without having to restart the application.
