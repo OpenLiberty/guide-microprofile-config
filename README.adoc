@@ -191,7 +191,7 @@ include::finish/src/main/java/io/openliberty/guides/config/CustomConfigSource.ja
 
 The [hotspot=46-77 file=1]`getProperties()` method reads the key value pairs from the [hotspot file=0]`resources/CustomConfigSource.json` JSON file and writes the information into a map.
 
-Last but important, register the custom configuration source. 
+Finally, register the custom configuration source.
 
 [role="code_command hotspot file=2", subs="quotes"]
 ----
@@ -324,7 +324,7 @@ The port number from the configuration is retrieved by the [hotspot=33 file=0]`i
 
 To determine whether the inventory service is in maintenance or not (according to the configuration value), [hotspot=55 file=0]`inventoryConfig.isInMaintenance()` class method is used.
 If you set the [hotspot=4 file=1]`io_openliberty_guides_inventory_inMaintenance` property to `true` in the configuration, the inventory service returns the message, `ERROR: Service is currently in maintenance`, along with the contact email.
-The email configuration value can be gotten by calling [hotspot=60 file=0]`inventoryConfig.getEmail()` method.
+The email configuration value can be obtained by calling [hotspot=60 file=0]`inventoryConfig.getEmail()` method.
 
 CustomConfigSource.json
 [source, Json, linenums, role='code_column']
