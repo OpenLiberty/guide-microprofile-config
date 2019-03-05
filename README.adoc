@@ -84,14 +84,14 @@ mvn liberty:stop-server
 
 Now, navigate to the `start` directory to begin.
 
-MicroProfile Config combines configuration properties from multiple sources, each known as a _ConfigSource_. Each ConfigSource has a specified priority, defined by its _config_ordinal_ value.
+MicroProfile Config combines configuration properties from multiple sources, each known as a ConfigSource. Each ConfigSource has a specified priority, defined by its `config_ordinal` value.
 
 A higher ordinal value means that the values taken from this ConfigSource will override values from ConfigSources with a lower ordinal value.
 
 There are three default configuration sources as following:
 
 * System properties has a default ordinal of 400. (e.g. `bootstrap.properties` file)
-* Environment variables has a default ordinal of 300. (e.g. `server.env` file)
+* Environment variables have a default ordinal of 300. (e.g. `server.env` file)
 * The [hotspot=1]`META-INF/microprofile-config.properties` configuration property file on the classpath has a default ordinal of 100.
 
 Access the [hotspot]`src/main/resources/META-INF/microprofile-config.properties` local configuration file. This configuration file is the default configuration source for an application that uses MicroProfile Config.
@@ -173,7 +173,7 @@ include::finish/resources/CustomConfigSource.json[tags=**]
 Custom configuration sources can be created by implementing the `org.eclipse.microprofile.config.spi.ConfigSource` interface and using the `java.util.ServiceLoader` mechanism.
 
 A [hotspot file=0]`CustomConfigSource.json` JSON file has already been created in the `resources` directory. This JSON file simulates a remote configuration resource in real life.
-This file contains 4 custom config properties and has an ordinal of [hotspot=0 file=2]`150`.
+This file contains 4 custom config properties and has an ordinal of [hotspot=2 file=0]`150`.
 To use these properties in the application, the data object needs to be transformed from this JSON file to the configuration for your application.
 
 To link this JSON file to your application and to implement the `ConfigSource` interface,
@@ -189,9 +189,9 @@ CustomConfigSource.java
 include::finish/src/main/java/io/openliberty/guides/config/CustomConfigSource.java[tags=**;!copyright]
 ----
 
-The [hotspot=46-77 file=1]`getProperties()` method reads the key value pairs from the `resources/CustomConfigSource.json` JSON file and writes the information into a map.
+The [hotspot=46-77 file=1]`getProperties()` method reads the key value pairs from the [hotspot file=0]`resources/CustomConfigSource.json` JSON file and writes the information into a map.
 
-Last but important, register the custom configuration source. 
+Finally, register the custom configuration source.
 
 [role="code_command hotspot file=2", subs="quotes"]
 ----
@@ -227,7 +227,7 @@ InventoryConfig.java
 ----
 include::finish/src/main/java/io/openliberty/guides/inventory/InventoryConfig.java[tags=**;!copyright;!custom-converter;!getEmail]
 ----
-inject the [hotspot=4 file=1]`io_openliberty_guides_inventory_inMaintenance` property, and add the [hotspot=24-26 file=0]`isInMaintenance()` class method. Simply copy all the code and replace the contents of the file.
+Inject the [hotspot=16-17 file=0]`io_openliberty_guides_inventory_inMaintenance` property, and add the [hotspot=24-26 file=0]`isInMaintenance()` class method. Simply copy all the code and replace the contents of the file.
 
 The [hotspot=16 file=0]`@Inject` and [hotspot=17 file=0]`@ConfigProperty` annotations inject the [hotspot=4 file=1]`io_openliberty_guides_inventory_inMaintenance` configuration property from the [hotspot file=1]`CustomConfigSource.json` file.
 The `Provider<>` interface used, forces the service to retrieve the inMaintenance value just in time. This retrieval of the value just in time makes the config injection dynamic and able to change without having to restart the application.
@@ -300,7 +300,7 @@ InventoryConfig.java
 ----
 include::finish/src/main/java/io/openliberty/guides/inventory/InventoryConfig.java[tags=**;!copyright]
 ----
-Inject the `io_openliberty_guides_email` property, and add the [hotspot=32-34 file=3]`getEmail()` method. Simply copy all the following code and replace the contents of the file.
+Inject the [hotspot=20-21 file=3]`io_openliberty_guides_email` property, and add the [hotspot=32-34 file=3]`getEmail()` method.
 
 // =================================================================================================
 // Adding configuration to the service
@@ -324,7 +324,7 @@ The port number from the configuration is retrieved by the [hotspot=33 file=0]`i
 
 To determine whether the inventory service is in maintenance or not (according to the configuration value), [hotspot=55 file=0]`inventoryConfig.isInMaintenance()` class method is used.
 If you set the [hotspot=4 file=1]`io_openliberty_guides_inventory_inMaintenance` property to `true` in the configuration, the inventory service returns the message, `ERROR: Service is currently in maintenance`, along with the contact email.
-The email configuration value can be get by calling [hotspot=60 file=0]`inventoryConfig.getEmail()` method.
+The email configuration value can be obtained by calling [hotspot=60 file=0]`inventoryConfig.getEmail()` method.
 
 CustomConfigSource.json
 [source, Json, linenums, role='code_column']
@@ -352,12 +352,18 @@ You can find the service that retrieves configuration information that is specif
 * http://localhost:9080/config[http://localhost:9080/config^]
 
 
-The [hotspot=2 file=0]`config_ordinal` value of the custom configuration source is set to `150`. It overrides configuration values of the default `microprofile-config.properties` source, which has a `config_ordinal` value of `100`.
+The [hotspot=2 file=0]`config_ordinal` value of the custom configuration source is set to [hotspot=2 file=0]`150`. It overrides configuration values of the default [hotspot file=1]`microprofile-config.properties` source, which has a [hotspot=1 file=1]`config_ordinal` value of [hotspot=1 file=1]`100`.
 
 CustomConfigSource.json
 [source, Json, linenums, role='code_column']
 ----
 include::finish/resources/CustomConfigSource.json[tags=**]
+----
+
+microprofile-config.properties
+[source, properties, linenums, role='code_column']
+----
+include::finish/src/main/resources/META-INF/microprofile-config.properties[tags=**;!copyright]
 ----
 
 Play with this application by changing configuration values for each property in the [hotspot file=0]`resources/CustomConfigSource.json` file.
