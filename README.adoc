@@ -135,7 +135,7 @@ include::finish/src/main/resources/META-INF/microprofile-config.properties[tags=
 ----
 
 To use this configuration property, 
-[role="code_command hotspot", subs="quotes"]
+[role="code_command hotspot file=3", subs="quotes"]
 ----
 #Create the `InventoryConfig.java` class.#
 `src/main/java/io/openliberty/guides/inventory/InventoryConfig.java`
