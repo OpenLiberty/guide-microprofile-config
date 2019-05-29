@@ -92,7 +92,7 @@ There are three default configuration sources as following:
 
 * System properties has a default ordinal of 400. (e.g. `bootstrap.properties` file)
 * Environment variables have a default ordinal of 300. (e.g. `server.env` file)
-* The [hotspot=ordinal file=1]`META-INF/microprofile-config.properties` configuration property file on the classpath has a default ordinal of 100.
+* The [hotspot=ordinal]`META-INF/microprofile-config.properties` configuration property file on the classpath has a default ordinal of 100.
 
 Access the [hotspot]`src/main/resources/META-INF/microprofile-config.properties` local configuration file. This configuration file is the default configuration source for an application that uses MicroProfile Config.
 
