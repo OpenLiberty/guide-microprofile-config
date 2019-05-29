@@ -23,14 +23,24 @@ import io.openliberty.guides.config.Email;
 public class InventoryConfig {
 
   // tag::port-number[]
+  // tag::inject-port-number[]
   @Inject
+  // end::inject-port-number[]
+  // tag::guides-port-number[]
   @ConfigProperty(name = "io_openliberty_guides_port_number")
+  // end::guides-port-number[]
   private int portNumber;
 
   // end::port-number[]
   // tag::build-in-converter[]
+  // tag::inject-inMaintenance[]
+  // tag::inject[]
   @Inject
+  // end::inject[]
+  // tag::configPropety[]
   @ConfigProperty(name = "io_openliberty_guides_inventory_inMaintenance")
+  // end::configPropety[]
+  // tag::inject-inMaintenance[]
   private Provider<Boolean> inMaintenance;
 
   // end::build-in-converter[]
@@ -38,20 +48,22 @@ public class InventoryConfig {
   @Inject
   @ConfigProperty(name = "io_openliberty_guides_email")
   private Provider<Email> email;
-
   // end::custom-converter[]
+
   // tag::getPortNumber[]
   public int getPortNumber() {
     return portNumber;
   }
-
   // end::getPortNumber[]
+
   // tag::isInMaintenance[]
   public boolean isInMaintenance() {
+    // tag::inMaintenanceGet[]
     return inMaintenance.get();
+    // end::inMaintenanceGet[]
   }
-
   // end::isInMaintenance[]
+
   // tag::getEmail[]
   public Email getEmail() {
     return email.get();

@@ -10,9 +10,10 @@
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
 // end::copyright[]
-// tag::email[]
+
 package io.openliberty.guides.config;
 
+// tag::email[]
 public class Email {
   private String name;
   private String domain;

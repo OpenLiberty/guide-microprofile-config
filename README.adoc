@@ -92,7 +92,7 @@ There are three default configuration sources as following:
 
 * System properties has a default ordinal of 400. (e.g. `bootstrap.properties` file)
 * Environment variables have a default ordinal of 300. (e.g. `server.env` file)
-* The [hotspot=1]`META-INF/microprofile-config.properties` configuration property file on the classpath has a default ordinal of 100.
+* The [hotspot=ordinal file=1]`META-INF/microprofile-config.properties` configuration property file on the classpath has a default ordinal of 100.
 
 Access the [hotspot]`src/main/resources/META-INF/microprofile-config.properties` local configuration file. This configuration file is the default configuration source for an application that uses MicroProfile Config.
 
@@ -107,9 +107,9 @@ include::finish/src/main/resources/META-INF/microprofile-config.properties[tags=
 // =================================================================================================
 == Injecting static configuration
 
-The MicroProfile Config API was added as a dependency to your [hotspot file=0]`pom.xml` file. Look for the dependency with the [hotspot=71 file=0]`mpConfig` artifact ID.
+The MicroProfile Config API was added as a dependency to your [hotspot file=0]`pom.xml` file. Look for the dependency with the [hotspot=config_aID file=0]`mpConfig` artifact ID.
 This feature allows you to use the MicroProfile Config API to externalize configurations for your microservices.
-The [hotspot=8 file=1]`mpConfig` feature is also enabled in the [hotspot file=1]`src/main/liberty/config/server.xml` file.
+The [hotspot=config file=1]`mpConfig` feature is also enabled in the [hotspot file=1]`src/main/liberty/config/server.xml` file.
 
 pom.xml
 [source,xml,linenums,role="code_column"]
@@ -126,7 +126,7 @@ include::finish/src/main/liberty/config/server.xml[tags=**]
 Now navigate to the [hotspot file=2]`src/main/resources/META-INF/microprofile-config.properties` local configuration file to check some static configuration.
 This configuration file is the default configuration source for an application that uses MicroProfile Config.
 
-The [hotspot=2 file=2]`io_openliberty_guides_port_number` property that has already been defined in this file, determines the port number of the REST service.
+The [hotspot=inventory-port-number file=2]`io_openliberty_guides_port_number` property that has already been defined in this file, determines the port number of the REST service.
 
 microprofile-config.properties
 [source, properties, linenums, role='code_column']
@@ -146,11 +146,11 @@ InventoryConfig.java
 include::finish/src/main/java/io/openliberty/guides/inventory/InventoryConfig.java[tags=**;!copyright;!build-in-converter;!custom-converter;!isInMaintenance;!getEmail]
 ----
 
-Inject the [hotspot=13 file=3]`io_openliberty_guides_port_number` property, and add the [hotspot=16-18 file=3]`getPortNumber()` class method to the [hotspot file=3]`InventoryConfig.java` file.
+Inject the [hotspot=guides-port-number file=3]`io_openliberty_guides_port_number` property, and add the [hotspot=getPortNumber file=3]`getPortNumber()` class method to the [hotspot file=3]`InventoryConfig.java` file.
 
-The [hotspot=12 file=3]`@Inject` annotation injects the port number directly, the injection value is static and fixed on application starting.
+The [hotspot=inject-port-number file=3]`@Inject` annotation injects the port number directly, the injection value is static and fixed on application starting.
 
-The [hotspot=16-18 file=3]`getPortNumber()` method directly returns the value of `portNumber` because it has been injected.
+The [hotspot=getPortNumber file=3]`getPortNumber()` method directly returns the value of `portNumber` because it has been injected.
 
 // =================================================================================================
 // Injecting dynamic configuration
@@ -189,7 +189,7 @@ CustomConfigSource.java
 include::finish/src/main/java/io/openliberty/guides/config/CustomConfigSource.java[tags=**;!copyright]
 ----
 
-The [hotspot=46-77 file=1]`getProperties()` method reads the key value pairs from the [hotspot file=0]`resources/CustomConfigSource.json` JSON file and writes the information into a map.
+The [hotspot=getProperties file=1]`getProperties()` method reads the key value pairs from the [hotspot file=0]`resources/CustomConfigSource.json` JSON file and writes the information into a map.
 
 Finally, register the custom configuration source.
 
@@ -227,12 +227,12 @@ InventoryConfig.java
 ----
 include::finish/src/main/java/io/openliberty/guides/inventory/InventoryConfig.java[tags=**;!copyright;!custom-converter;!getEmail]
 ----
-Inject the [hotspot=16-17 file=0]`io_openliberty_guides_inventory_inMaintenance` property, and add the [hotspot=24-26 file=0]`isInMaintenance()` class method.
+Inject the [hotspot=inject-inMaintenance file=0]`io_openliberty_guides_inventory_inMaintenance` property, and add the [hotspot=isInMaintenance file=0]`isInMaintenance()` class method.
 
-The [hotspot=16 file=0]`@Inject` and [hotspot=17 file=0]`@ConfigProperty` annotations inject the [hotspot=4 file=1]`io_openliberty_guides_inventory_inMaintenance` configuration property from the [hotspot file=1]`CustomConfigSource.json` file.
+The [hotspot=inject file=0]`@Inject` and [hotspot=configPropety file=0]`@ConfigProperty` annotations inject the [hotspot=4 file=1]`io_openliberty_guides_inventory_inMaintenance` configuration property from the [hotspot file=1]`CustomConfigSource.json` file.
 The `Provider<>` interface used, forces the service to retrieve the inMaintenance value just in time. This retrieval of the value just in time makes the config injection dynamic and able to change without having to restart the application.
 
-Every time that you invoke the [hotspot=25 file=0s]`inMaintenance.get()` method, the `Provider<>` interface picks up the
+Every time that you invoke the [hotspot=inMaintenanceGet file=0s]`inMaintenance.get()` method, the `Provider<>` interface picks up the
 latest value of the [hotspot=4 file=1]`io_openliberty_guides_inventory_inMaintenance` property from configuration sources.
 
 CustomConfigSource.json
@@ -260,10 +260,10 @@ Email.java
 include::finish/src/main/java/io/openliberty/guides/config/Email.java[tags=email]
 ----
 
-To use this [hotspot=3-26 file=0]`Email` class type, add a custom converter by implementing the generic interface `org.eclipse.microprofile.config.spi.Converter<T>`.
+To use this [hotspot=email file=0]`Email` class type, add a custom converter by implementing the generic interface `org.eclipse.microprofile.config.spi.Converter<T>`.
 The Type parameter of the interface is the target type the String is converted to.
 
-[role="code_command hotspot", subs="quotes"]
+[role="code_command hotspot file=1", subs="quotes"]
 ----
 #Create the `CustomEmailConverter` class.#
 `src/main/java/io/openliberty/guides/config/CustomEmailConverter.java`
@@ -277,7 +277,7 @@ include::finish/src/main/java/io/openliberty/guides/config/CustomEmailConverter.
 This implements the `Converter<T>` interface.
 
 To register your implementation,
-[role="code_command hotspot", subs="quotes"]
+[role="code_command hotspot file=2", subs="quotes"]
 ----
 #Create the configuration file.#
 `src/main/resources/META-INF/services/org.eclipse.microprofile.config.spi.Converter`
@@ -289,8 +289,8 @@ include::finish/src/main/resources/META-INF/services/org.eclipse.microprofile.co
 ----
 Add the fully qualified class name of the custom converter into it.
 
-To use the custom [hotspot=10-35]`Email` converter,
-[role="code_command hotspot", subs="quotes"]
+To use the custom [hotspot=customConfig file=2]`Email` converter,
+[role="code_command hotspot file=3", subs="quotes"]
 ---- 
 #Replace the `InventoryConfig` class.#
 `src/main/java/io/openliberty/guides/inventory/InventoryConfig.java`
@@ -300,7 +300,7 @@ InventoryConfig.java
 ----
 include::finish/src/main/java/io/openliberty/guides/inventory/InventoryConfig.java[tags=**;!copyright]
 ----
-Inject the [hotspot=20-21 file=3]`io_openliberty_guides_email` property, and add the [hotspot=32-34 file=3]`getEmail()` method.
+Inject the [hotspot=custom-converter file=3]`io_openliberty_guides_email` property, and add the [hotspot=getEmail file=3]`getEmail()` method.
 
 // =================================================================================================
 // Adding configuration to the service
@@ -318,13 +318,13 @@ InventoryResource.java
 ----
 include::finish/src/main/java/io/openliberty/guides/inventory/InventoryResource.java[tags=**;!copyright]
 ----
-To add configuration to the `inventory` service, the [hotspot=25 file=0]`InventoryConfig` object is injected to the existing class.
+To add configuration to the `inventory` service, the [hotspot=config-injection file=0]`InventoryConfig` object is injected to the existing class.
 
-The port number from the configuration is retrieved by the [hotspot=33 file=0]`inventoryConfig.getPortNumber()` method and passed to the [hotspot=33 file=0]`manager.get()` method as a parameter.
+The port number from the configuration is retrieved by the [hotspot=config-port file=0]`inventoryConfig.getPortNumber()` method and passed to the [hotspot=config-port file=0]`manager.get()` method as a parameter.
 
-To determine whether the inventory service is in maintenance or not (according to the configuration value), [hotspot=55 file=0]`inventoryConfig.isInMaintenance()` class method is used.
+To determine whether the inventory service is in maintenance or not (according to the configuration value), [hotspot=isInMaintenance file=0]`inventoryConfig.isInMaintenance()` class method is used.
 If you set the [hotspot=4 file=1]`io_openliberty_guides_inventory_inMaintenance` property to `true` in the configuration, the inventory service returns the message, `ERROR: Service is currently in maintenance`, along with the contact email.
-The email configuration value can be obtained by calling [hotspot=60 file=0]`inventoryConfig.getEmail()` method.
+The email configuration value can be obtained by calling [hotspot=getEmail file=0]`inventoryConfig.getEmail()` method.
 
 CustomConfigSource.json
 [source, Json, linenums, role='code_column']
@@ -352,7 +352,7 @@ You can find the service that retrieves configuration information that is specif
 * http://localhost:9080/config[http://localhost:9080/config^]
 
 
-The [hotspot=2 file=0]`config_ordinal` value of the custom configuration source is set to [hotspot=2 file=0]`150`. It overrides configuration values of the default [hotspot file=1]`microprofile-config.properties` source, which has a [hotspot=1 file=1]`config_ordinal` value of [hotspot=1 file=1]`100`.
+The [hotspot=2 file=0]`config_ordinal` value of the custom configuration source is set to [hotspot=2 file=0]`150`. It overrides configuration values of the default [hotspot file=1]`microprofile-config.properties` source, which has a [hotspot=ordinal file=1]`config_ordinal` value of [hotspot=ordinal file=1]`100`.
 
 CustomConfigSource.json
 [source, Json, linenums, role='code_column']
@@ -393,14 +393,14 @@ ConfigurationTest.java
 include::finish/src/test/java/it/io/openliberty/guides/config/ConfigurationTest.java[tags=test]
 ----
 
-The [hotspot=52-67 file=0]`testInitialServiceStatus()` test case reads the value of the `io_openliberty_guides_inventory_inMaintenance` configuration property in the file `META-INF/microprofile-config.properties` and checks the HTTP response of the inventory service.
+The [hotspot=testInitialServiceStatus file=0]`testInitialServiceStatus()` test case reads the value of the `io_openliberty_guides_inventory_inMaintenance` configuration property in the file `META-INF/microprofile-config.properties` and checks the HTTP response of the inventory service.
 If the configuration value is `false`, the service returns a valid response. Otherwise, the service returns the following message: `ERROR: Service is currently in maintenance`.
 
-Because the `io_openliberty_guides_inventory_inMaintenance` configuration property is set to `false` by default, the [hotspot=69-85 file=0]`testPutServiceInMaintenance()` test case first checks that the inventory service is not in maintenance in the beginning.
+Because the `io_openliberty_guides_inventory_inMaintenance` configuration property is set to `false` by default, the [hotspot=testPutServiceInMaintenance file=0]`testPutServiceInMaintenance()` test case first checks that the inventory service is not in maintenance in the beginning.
 Next, this test switches the value of the `io_openliberty_guides_inventory_inMaintenance` configuration property to `true`.
 In the end, the inventory service returns the following message: `ERROR: Service is currently in maintenance`.
 
-The [hotspot=87-105 file=0]`testChangeEmail()` test case first puts the `inventory` service in maintenance, then it changes the email address in the configuration file. In the end, the `inventory` service should display the error message with the latest email address.
+The [hotspot=testChangeEmail file=0]`testChangeEmail()` test case first puts the `inventory` service in maintenance, then it changes the email address in the configuration file. In the end, the `inventory` service should display the error message with the latest email address.
 
 In addition, a few endpoint tests have been provided for you to test the basic functionality of the `inventory` and `system` services. If a test failure occurs, then you must have introduced a bug into the code.
 Reminder that you must register the custom configuration source and custom converter in the `src/main/resources/META-INF/services/` directory, if you miss to complete these steps, the tests will fail.
@@ -426,7 +426,7 @@ Tests run: 3, Failures: 0, Errors: 0, Skipped: 0
 
 ----
 
-To see whether the tests detect a failure, remove the configuration resetting line in the [hotspot=30-37 file=0]`setup()` method of the [hotspot file=0]`ConfigurationTest.java` file.
+To see whether the tests detect a failure, remove the configuration resetting line in the [hotspot=setup file=0]`setup()` method of the [hotspot file=0]`ConfigurationTest.java` file.
 Then manually change some configuration values in the `resources/CustomConfigSource.json` file.
 Re-run the Maven build. You will see a test failure occur.
 
