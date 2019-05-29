@@ -135,7 +135,7 @@ include::finish/src/main/resources/META-INF/microprofile-config.properties[tags=
 ----
 
 To use this configuration property, 
-[role="code_command hotspot", subs="quotes"]
+[role="code_command hotspot file=3", subs="quotes"]
 ----
 #Create the `InventoryConfig.java` class.#
 `src/main/java/io/openliberty/guides/inventory/InventoryConfig.java`
@@ -263,7 +263,7 @@ include::finish/src/main/java/io/openliberty/guides/config/Email.java[tags=email
 To use this [hotspot=3-26 file=0]`Email` class type, add a custom converter by implementing the generic interface `org.eclipse.microprofile.config.spi.Converter<T>`.
 The Type parameter of the interface is the target type the String is converted to.
 
-[role="code_command hotspot", subs="quotes"]
+[role="code_command hotspot file=1", subs="quotes"]
 ----
 #Create the `CustomEmailConverter` class.#
 `src/main/java/io/openliberty/guides/config/CustomEmailConverter.java`
@@ -277,7 +277,7 @@ include::finish/src/main/java/io/openliberty/guides/config/CustomEmailConverter.
 This implements the `Converter<T>` interface.
 
 To register your implementation,
-[role="code_command hotspot", subs="quotes"]
+[role="code_command hotspot file=2", subs="quotes"]
 ----
 #Create the configuration file.#
 `src/main/resources/META-INF/services/org.eclipse.microprofile.config.spi.Converter`
@@ -289,8 +289,8 @@ include::finish/src/main/resources/META-INF/services/org.eclipse.microprofile.co
 ----
 Add the fully qualified class name of the custom converter into it.
 
-To use the custom [hotspot=10-35]`Email` converter,
-[role="code_command hotspot", subs="quotes"]
+To use the custom [hotspot=10-35 file=2]`Email` converter,
+[role="code_command hotspot file=3", subs="quotes"]
 ---- 
 #Replace the `InventoryConfig` class.#
 `src/main/java/io/openliberty/guides/inventory/InventoryConfig.java`
