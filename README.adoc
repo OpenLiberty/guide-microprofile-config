@@ -99,7 +99,7 @@ Access the [hotspot]`src/main/resources/META-INF/microprofile-config.properties`
 microprofile-config.properties
 [source, properties, linenums, role='code_column']
 ----
-include::finish/src/main/resources/META-INF/microprofile-config.properties[tags=**;!copyright]
+include::finish/src/main/resources/META-INF/microprofile-config.properties[]
 ----
 
 // =================================================================================================
