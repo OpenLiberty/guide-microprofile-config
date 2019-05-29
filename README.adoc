@@ -114,13 +114,13 @@ The [hotspot=config file=1]`mpConfig` feature is also enabled in the [hotspot fi
 pom.xml
 [source,xml,linenums,role="code_column"]
 ----
-include::finish/pom.xml[tags=**]
+include::finish/pom.xml[]]
 ----
 
 server.xml
 [source,xml,linenums,role="code_column"]
 ----
-include::finish/src/main/liberty/config/server.xml[tags=**]
+include::finish/src/main/liberty/config/server.xml[]
 ----
 
 Now navigate to the [hotspot file=2]`src/main/resources/META-INF/microprofile-config.properties` local configuration file to check some static configuration.
@@ -131,7 +131,7 @@ The [hotspot=inventory-port-number file=2]`io_openliberty_guides_port_number` pr
 microprofile-config.properties
 [source, properties, linenums, role='code_column']
 ----
-include::finish/src/main/resources/META-INF/microprofile-config.properties[tags=**;!copyright]
+include::finish/src/main/resources/META-INF/microprofile-config.properties[]
 ----
 
 To use this configuration property, 
@@ -143,7 +143,7 @@ To use this configuration property,
 InventoryConfig.java
 [source, Java, linenums, role='code_column']
 ----
-include::finish/src/main/java/io/openliberty/guides/inventory/InventoryConfig.java[tags=**;!copyright;!build-in-converter;!custom-converter;!isInMaintenance;!getEmail]
+include::finish/src/main/java/io/openliberty/guides/inventory/InventoryConfig.java[]
 ----
 
 Inject the [hotspot=guides-port-number file=3]`io_openliberty_guides_port_number` property, and add the [hotspot=getPortNumber file=3]`getPortNumber()` class method to the [hotspot file=3]`InventoryConfig.java` file.
@@ -167,7 +167,7 @@ However, you can externalize configuration data out of the application package, 
 CustomConfigSource.json
 [source, Json, linenums, role='code_column']
 ----
-include::finish/resources/CustomConfigSource.json[tags=**]
+include::finish/resources/CustomConfigSource.json[]
 ----
 
 Custom configuration sources can be created by implementing the `org.eclipse.microprofile.config.spi.ConfigSource` interface and using the `java.util.ServiceLoader` mechanism.
@@ -186,7 +186,7 @@ To link this JSON file to your application and to implement the `ConfigSource` i
 CustomConfigSource.java
 [source, Java, linenums, role='code_column']
 ----
-include::finish/src/main/java/io/openliberty/guides/config/CustomConfigSource.java[tags=**;!copyright]
+include::finish/src/main/java/io/openliberty/guides/config/CustomConfigSource.java[]
 ----
 
 The [hotspot=getProperties file=1]`getProperties()` method reads the key value pairs from the [hotspot file=0]`resources/CustomConfigSource.json` JSON file and writes the information into a map.
@@ -202,7 +202,7 @@ Finally, register the custom configuration source.
 org.eclipse.microprofile.config.spi.ConfigSource
 [source, Java, linenums, role='code_column']
 ----
-include::finish/src/main/resources/META-INF/services/org.eclipse.microprofile.config.spi.ConfigSource[tags=**]
+include::finish/src/main/resources/META-INF/services/org.eclipse.microprofile.config.spi.ConfigSource[]
 ----
 
 Add the fully qualified class name of the configuration source into it.
@@ -225,7 +225,7 @@ To enable this dynamic injection,
 InventoryConfig.java
 [source, Java, linenums, role='code_column']
 ----
-include::finish/src/main/java/io/openliberty/guides/inventory/InventoryConfig.java[tags=**;!copyright;!custom-converter;!getEmail]
+include::finish/src/main/java/io/openliberty/guides/inventory/InventoryConfig.java[]
 ----
 Inject the [hotspot=inject-inMaintenance file=0]`io_openliberty_guides_inventory_inMaintenance` property, and add the [hotspot=isInMaintenance file=0]`isInMaintenance()` class method.
 
@@ -238,7 +238,7 @@ latest value of the [hotspot=4 file=1]`io_openliberty_guides_inventory_inMainten
 CustomConfigSource.json
 [source, Json, linenums, role='code_column']
 ----
-include::finish/resources/CustomConfigSource.json[tags=**]
+include::finish/resources/CustomConfigSource.json[]
 ----
 
 // =================================================================================================
@@ -257,7 +257,7 @@ To convert configured Strings to an arbitrary class type, such as the `Email` cl
 Email.java
 [source, Java, linenums, role='code_column']
 ----
-include::finish/src/main/java/io/openliberty/guides/config/Email.java[tags=email]
+include::finish/src/main/java/io/openliberty/guides/config/Email.java[]
 ----
 
 To use this [hotspot=email file=0]`Email` class type, add a custom converter by implementing the generic interface `org.eclipse.microprofile.config.spi.Converter<T>`.
@@ -271,7 +271,7 @@ The Type parameter of the interface is the target type the String is converted t
 CustomEmailConverter.java
 [source, Java, linenums, role='code_column']
 ----
-include::finish/src/main/java/io/openliberty/guides/config/CustomEmailConverter.java[tags=**;!copyright]
+include::finish/src/main/java/io/openliberty/guides/config/CustomEmailConverter.java[]
 ----
 
 This implements the `Converter<T>` interface.
@@ -285,7 +285,7 @@ To register your implementation,
 org.eclipse.microprofile.config.spi.Converter
 [source, Java, linenums, role='code_column']
 ----
-include::finish/src/main/resources/META-INF/services/org.eclipse.microprofile.config.spi.Converter[tags=**]
+include::finish/src/main/resources/META-INF/services/org.eclipse.microprofile.config.spi.Converter[]
 ----
 Add the fully qualified class name of the custom converter into it.
 
@@ -298,7 +298,7 @@ To use the custom [hotspot=customConfig file=2]`Email` converter,
 InventoryConfig.java
 [source, Java, linenums, role='code_column']
 ----
-include::finish/src/main/java/io/openliberty/guides/inventory/InventoryConfig.java[tags=**;!copyright]
+include::finish/src/main/java/io/openliberty/guides/inventory/InventoryConfig.java[]
 ----
 Inject the [hotspot=custom-converter file=3]`io_openliberty_guides_email` property, and add the [hotspot=getEmail file=3]`getEmail()` method.
 
@@ -316,7 +316,7 @@ To use externalized configuration in the `inventory` service,
 InventoryResource.java
 [source, Java, linenums, role='code_column']
 ----
-include::finish/src/main/java/io/openliberty/guides/inventory/InventoryResource.java[tags=**;!copyright]
+include::finish/src/main/java/io/openliberty/guides/inventory/InventoryResource.java[]
 ----
 To add configuration to the `inventory` service, the [hotspot=config-injection file=0]`InventoryConfig` object is injected to the existing class.
 
@@ -329,7 +329,7 @@ The email configuration value can be obtained by calling [hotspot=getEmail file=
 CustomConfigSource.json
 [source, Json, linenums, role='code_column']
 ----
-include::finish/resources/CustomConfigSource.json[tags=**]
+include::finish/resources/CustomConfigSource.json[]
 ----
 
 
@@ -357,13 +357,13 @@ The [hotspot=2 file=0]`config_ordinal` value of the custom configuration source 
 CustomConfigSource.json
 [source, Json, linenums, role='code_column']
 ----
-include::finish/resources/CustomConfigSource.json[tags=**]
+include::finish/resources/CustomConfigSource.json[]
 ----
 
 microprofile-config.properties
 [source, properties, linenums, role='code_column']
 ----
-include::finish/src/main/resources/META-INF/microprofile-config.properties[tags=**;!copyright]
+include::finish/src/main/resources/META-INF/microprofile-config.properties[]
 ----
 
 Play with this application by changing configuration values for each property in the [hotspot file=0]`resources/CustomConfigSource.json` file.
@@ -390,7 +390,7 @@ include::{common-includes}/mvncompile.adoc[]
 ConfigurationTest.java
 [source, Java, linenums, role='code_column']
 ----
-include::finish/src/test/java/it/io/openliberty/guides/config/ConfigurationTest.java[tags=test]
+include::finish/src/test/java/it/io/openliberty/guides/config/ConfigurationTest.java[]
 ----
 
 The [hotspot=testInitialServiceStatus file=0]`testInitialServiceStatus()` test case reads the value of the `io_openliberty_guides_inventory_inMaintenance` configuration property in the file `META-INF/microprofile-config.properties` and checks the HTTP response of the inventory service.
