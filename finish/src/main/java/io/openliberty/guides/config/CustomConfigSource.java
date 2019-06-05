@@ -56,6 +56,7 @@ public class CustomConfigSource implements ConfigSource {
     return "Custom Config Source: file:" + this.fileLocation;
   }
 
+  // tag::getProperties[]
   public Map<String, String> getProperties() {
     Map<String, String> m = new HashMap<String, String>();
     String jsonData = this.readFile(this.fileLocation);
@@ -88,6 +89,7 @@ public class CustomConfigSource implements ConfigSource {
     parser.close();
     return m;
   }
+  // end::getProperties[]
 
   public String readFile(String fileName) {
     String result = "";

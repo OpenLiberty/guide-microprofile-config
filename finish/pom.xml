@@ -71,7 +71,9 @@
         <!-- tag::config[] -->
         <dependency>
             <groupId>io.openliberty.features</groupId>
+            <!-- tag::config_aID[] -->
             <artifactId>mpConfig-1.3</artifactId>
+            <!-- end::config_aID[] -->
             <type>esa</type>
             <scope>provided</scope>
         </dependency>
