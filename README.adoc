@@ -141,7 +141,7 @@ To use this configuration property,
 `src/main/java/io/openliberty/guides/inventory/InventoryConfig.java`
 ----
 InventoryConfig.java
-[source, Java, linenums, role='code_column' hide_tags=copyright]
+[source, Java, linenums, role='code_column hide_tags=copyright']
 ----
 include::finish/src/main/java/io/openliberty/guides/inventory/InventoryConfig.java[]
 ----
@@ -184,7 +184,7 @@ To link this JSON file to your application and to implement the `ConfigSource` i
 `src/main/java/io/openliberty/guides/config/CustomConfigSource.java`
 ----
 CustomConfigSource.java
-[source, Java, linenums, role='code_column' hide_tags=copyright]
+[source, Java, linenums, role='code_column hide_tags=copyright']
 ----
 include::finish/src/main/java/io/openliberty/guides/config/CustomConfigSource.java[]
 ----
@@ -223,7 +223,7 @@ To enable this dynamic injection,
 `src/main/java/io/openliberty/guides/inventory/InventoryConfig.java`
 ----
 InventoryConfig.java
-[source, Java, linenums, role='code_column']
+[source, Java, linenums, role='code_column hide_tags=copyright']
 ----
 include::finish/src/main/java/io/openliberty/guides/inventory/InventoryConfig.java[]
 ----
@@ -255,7 +255,7 @@ To convert configured Strings to an arbitrary class type, such as the `Email` cl
 `src/main/java/io/openliberty/guides/config/Email.java`
 ----
 Email.java
-[source, Java, linenums, role='code_column' hide_tags=copyright]
+[source, Java, linenums, role='code_column hide_tags=copyright']
 ----
 include::finish/src/main/java/io/openliberty/guides/config/Email.java[]
 ----
@@ -269,7 +269,7 @@ The Type parameter of the interface is the target type the String is converted t
 `src/main/java/io/openliberty/guides/config/CustomEmailConverter.java`
 ----
 CustomEmailConverter.java
-[source, Java, linenums, role='code_column' hide_tags=copyright]
+[source, Java, linenums, role='code_column hide_tags=copyright']
 ----
 include::finish/src/main/java/io/openliberty/guides/config/CustomEmailConverter.java[]
 ----
@@ -296,7 +296,7 @@ To use the custom [hotspot=customConfig file=2]`Email` converter,
 `src/main/java/io/openliberty/guides/inventory/InventoryConfig.java`
 ----
 InventoryConfig.java
-[source, Java, linenums, role='code_column']
+[source, Java, linenums, role='code_column hide_tags=copyright']
 ----
 include::finish/src/main/java/io/openliberty/guides/inventory/InventoryConfig.java[]
 ----
@@ -314,7 +314,7 @@ To use externalized configuration in the `inventory` service,
 `src/main/java/io/openliberty/guides/inventory/InventoryResource.java`
 ----
 InventoryResource.java
-[source, Java, linenums, role='code_column' hide_tags=copyright]
+[source, Java, linenums, role='code_column hide_tags=copyright']
 ----
 include::finish/src/main/java/io/openliberty/guides/inventory/InventoryResource.java[]
 ----
@@ -388,7 +388,7 @@ include::{common-includes}/mvncompile.adoc[]
 `src/test/java/it/io/openliberty/guides/config/ConfigurationTest.java`
 ----
 ConfigurationTest.java
-[source, Java, linenums, role='code_column' hide_tags=copyright]
+[source, Java, linenums, role='code_column hide_tags=copyright']
 ----
 include::finish/src/test/java/it/io/openliberty/guides/config/ConfigurationTest.java[]
 ----
