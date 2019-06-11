@@ -1,4 +1,4 @@
-// tag::comment[]
+// tag::copyright[]
 /*******************************************************************************
  * Copyright (c) 2017, 2019 IBM Corporation and others.
  * All rights reserved. This program and the accompanying materials
@@ -9,7 +9,7 @@
  * Contributors:
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
-// end::comment[]
+// end::copyright[]
 // tag::test[]
 package it.io.openliberty.guides.config;
 
@@ -40,6 +40,7 @@ public class ConfigurationTest {
         "io_openliberty_guides_inventory_inMaintenance";
 
   @Before
+  // tag::setup[]
   public void setup() {
     port = System.getProperty("liberty.test.port");
     baseUrl = "http://localhost:" + port + "/";
@@ -48,6 +49,7 @@ public class ConfigurationTest {
     client = ClientBuilder.newClient();
     client.register(JsrJsonpProvider.class);
   }
+  // end::setup[]
 
   @After
   public void teardown() {
@@ -64,7 +66,7 @@ public class ConfigurationTest {
   }
   // end::testSuite[]
 
-  // tag::testInitialServiceStatus()[]
+  // tag::testInitialServiceStatus[]
   public void testInitialServiceStatus() {
     boolean status = Boolean.valueOf(ConfigTestUtil.readPropertyValueInFile(
         INV_MAINTENANCE_PROP, DEFAULT_CONFIG_FILE));
@@ -81,9 +83,9 @@ public class ConfigurationTest {
         ConfigTestUtil.getStringFromURL(client, baseUrl + INVENTORY_HOSTS));
     }
   }
-  // end::testInitialServiceStatus()[]
+  // end::testInitialServiceStatus[]
 
-  // tag::testPutServiceInMaintenance()[]
+  // tag::testPutServiceInMaintenance[]
   public void testPutServiceInMaintenance() {
     Response response = ConfigTestUtil.getResponse(
         client, baseUrl + INVENTORY_HOSTS);
@@ -101,9 +103,9 @@ public class ConfigurationTest {
        "ERROR: Service is currently in maintenance. Contact: admin@guides.openliberty.io",
         error);
   }
-  // end::testPutServiceInMaintenance()[]
+  // end::testPutServiceInMaintenance[]
 
-  // tag::testChangeEmail()[]
+  // tag::testChangeEmail[]
   public void testChangeEmail() {
     ConfigTestUtil.switchInventoryMaintenance(CUSTOM_CONFIG_FILE, true);
 
@@ -123,7 +125,7 @@ public class ConfigurationTest {
      "ERROR: Service is currently in maintenance. Contact: service@guides.openliberty.io",
       error);
   }
-  // end::testChangeEmail()[]
+  // end::testChangeEmail[]
 
 }
 // end::test[]

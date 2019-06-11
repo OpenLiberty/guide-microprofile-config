@@ -71,12 +71,16 @@ public class InventoryResource {
   @GET
   @Produces(MediaType.APPLICATION_JSON)
   public Response listContents() {
+    // tag::isInMaintenance[]
     if (!inventoryConfig.isInMaintenance()) {
+    // end::isInMaintenance[]
       return Response.ok(manager.list()).build();
     } else {
       return Response.status(Response.Status.SERVICE_UNAVAILABLE)
                      .entity("ERROR: Service is currently in maintenance. Contact: " +
+                     // tag::getEmail[]
                              inventoryConfig.getEmail().toString())
+                    // end::getEmail[]
                      .build();
     }
   }

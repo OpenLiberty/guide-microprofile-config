@@ -10,12 +10,12 @@
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
 // end::copyright[]
-// tag::customConfig[]
 package io.openliberty.guides.config;
 
 import org.eclipse.microprofile.config.spi.Converter;
 import io.openliberty.guides.config.Email;
 
+// tag::customConfig[]
 public class CustomEmailConverter implements Converter<Email> {
 
   @Override
