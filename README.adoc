@@ -275,7 +275,7 @@ Therefore, in the previous section, it is type-safe to directly set the variable
 To convert configured Strings to an arbitrary class type, such as the `Email` class type,
 [role="code_command hotspot", subs="quotes"]
 ----
-#Create the `Email` Class.#
+#Replace the `Email` Class.#
 `src/main/java/io/openliberty/guides/config/Email.java`
 ----
 Email.java
