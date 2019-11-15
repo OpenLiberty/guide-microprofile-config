@@ -13,18 +13,18 @@
 // tag::test[]
 package it.io.openliberty.guides.config;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.core.Response;
 
 import org.apache.cxf.jaxrs.provider.jsrjsonp.JsrJsonpProvider;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class ConfigurationTest {
+public class ConfigurationIT {
 
   private String port;
   private String baseUrl;
@@ -36,24 +36,23 @@ public class ConfigurationTest {
       + "/src/main/resources/META-INF/microprofile-config.properties";
   private final String CUSTOM_CONFIG_FILE = USER_DIR.split("target")[0]
       + "/resources/CustomConfigSource.json";
-  private final String INV_MAINTENANCE_PROP = 
-        "io_openliberty_guides_inventory_inMaintenance";
+  private final String INV_MAINTENANCE_PROP = "io_openliberty_guides_inventory_inMaintenance";
 
-  @Before
+  @BeforeEach
   // tag::setup[]
   public void setup() {
-    port = System.getProperty("liberty.test.port");
+    port = System.getProperty("default.http.port");
     baseUrl = "http://localhost:" + port + "/";
-    ConfigTestUtil.setDefaultJsonFile(CUSTOM_CONFIG_FILE);
+    ConfigITUtil.setDefaultJsonFile(CUSTOM_CONFIG_FILE);
 
     client = ClientBuilder.newClient();
     client.register(JsrJsonpProvider.class);
   }
   // end::setup[]
 
-  @After
+  @AfterEach
   public void teardown() {
-    ConfigTestUtil.setDefaultJsonFile(CUSTOM_CONFIG_FILE);
+    ConfigITUtil.setDefaultJsonFile(CUSTOM_CONFIG_FILE);
     client.close();
   }
 
@@ -68,62 +67,58 @@ public class ConfigurationTest {
 
   // tag::testInitialServiceStatus[]
   public void testInitialServiceStatus() {
-    boolean status = Boolean.valueOf(ConfigTestUtil.readPropertyValueInFile(
-        INV_MAINTENANCE_PROP, DEFAULT_CONFIG_FILE));
+    boolean status = Boolean.valueOf(ConfigITUtil
+        .readPropertyValueInFile(INV_MAINTENANCE_PROP, DEFAULT_CONFIG_FILE));
     if (!status) {
-        Response response = ConfigTestUtil.getResponse(
-            client, baseUrl + INVENTORY_HOSTS);
+      Response response = ConfigITUtil.getResponse(client, baseUrl + INVENTORY_HOSTS);
 
-        int expected = Response.Status.OK.getStatusCode();
-        int actual = response.getStatus();
-        assertEquals(expected, actual);
+      int expected = Response.Status.OK.getStatusCode();
+      int actual = response.getStatus();
+      assertEquals(expected, actual);
     } else {
-      assertEquals("The Inventory Service should be in maintenance",
-       "ERROR: Service is currently in maintenance. Contact: admin@guides.openliberty.io",
-        ConfigTestUtil.getStringFromURL(client, baseUrl + INVENTORY_HOSTS));
+      assertEquals(
+          "ERROR: Service is currently in maintenance. Contact: admin@guides.openliberty.io",
+          ConfigITUtil.getStringFromURL(client, baseUrl + INVENTORY_HOSTS),
+          "The Inventory Service should be in maintenance");
     }
   }
   // end::testInitialServiceStatus[]
 
   // tag::testPutServiceInMaintenance[]
   public void testPutServiceInMaintenance() {
-    Response response = ConfigTestUtil.getResponse(
-        client, baseUrl + INVENTORY_HOSTS);
+    Response response = ConfigITUtil.getResponse(client, baseUrl + INVENTORY_HOSTS);
 
     int expected = Response.Status.OK.getStatusCode();
     int actual = response.getStatus();
     assertEquals(expected, actual);
 
-    ConfigTestUtil.switchInventoryMaintenance(CUSTOM_CONFIG_FILE, true);
+    ConfigITUtil.switchInventoryMaintenance(CUSTOM_CONFIG_FILE, true);
 
-    String error = ConfigTestUtil.getStringFromURL(client,
-        baseUrl + INVENTORY_HOSTS);
+    String error = ConfigITUtil.getStringFromURL(client, baseUrl + INVENTORY_HOSTS);
 
-    assertEquals("The inventory service should be down in the end",
-       "ERROR: Service is currently in maintenance. Contact: admin@guides.openliberty.io",
-        error);
+    assertEquals(
+        "ERROR: Service is currently in maintenance. Contact: admin@guides.openliberty.io",
+        error, "The inventory service should be down in the end");
   }
   // end::testPutServiceInMaintenance[]
 
   // tag::testChangeEmail[]
   public void testChangeEmail() {
-    ConfigTestUtil.switchInventoryMaintenance(CUSTOM_CONFIG_FILE, true);
+    ConfigITUtil.switchInventoryMaintenance(CUSTOM_CONFIG_FILE, true);
 
-    String error = ConfigTestUtil.getStringFromURL(client,
-        baseUrl + INVENTORY_HOSTS);
+    String error = ConfigITUtil.getStringFromURL(client, baseUrl + INVENTORY_HOSTS);
 
-    assertEquals("The email should be admin@guides.openliberty.io in the beginning",
-       "ERROR: Service is currently in maintenance. Contact: admin@guides.openliberty.io",
-        error);
+    assertEquals(
+        "ERROR: Service is currently in maintenance. Contact: admin@guides.openliberty.io",
+        error, "The email should be admin@guides.openliberty.io in the beginning");
 
-    ConfigTestUtil.changeEmail(CUSTOM_CONFIG_FILE, "service@guides.openliberty.io");
+    ConfigITUtil.changeEmail(CUSTOM_CONFIG_FILE, "service@guides.openliberty.io");
 
-    error = ConfigTestUtil.getStringFromURL(client,
-        baseUrl + INVENTORY_HOSTS);
+    error = ConfigITUtil.getStringFromURL(client, baseUrl + INVENTORY_HOSTS);
 
-    assertEquals("The email should be service@guides.openliberty.io in the beginning",
-     "ERROR: Service is currently in maintenance. Contact: service@guides.openliberty.io",
-      error);
+    assertEquals(
+        "ERROR: Service is currently in maintenance. Contact: service@guides.openliberty.io",
+        error, "The email should be service@guides.openliberty.io in the beginning");
   }
   // end::testChangeEmail[]
 
