@@ -28,15 +28,15 @@
 
   <dependencies>
     <!-- Provided dependencies -->
+    <!-- tag::microprofile[] -->
     <dependency>
       <groupId>org.eclipse.microprofile</groupId>
-      <!-- tag::microprofile[] -->
       <artifactId>microprofile</artifactId>
-      <!-- end::microprofile[] -->
       <version>3.0</version>
       <type>pom</type>
       <scope>provided</scope>
     </dependency>
+    <!-- end::microprofile[] -->
     <!-- For tests -->
     <dependency>
       <groupId>org.junit.jupiter</groupId>
