@@ -382,11 +382,11 @@ microprofile-config.properties
 include::finish/src/main/resources/META-INF/microprofile-config.properties[]
 ----
 
-The [hotspot=testInitialServiceStatus file=0]`testInitialServiceStatus()` test case reads the value of the [hotspot=inventory-in-maintenance, file=1]`io_openliberty_guides_inventory_inMaintenance` configuration property in the file [hotspot file=1]`META-INF/microprofile-config.properties` and checks the HTTP response of the inventory service.
+The [hotspot=testInitialServiceStatus file=0]`testInitialServiceStatus()` test case reads the value of the [hotspot=inventory-in-maintenance file=1]`io_openliberty_guides_inventory_inMaintenance` configuration property in the file [hotspot file=1]`META-INF/microprofile-config.properties` and checks the HTTP response of the inventory service.
 If the configuration value is `false`, the service returns a valid response. Otherwise, the service returns the following message: `ERROR: Service is currently in maintenance`.
 
-Because the [hotspot=inventory-in-maintenance, file=1]`io_openliberty_guides_inventory_inMaintenance` configuration property is set to `false` by default, the [hotspot=testPutServiceInMaintenance file=0]`testPutServiceInMaintenance()` test case first checks that the inventory service is not in maintenance in the beginning.
-Next, this test switches the value of the [hotspot=inventory-in-maintenance, file=1]`io_openliberty_guides_inventory_inMaintenance` configuration property to `true`.
+Because the [hotspot=inventory-in-maintenance file=1]`io_openliberty_guides_inventory_inMaintenance` configuration property is set to `false` by default, the [hotspot=testPutServiceInMaintenance file=0]`testPutServiceInMaintenance()` test case first checks that the inventory service is not in maintenance in the beginning.
+Next, this test switches the value of the [hotspot=inventory-in-maintenance file=1]`io_openliberty_guides_inventory_inMaintenance` configuration property to `true`.
 In the end, the inventory service returns the following message: `ERROR: Service is currently in maintenance`.
 
 The [hotspot=testChangeEmail file=0]`testChangeEmail()` test case first puts the `inventory` service in maintenance, then it changes the email address in the configuration file. In the end, the `inventory` service should display the error message with the latest email address.
