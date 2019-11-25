@@ -17,6 +17,8 @@
 :page-related-guides: ['rest-intro', 'cdi-intro', 'microprofile-config-intro']
 :common-includes: ../guides-common/
 :source-highlighter: prettify
+:page-seo-title: Configuring microservices using MicroProfile Config
+:page-seo-description: A tutorial on how to externalize and inject both static and dynamic configuration properties for Java microservices using MicroProfile Config.
 :guide-author: Open Liberty
 = Configuring microservices
 
@@ -392,7 +394,7 @@ In the end, the inventory service returns the following message: `ERROR: Service
 The [hotspot=testChangeEmail file=0]`testChangeEmail()` test case first puts the `inventory` service in maintenance, then it changes the email address in the configuration file. In the end, the `inventory` service should display the error message with the latest email address.
 
 In addition, a few endpoint tests have been provided for you to test the basic functionality of the `inventory` and `system` services. If a test failure occurs, then you must have introduced a bug into the code.
-Reminder that you must register the custom configuration source and custom converter in the `src/main/resources/META-INF/services/` directory, if you miss to complete these steps, the tests will fail. These tests run automatically as a part of the integration test suite.
+Remember that you must register the custom configuration source and custom converter in the `src/main/resources/META-INF/services/` directory. If you don't complete these steps, the tests will fail. These tests run automatically as a part of the integration test suite.
 
 
 [role=command]
