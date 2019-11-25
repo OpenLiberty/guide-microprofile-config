@@ -27,9 +27,12 @@ import org.apache.cxf.jaxrs.provider.jsrjsonp.JsrJsonpProvider;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 
+@TestMethodOrder(OrderAnnotation.class)
 public class InventoryEndpointIT {
 
   private static String port;
@@ -137,7 +140,7 @@ public class InventoryEndpointIT {
   // end::tests[]
   // tag::helpers[]
   // tag::javadoc[]
-  
+
   /**
    * <p>
    * Returns response information from the specified URL.
