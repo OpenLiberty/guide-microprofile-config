@@ -17,6 +17,8 @@
 :page-related-guides: ['rest-intro', 'cdi-intro', 'microprofile-config-intro']
 :common-includes: ../guides-common/
 :source-highlighter: prettify
+:page-seo-title: Configuring microservices using MicroProfile Config
+:page-seo-description: A tutorial on how to externalize and inject both static and dynamic configuration properties for Java microservices using MicroProfile Config.
 :guide-author: Open Liberty
 = Configuring microservices
 
@@ -95,7 +97,7 @@ include::finish/src/main/resources/META-INF/microprofile-config.properties[]
 // =================================================================================================
 == Injecting static configuration
 
-The MicroProfile Config API is included in the MicroProfile dependency specified in your [hotspot file=0]`pom.xml` file. Look for the dependency with the [hotspot=microprofile file=0]`microprofile` artifact ID. This dependency provides a library that allows you to use the MicroProfile Config API to externalize configurations for your microservices.
+The MicroProfile Config API is included in the MicroProfile dependency that is specified in your [hotspot file=0]`pom.xml` file. Look for the dependency with the [hotspot=microprofile file=0]`microprofile` artifact ID. This dependency provides a library that allows you to use the MicroProfile Config API to externalize configurations for your microservices.
 The [hotspot=config file=1]`mpConfig` feature is also enabled in the [hotspot file=1]`src/main/liberty/config/server.xml` file.
 
 pom.xml
@@ -382,7 +384,7 @@ microprofile-config.properties
 include::finish/src/main/resources/META-INF/microprofile-config.properties[]
 ----
 
-The [hotspot=testInitialServiceStatus file=0]`testInitialServiceStatus()` test case reads the value of the [hotspot=inventory-in-maintenance file=1]`io_openliberty_guides_inventory_inMaintenance` configuration property in the file [hotspot file=1]`META-INF/microprofile-config.properties` and checks the HTTP response of the inventory service.
+The [hotspot=testInitialServiceStatus file=0]`testInitialServiceStatus()` test case reads the value of the [hotspot=inventory-in-maintenance file=1]`io_openliberty_guides_inventory_inMaintenance` configuration property in the [hotspot file=1]`META-INF/microprofile-config.properties` file and checks the HTTP response of the inventory service.
 If the configuration value is `false`, the service returns a valid response. Otherwise, the service returns the following message: `ERROR: Service is currently in maintenance`.
 
 Because the [hotspot=inventory-in-maintenance file=1]`io_openliberty_guides_inventory_inMaintenance` configuration property is set to `false` by default, the [hotspot=testPutServiceInMaintenance file=0]`testPutServiceInMaintenance()` test case first checks that the inventory service is not in maintenance in the beginning.
@@ -392,14 +394,13 @@ In the end, the inventory service returns the following message: `ERROR: Service
 The [hotspot=testChangeEmail file=0]`testChangeEmail()` test case first puts the `inventory` service in maintenance, then it changes the email address in the configuration file. In the end, the `inventory` service should display the error message with the latest email address.
 
 In addition, a few endpoint tests have been provided for you to test the basic functionality of the `inventory` and `system` services. If a test failure occurs, then you must have introduced a bug into the code.
-Reminder that you must register the custom configuration source and custom converter in the `src/main/resources/META-INF/services/` directory, if you miss to complete these steps, the tests will fail. These tests
-will run automatically as a part of the integration test suite.
+Remember that you must register the custom configuration source and custom converter in the `src/main/resources/META-INF/services/` directory. If you don't complete these steps, the tests will fail. These tests run automatically as a part of the integration test suite.
 
 
 [role=command]
 include::{common-includes}/devmode-test.adoc[]
 
-You will see the following output:
+You see the following output:
 
 [source, role="no_copy"]
 ----
@@ -419,7 +420,7 @@ You will see the following output:
 ----
 
 To see whether the tests detect a failure, remove the configuration resetting line in the [hotspot=setup file=0]`setup()` method of the [hotspot file=0]`ConfigurationIT.java` file.
-Then manually change some configuration values in the `resources/CustomConfigSource.json` file.
+Then, manually change some configuration values in the `resources/CustomConfigSource.json` file.
 Rerun the tests. You will see a test failure occur.
 
 [role=command]
