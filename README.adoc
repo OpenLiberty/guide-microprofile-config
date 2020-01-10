@@ -17,8 +17,8 @@
 :page-related-guides: ['rest-intro', 'cdi-intro', 'microprofile-config-intro']
 :common-includes: ../guides-common/
 :source-highlighter: prettify
-:page-seo-title: Configuring microservices using MicroProfile Config
-:page-seo-description: A tutorial on how to externalize and inject both static and dynamic configuration properties for Java microservices using MicroProfile Config.
+:page-seo-title: Externalizing configuration for microservices using Eclipse MicroProfile Config
+:page-seo-description: A tutorial on how to externalize and inject both static and dynamic configuration properties for Java microservices through configuration sources using Eclipse MicroProfile Config.
 :guide-author: Open Liberty
 = Configuring microservices
 
