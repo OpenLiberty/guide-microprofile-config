@@ -405,18 +405,18 @@ You see the following output:
 [source, role="no_copy"]
 ----
 -------------------------------------------------------
-[INFO]  T E S T S
-[INFO] -------------------------------------------------------
-[INFO] Running it.io.openliberty.guides.config.ConfigurationIT
-[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 5.92 s - in it.io.openliberty.guides.config.ConfigurationIT
-[INFO] Running it.io.openliberty.guides.system.SystemEndpointIT
-[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.017 s - in it.io.openliberty.guides.system.SystemEndpointIT
-[INFO] Running it.io.openliberty.guides.inventory.InventoryEndpointIT
-[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.077 s - in it.io.openliberty.guides.inventory.InventoryEndpointIT
-[INFO]
-[INFO] Results:
-[INFO]
-[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0
+ T E S T S
+-------------------------------------------------------
+Running it.io.openliberty.guides.config.ConfigurationIT
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 5.92 s - in it.io.openliberty.guides.config.ConfigurationIT
+Running it.io.openliberty.guides.system.SystemEndpointIT
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.017 s - in it.io.openliberty.guides.system.SystemEndpointIT
+Running it.io.openliberty.guides.inventory.InventoryEndpointIT
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.077 s - in it.io.openliberty.guides.inventory.InventoryEndpointIT
+
+Results:
+
+Tests run: 7, Failures: 0, Errors: 0, Skipped: 0
 ----
 
 To see whether the tests detect a failure, remove the configuration resetting line in the [hotspot=setup file=0]`setup()` method of the [hotspot file=0]`ConfigurationIT.java` file.
