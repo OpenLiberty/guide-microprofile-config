@@ -78,8 +78,9 @@ MicroProfile Config combines configuration properties from multiple sources, eac
 
 A higher ordinal value means that the values taken from this ConfigSource will override values from ConfigSources with a lower ordinal value.
 
-There are three default configuration sources as following:
+The following four sources are the default configuration sources:
 
+* A <variable name="..." value="..."/> element in the server.xml file has a default ordinal of 500.
 * System properties has a default ordinal of 400. (e.g. `bootstrap.properties` file)
 * Environment variables have a default ordinal of 300. (e.g. `server.env` file)
 * The [hotspot=ordinal]`META-INF/microprofile-config.properties` configuration property file on the classpath has a default ordinal of 100.
