@@ -1,6 +1,6 @@
 // tag::copyright[]
 /*******************************************************************************
- * Copyright (c) 2017, 2019 IBM Corporation and others.
+ * Copyright (c) 2017, 2020 IBM Corporation and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -49,9 +49,9 @@ public class InventoryResource {
       Properties props = manager.get(hostname, inventoryConfig.getPortNumber());
       // end::config-port[]
       if (props == null) {
-        // unknown hostname or the resource may not be running on the host machine"
         return Response.status(Response.Status.NOT_FOUND)
-                       .entity(new Properties())
+                       .entity("{ \"ERROR\" : \"Unknown hostname or the system service " 
+                       + "may not be running on " + hostname + "\" }")
                        .build();
       }
 
@@ -61,8 +61,8 @@ public class InventoryResource {
     } else {
       // tag::email[]
       return Response.status(Response.Status.SERVICE_UNAVAILABLE)
-                     .entity("ERROR: Service is currently in maintenance. Contact: " +
-                             inventoryConfig.getEmail().toString())
+                     .entity("{ \"ERROR\" : \"Service is currently in maintenance. " 
+                     + "Contact: " + inventoryConfig.getEmail().toString() + "\" }")
                      .build();
       // end::email[]
     }
@@ -76,12 +76,12 @@ public class InventoryResource {
     // end::isInMaintenance[]
       return Response.ok(manager.list()).build();
     } else {
+      // tag::email[]
       return Response.status(Response.Status.SERVICE_UNAVAILABLE)
-                     .entity("ERROR: Service is currently in maintenance. Contact: " +
-                     // tag::getEmail[]
-                             inventoryConfig.getEmail().toString())
-                    // end::getEmail[]
+                     .entity("{ \"ERROR\" : \"Service is currently in maintenance. " 
+                     + "Contact: " + inventoryConfig.getEmail().toString() + "\" }")
                      .build();
+      // end::getEmail[]
     }
   }
 
