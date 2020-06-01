@@ -1,6 +1,6 @@
 // tag::copyright[]
 /*******************************************************************************
- * Copyright (c) 2017, 2019 IBM Corporation and others.
+ * Copyright (c) 2017, 2020 IBM Corporation and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -75,7 +75,7 @@ public class ConfigurationIT {
       assertEquals(expected, actual);
     } else {
       assertEquals(
-        "{ \"error\" : \"Service is currently in maintenance. Contact: service@guides.openliberty.io\" }",
+        "{ \"error\" : \"Service is currently in maintenance. Contact: admin@guides.openliberty.io\" }",
           ConfigITUtil.getStringFromURL(client, baseUrl + INVENTORY_HOSTS),
           "The Inventory Service should be in maintenance");
     }
@@ -97,7 +97,7 @@ public class ConfigurationIT {
     String error = ConfigITUtil.getStringFromURL(client, baseUrl + INVENTORY_HOSTS);
 
     assertEquals(
-      "{ \"error\" : \"Service is currently in maintenance. Contact: service@guides.openliberty.io\" }",
+      "{ \"error\" : \"Service is currently in maintenance. Contact: admin@guides.openliberty.io\" }",
         error, "The inventory service should be down in the end");
   }
   // end::testPutServiceInMaintenance[]
@@ -111,7 +111,7 @@ public class ConfigurationIT {
     String error = ConfigITUtil.getStringFromURL(client, baseUrl + INVENTORY_HOSTS);
 
     assertEquals(
-      "{ \"error\" : \"Service is currently in maintenance. Contact: service@guides.openliberty.io\" }",
+      "{ \"error\" : \"Service is currently in maintenance. Contact: admin@guides.openliberty.io\" }",
         error, "The email should be admin@guides.openliberty.io in the beginning");
 
     ConfigITUtil.changeEmail(CUSTOM_CONFIG_FILE, "service@guides.openliberty.io");
