@@ -289,6 +289,16 @@ InventoryConfig.java
 ----
 include::finish/src/main/java/io/openliberty/guides/inventory/InventoryConfig.java[]
 ----
+
+----
+#Replace the `SystemConfig` class.#
+`src/main/java/io/openliberty/guides/system/SystemConfig.java`
+----
+SystemConfig.java
+[source, Java, linenums, role='code_column hide_tags=copyright']
+----
+include::finish/src/main/java/io/openliberty/guides/System/SystemConfig.java[]
+----
 Inject the [hotspot=custom-converter file=3]`io_openliberty_guides_email` property, and add the [hotspot=getEmail file=3]`getEmail()` method.
 
 // =================================================================================================
