@@ -300,7 +300,7 @@ Inject the [hotspot=custom-converter file=3]`io_openliberty_guides_email` proper
 SystemConfig.java
 [source, Java, linenums, role='code_column hide_tags=copyright']
 ----
-include::finish/src/main/java/io/openliberty/guides/System/SystemConfig.java[]
+include::finish/src/main/java/io/openliberty/guides/system/SystemConfig.java[]
 ----
 Inject the [hotspot=custom-converter file=4]`io_openliberty_guides_email` property, and add the [hotspot=getEmail file=4]`getEmail()` method.
 
