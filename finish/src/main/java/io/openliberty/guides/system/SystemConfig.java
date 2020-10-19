@@ -41,9 +41,13 @@ public class SystemConfig {
   private Provider<Email> email;
   // end::custom-converter[]
 
+  // tag::isInMaintenance[]
   public boolean isInMaintenance() {
+    // tag::inMaintenanceGet[]
     return inMaintenance.get();
+    // end::inMaintenanceGet[]
   }
+  // end::isInMaintenance[]
 
   // tag::getEmail[]
   public Email getEmail() {

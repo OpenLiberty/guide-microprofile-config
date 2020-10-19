@@ -224,7 +224,7 @@ The `Provider<>` interface used, forces the service to retrieve the inMaintenanc
 Every time that you invoke the [hotspot=inMaintenanceGet file=0]`inMaintenance.get()` method, the `Provider<>` interface picks up the
 latest value of the [hotspot=4 file=2]`io_openliberty_guides_inventory_inMaintenance` property from configuration sources.
 
-Do the same with the `SystemConfig`.
+Do the same with the `system` service configuration.
 [role="code_command hotspot file=1", subs="quotes"]
 ----
 #Replace the `SystemConfig.java` class.#
@@ -235,6 +235,7 @@ SystemConfig.java
 ----
 include::finish/src/main/java/io/openliberty/guides/system/SystemConfig.java[]
 ----
+Inject the [hotspot=inject-inMaintenance file=1]`io_openliberty_guides_inventory_inMaintenance` property, and add the [hotspot=isInMaintenance file=1]`isInMaintenance()` class method.
 
 CustomConfigSource.json
 [source, Json, linenums, role='code_column']
@@ -341,6 +342,8 @@ To determine whether the inventory service is in maintenance or not (according t
 If you set the [hotspot=4 file=2]`io_openliberty_guides_inventory_inMaintenance` property to `true` in the configuration, the inventory service returns the message, `ERROR: Service is currently in maintenance`, along with the contact email.
 The email configuration value can be obtained by calling [hotspot=getEmail file=0]`inventoryConfig.getEmail()` method.
 
+
+Let's use the externalized configuration in the `system` service as well.
 [role="code_command hotspot file=1", subs="quotes"]
 ----
 #Replace the `SystemResource` class.#
@@ -351,7 +354,7 @@ SystemResource.java
 ----
 include::finish/src/main/java/io/openliberty/guides/system/SystemResource.java[]
 ----
-
+The same is true here, to add configuration to the `system` service, the [hotspot=config-injection file=1]`SystemConfig` object is injected to the existing class. 
 
 CustomConfigSource.json
 [source, Json, linenums, role='code_column']
