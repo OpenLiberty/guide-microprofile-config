@@ -206,7 +206,7 @@ Add the fully qualified class name of the configuration source into it.
 Now that the custom configuration source has successfully been set up, you can enable dynamic configuration injection of the properties being set in this ConfigSource.
 To enable this dynamic injection,
 
-[role="code_command hotspot", subs="quotes"]
+[role="code_command hotspot file=0", subs="quotes"]
 ----
 #Replace the `InventoryConfig.java` class.#
 `src/main/java/io/openliberty/guides/inventory/InventoryConfig.java`
@@ -225,7 +225,7 @@ Every time that you invoke the [hotspot=inMaintenanceGet file=0]`inMaintenance.g
 latest value of the [hotspot=4 file=2]`io_openliberty_guides_inventory_inMaintenance` property from configuration sources.
 
 Do the same with the `SystemConfig`.
-[role="code_command hotspot", subs="quotes"]
+[role="code_command hotspot file=1", subs="quotes"]
 ----
 #Replace the `SystemConfig.java` class.#
 `src/main/java/io/openliberty/guides/system/SystemConfig.java`
@@ -323,7 +323,7 @@ Inject the [hotspot=custom-converter file=4]`io_openliberty_guides_email` proper
 == Adding configuration to the microservice
 
 To use externalized configuration in the `inventory` service,
-[role="code_command hotspot", subs="quotes"]
+[role="code_command hotspot file=0", subs="quotes"]
 ----
 #Replace the `InventoryResource` class.#
 `src/main/java/io/openliberty/guides/inventory/InventoryResource.java`
@@ -338,8 +338,20 @@ To add configuration to the `inventory` service, the [hotspot=config-injection f
 The port number from the configuration is retrieved by the [hotspot=config-port file=0]`inventoryConfig.getPortNumber()` method and passed to the [hotspot=config-port file=0]`manager.get()` method as a parameter.
 
 To determine whether the inventory service is in maintenance or not (according to the configuration value), [hotspot=isInMaintenance file=0]`inventoryConfig.isInMaintenance()` class method is used.
-If you set the [hotspot=4 file=1]`io_openliberty_guides_inventory_inMaintenance` property to `true` in the configuration, the inventory service returns the message, `ERROR: Service is currently in maintenance`, along with the contact email.
+If you set the [hotspot=4 file=2]`io_openliberty_guides_inventory_inMaintenance` property to `true` in the configuration, the inventory service returns the message, `ERROR: Service is currently in maintenance`, along with the contact email.
 The email configuration value can be obtained by calling [hotspot=getEmail file=0]`inventoryConfig.getEmail()` method.
+
+[role="code_command hotspot file=1", subs="quotes"]
+----
+#Replace the `SystemResource` class.#
+`src/main/java/io/openliberty/guides/system/SystemResource.java`
+----
+SystemResource.java
+[source, Java, linenums, role='code_column hide_tags=copyright']
+----
+include::finish/src/main/java/io/openliberty/guides/system/SystemResource.java[]
+----
+
 
 CustomConfigSource.json
 [source, Json, linenums, role='code_column']
