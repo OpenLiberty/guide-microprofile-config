@@ -35,14 +35,21 @@ public class SystemResource {
   @GET
   @Produces(MediaType.APPLICATION_JSON)
   public Response getProperties() {
+    // tag::config-injection[]
     if (!systemConfig.isInMaintenance()) {
+    // end::config-injection[]
       return Response.ok(System.getProperties()).build();
-    } else {
+    // tag::config-injection[]
+    } 
+    // end::config-injection[]
+    // tag::email[]
+    else {
       return Response.status(Response.Status.SERVICE_UNAVAILABLE)
                      .entity("ERROR: Service is currently in maintenance. Contact: "
                          + systemConfig.getEmail().toString())
                      .build();
     }
+    // end::email[]
   }
 
 }

@@ -22,11 +22,18 @@ import io.openliberty.guides.config.Email;
 @RequestScoped
 public class SystemConfig {
 
-  // tag::config[]
+  // tag::build-in-converter[]
+  // tag::inject-inMaintenance[]
+  // tag::inject[]
   @Inject
-  @ConfigProperty(name = "io_openliberty_guides_system_inMaintenance")
-  Provider<Boolean> inMaintenance;
-  // end::config[]
+  // end::inject[]
+  // tag::configPropety[]
+  @ConfigProperty(name = "io_openliberty_guides_inventory_inMaintenance")
+  // end::configPropety[]
+  // end::inject-inMaintenance[]
+  private Provider<Boolean> inMaintenance;
+
+
 
   // tag::custom-converter[]
   @Inject

@@ -22,11 +22,9 @@ import io.openliberty.guides.config.Email;
 @RequestScoped
 public class SystemConfig {
 
-  // tag::config[]
-  @Inject
-  @ConfigProperty(name = "io_openliberty_guides_system_inMaintenance")
+  
   Provider<Boolean> inMaintenance;
-  // end::config[]
+
 
   public boolean isInMaintenance() {
     return inMaintenance.get();
