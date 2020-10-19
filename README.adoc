@@ -206,7 +206,7 @@ Add the fully qualified class name of the configuration source into it.
 Now that the custom configuration source has successfully been set up, you can enable dynamic configuration injection of the properties being set in this ConfigSource.
 To enable this dynamic injection,
 
-[role="code_command hotspot file=3", subs="quotes"]
+[role="code_command hotspot", subs="quotes"]
 ----
 #Replace the `InventoryConfig.java` class.#
 `src/main/java/io/openliberty/guides/inventory/InventoryConfig.java`
@@ -225,7 +225,7 @@ Every time that you invoke the [hotspot=inMaintenanceGet file=0s]`inMaintenance.
 latest value of the [hotspot=4 file=1]`io_openliberty_guides_inventory_inMaintenance` property from configuration sources.
 
 Do the same with the `SystemConfig`.
-[role="code_command hotspot file=5", subs="quotes"]
+// [role="code_command hotspot file=5", subs="quotes"]
 ----
 #Replace the `SystemConfig.java` class.#
 `src/main/java/io/openliberty/guides/system/SystemConfig.java`
