@@ -385,11 +385,6 @@ microprofile-config.properties
 include::finish/src/main/resources/META-INF/microprofile-config.properties[]
 ----
 
-InventoryEndpointIT.java
-[source, Java, linenums, role='code_column hide_tags=copyright']
-----
-include::finish/src/test/java/it/io/openliberty/guides/inventory/InventoryEndpointIT.java[]
-----
 
 The [hotspot=testInitialServiceStatus file=0]`testInitialServiceStatus()` test case reads the value of the [hotspot=inventory-in-maintenance file=1]`io_openliberty_guides_inventory_inMaintenance` configuration property in the [hotspot file=1]`META-INF/microprofile-config.properties` file and checks the HTTP response of the inventory service.
 If the configuration value is `false`, the service returns a valid response. Otherwise, the service returns the following message: `ERROR: Service is currently in maintenance`.
@@ -429,7 +424,7 @@ Results:
 Tests run: 7, Failures: 0, Errors: 0, Skipped: 0
 ----
 
-The warning and error messages are expected and result from a request to a bad or an unknown host name. This request is made in the test [hotspot=testUnknownHost file=2]`testUnknownHost()` from [hotspot file=2]`InventoryEndpointIT`.
+The warning and error messages are expected and result from a request to a bad or an unknown host name. This request is made in the test `testUnknownHost()` from `InventoryEndpointIT`.
 
 To see whether the tests detect a failure, remove the configuration resetting line in the [hotspot=setup file=0]`setup()` method of the [hotspot file=0]`ConfigurationIT.java` file.
 Then, manually change some configuration values in the `resources/CustomConfigSource.json` file.
