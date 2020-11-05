@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2019 IBM Corporation and others.
+// Copyright (c) 2017, 2020 IBM Corporation and others.
 // Licensed under Creative Commons Attribution-NoDerivatives
 // 4.0 International (CC BY-ND 4.0)
 //   https://creativecommons.org/licenses/by-nd/4.0/
@@ -424,7 +424,7 @@ Results:
 Tests run: 7, Failures: 0, Errors: 0, Skipped: 0
 ----
 
-The warning and error messages are expected and result from a request to a bad or an unknown host name. This request is made in the test `testUnknownHost()` from `InventoryEndpointIT`.
+The warning and error messages are expected and result from a request to a bad or an unknown hostname. This request is made in the `testUnknownHost()` test from the `InventoryEndpointIT` integration test.
 
 To see whether the tests detect a failure, remove the configuration resetting line in the [hotspot=setup file=0]`setup()` method of the [hotspot file=0]`ConfigurationIT.java` file.
 Then, manually change some configuration values in the `resources/CustomConfigSource.json` file.
