@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2020 IBM Corporation and others.
+// Copyright (c) 2017, 2021 IBM Corporation and others.
 // Licensed under Creative Commons Attribution-NoDerivatives
 // 4.0 International (CC BY-ND 4.0)
 //   https://creativecommons.org/licenses/by-nd/4.0/
@@ -51,15 +51,41 @@ include::{common-includes}/gitclone.adoc[]
 [role=command]
 include::{common-includes}/twyb-intro.adoc[]
 
+// static guide instructions:
+ifndef::cloud-hosted[]
 You can access the following two microservices to test their availability:
 
 * http://localhost:9080/system/properties[http://localhost:9080/system/properties^] retrieves the information for a specific host
 
 * http://localhost:9080/inventory/systems[http://localhost:9080/inventory/systems^] retrieves the information for a list of all previously registered hosts
 
-In addition, you can access a third microservice, which retrieves and aggregates all of the configuration properties and sources that have been added throughout this guide. This is available at:
+In addition, you can access a third microservice, which retrieves and aggregates all of the configuration properties and sources that are added throughout this guide. This is available at:
 
 * http://localhost:9080/config[http://localhost:9080/config^]
+endif::[]
+
+// cloud-hosted guide instructions:
+ifdef::cloud-hosted[]
+Run the following curl command to test the availability of the **system** microservice and retrieve the system information:
+```
+curl http://localhost:9080/system/properties
+```
+{: codeblock}
+
+Run the following curl command to test the availability of the **inventory** microservice and 
+retrieve the information for a list of all previously registered hosts:
+```
+curl http://localhost:9080/inventory/systems
+```
+{: codeblock}
+
+In addition, you can run the following curl command to access a third microservice, 
+which retrieves and aggregates all of the configuration properties and sources that are added throughout this guide.
+```
+curl http://localhost:9080/config
+```
+{: codeblock}
+endif::[]
 
 [role=command]
 include::{common-includes}/twyb-end.adoc[]
@@ -329,6 +355,8 @@ include::finish/resources/CustomConfigSource.json[]
 [role=command]
 include::{common-includes}/devmode-build.adoc[]
 
+// static guide instructions:
+ifndef::cloud-hosted[]
 While the server is running, the following two microservices should be available to access:
 
 * http://localhost:9080/system/properties[http://localhost:9080/system/properties^]
@@ -339,7 +367,28 @@ While the server is running, the following two microservices should be available
 You can find the service that retrieves configuration information that is specific to this guide at the following location:
 
 * http://localhost:9080/config[http://localhost:9080/config^]
+endif::[]
 
+// cloud-hosted guide instructions:
+ifdef::cloud-hosted[]
+While the server is running, run the following curl command to access the **system** microservice:
+```
+curl http://localhost:9080/system/properties
+```
+{: codeblock}
+
+and run the following curl command to access the **inventory** microservice:
+```
+curl http://localhost:9080/inventory/systems
+```
+{: codeblock}
+
+You can find the service that retrieves configuration information that is specific to this guide by running the following curl command:
+```
+curl http://localhost:9080/config
+```
+{: codeblock}
+endif::[]
 
 The [hotspot=2 file=0]`config_ordinal` value of the custom configuration source is set to [hotspot=2 file=0]`150`. It overrides configuration values of the default [hotspot file=1]`microprofile-config.properties` source, which has a [hotspot=ordinal file=1]`config_ordinal` value of [hotspot=ordinal file=1]`100`.
 
@@ -355,11 +404,32 @@ microprofile-config.properties
 include::finish/src/main/resources/META-INF/microprofile-config.properties[]
 ----
 
+// static guide instructions:
+ifndef::cloud-hosted[]
 Play with this application by changing configuration values for each property in the [hotspot file=0]`resources/CustomConfigSource.json` file.
 Your changes are added dynamically, and you do not need to restart the server. Refresh http://localhost:9080/config[http://localhost:9080/config^] to see the dynamic changes.
 
 For example, change [hotspot=4 file=0]`io_openliberty_guides_inventory_inMaintenance` from `false` to `true`, then try to access http://localhost:9080/inventory/systems[http://localhost:9080/inventory/systems^] again.
 The following message displays: `ERROR: Service is currently in maintenance`.
+endif::[]
+
+// cloud-hosted guide instructions:
+ifdef::cloud-hosted[]
+Play with this application by changing configuration values for each property in the **resources/CustomConfigSource.json** file.
+Your changes are added dynamically, and you do not need to restart the server. Rerun the following curl command to see the dynamic changes:
+```
+curl http://localhost:9080/config
+```
+{: codeblock}
+
+For example, change **`io_openliberty_guides_inventory_inMaintenance`** from **false** to **true**, then try to access http://localhost:9080/inventory/systems again by running the following curl command:
+```
+curl http://localhost:9080/inventory/systems
+```
+{: codeblock}
+
+The following message displays: **ERROR: Service is currently in maintenance**.
+endif::[]
 
 
 // =================================================================================================
