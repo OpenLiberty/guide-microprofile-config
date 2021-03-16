@@ -59,7 +59,7 @@ You can access the following two microservices to test their availability:
 
 * http://localhost:9080/inventory/systems[http://localhost:9080/inventory/systems^] retrieves the information for a list of all previously registered hosts
 
-In addition, you can access a third microservice, which retrieves and aggregates all of the configuration properties and sources that have been added throughout this guide. This is available at:
+In addition, you can access a third microservice, which retrieves and aggregates all of the configuration properties and sources that are added throughout this guide. This is available at:
 
 * http://localhost:9080/config[http://localhost:9080/config^]
 endif::[]
@@ -80,7 +80,7 @@ curl http://localhost:9080/inventory/systems
 {: codeblock}
 
 In addition, you can run the following curl command to access a third microservice, 
-which retrieves and aggregates all of the configuration properties and sources that have been added throughout this guide.
+which retrieves and aggregates all of the configuration properties and sources that are added throughout this guide.
 ```
 curl http://localhost:9080/config
 ```
