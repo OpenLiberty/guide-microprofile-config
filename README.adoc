@@ -95,7 +95,20 @@ include::{common-includes}/twyb-end.adoc[]
 // =================================================================================================
 == Ordering multiple configuration sources
 
+// static guide instructions:
+ifndef::cloud-hosted[]
 Now, navigate to the `start` directory to begin.
+endif::[]
+
+// cloud-hosted guide instructions:
+ifdef::cloud-hosted[]
+To begin, run the following command to navigate to the **start** directory:
+```
+cd /home/project/guide-microprofile-config/start
+```
+{: codeblock}
+endif::[]
+
 
 [role=command]
 include::{common-includes}/devmode-start.adoc[]
