@@ -4,8 +4,6 @@ do
     case "${flag}" in
         t) DATE="${OPTARG}";;
         d) DRIVER="${OPTARG}";;
-        b) BUILD="${OPTARG}";;
-        u) DOCKER_USERNAME="${OPTARG}";;
         *) echo "Invalid option";;
     esac
 done
