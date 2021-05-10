@@ -25,5 +25,5 @@ mvn liberty:start
 mvn -Dhttp.keepAlive=false \
     -Dmaven.wagon.http.pool=false \
     -Dmaven.wagon.httpconnectionManager.ttlSeconds=120 \
-    -pl system failsafe:integration-test
+    failsafe:integration-test
 mvn failsafe:verify
