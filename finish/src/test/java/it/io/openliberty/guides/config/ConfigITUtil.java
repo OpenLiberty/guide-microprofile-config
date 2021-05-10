@@ -1,6 +1,6 @@
-// tag::comment[]
+// tag::copyright[]
 /*******************************************************************************
- * Copyright (c) 2017, 2019 IBM Corporation and others.
+ * Copyright (c) 2017, 2021 IBM Corporation and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -9,7 +9,7 @@
  * Contributors:
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
-// end::comment[]
+// end::copyright[]
 package it.io.openliberty.guides.config;
 
 import java.io.BufferedReader;
@@ -21,7 +21,6 @@ import javax.json.bind.Jsonb;
 import javax.json.bind.JsonbBuilder;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.core.Response;
-import it.io.openliberty.guides.config.CustomConfig;
 
 /*
  * ===========================================================================
@@ -30,8 +29,8 @@ import it.io.openliberty.guides.config.CustomConfig;
  *
  */
 public class ConfigITUtil {
-  private final static String EMAIL = "admin@guides.openliberty.io";
-  private final static String TEST_CONFIG = "CustomSource";
+  private static final String EMAIL = "admin@guides.openliberty.io";
+  private static final String TEST_CONFIG = "CustomSource";
 
   public static void setDefaultJsonFile(String source) {
     CustomConfig config = new CustomConfig(150, false, false, EMAIL, TEST_CONFIG);
