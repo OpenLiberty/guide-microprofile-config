@@ -1,4 +1,4 @@
-//tag::copyright[]
+// tag::copyright[]
 /*******************************************************************************
 * Copyright (c) 2017, 2021 IBM Corporation and others.
 * All rights reserved. This program and the accompanying materials
