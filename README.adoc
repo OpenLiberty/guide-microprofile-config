@@ -111,7 +111,7 @@ endif::[]
 
 
 [role=command]
-include::{common-includes}/devmode-start.adoc[]
+include::{common-includes}/devmode-lmp33-start.adoc[]
 
 MicroProfile Config combines configuration properties from multiple sources, each known as a ConfigSource. Each ConfigSource has a specified priority, defined by its `config_ordinal` value.
 
