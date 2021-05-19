@@ -15,7 +15,7 @@
 :page-tags: ['MicroProfile']
 :page-permalink: /guides/{projectid}
 :page-related-guides: ['rest-intro', 'cdi-intro', 'microprofile-config-intro']
-:common-includes: ../guides-common/
+:common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/master
 :source-highlighter: prettify
 :page-seo-title: Externalizing configuration for Java microservices using Eclipse MicroProfile Config
 :page-seo-description: A tutorial and example on how to externalize and inject static and dynamic configuration properties for Java microservices through configuration sources using Eclipse MicroProfile Config.
@@ -95,7 +95,20 @@ include::{common-includes}/twyb-end.adoc[]
 // =================================================================================================
 == Ordering multiple configuration sources
 
+// static guide instructions:
+ifndef::cloud-hosted[]
 Now, navigate to the `start` directory to begin.
+endif::[]
+
+// cloud-hosted guide instructions:
+ifdef::cloud-hosted[]
+To begin, run the following command to navigate to the **start** directory:
+```
+cd /home/project/guide-microprofile-config/start
+```
+{: codeblock}
+endif::[]
+
 
 [role=command]
 include::{common-includes}/devmode-start.adoc[]
