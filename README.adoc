@@ -15,7 +15,7 @@
 :page-tags: ['MicroProfile']
 :page-permalink: /guides/{projectid}
 :page-related-guides: ['rest-intro', 'cdi-intro', 'microprofile-config-intro']
-:common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/master
+:common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/prod
 :source-highlighter: prettify
 :page-seo-title: Externalizing configuration for Java microservices using Eclipse MicroProfile Config
 :page-seo-description: A tutorial and example on how to externalize and inject static and dynamic configuration properties for Java microservices through configuration sources using Eclipse MicroProfile Config.
@@ -111,7 +111,7 @@ endif::[]
 
 
 [role=command]
-include::{common-includes}/devmode-start.adoc[]
+include::{common-includes}/devmode-lmp33-start.adoc[]
 
 MicroProfile Config combines configuration properties from multiple sources, each known as a ConfigSource. Each ConfigSource has a specified priority, defined by its `config_ordinal` value.
 
