@@ -66,6 +66,7 @@ endif::[]
 
 // cloud-hosted guide instructions:
 ifdef::cloud-hosted[]
+Open another command-line session by selecting **Terminal** > **New Terminal** from the menu of the IDE.
 Run the following curl command to test the availability of the **system** microservice and retrieve the system information:
 ```
 curl -s http://localhost:9080/system/properties | jq
