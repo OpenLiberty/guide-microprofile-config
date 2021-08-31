@@ -246,7 +246,7 @@ Add the fully qualified class name of the configuration source into it.
 Now that the custom configuration source has successfully been set up, you can enable dynamic configuration injection of the properties being set in this ConfigSource.
 To enable this dynamic injection,
 
-[role="code_command hotspot", subs="quotes"]
+[role="code_command hotspot file=0", subs="quotes"]
 ----
 #Replace the `InventoryConfig.java` class.#
 `src/main/java/io/openliberty/guides/inventory/InventoryConfig.java`
@@ -258,11 +258,24 @@ include::finish/src/main/java/io/openliberty/guides/inventory/InventoryConfig.ja
 ----
 Inject the [hotspot=inject-inMaintenance file=0]`io_openliberty_guides_inventory_inMaintenance` property, and add the [hotspot=isInMaintenance file=0]`isInMaintenance()` class method.
 
-The [hotspot=inject file=0]`@Inject` and [hotspot=configPropety file=0]`@ConfigProperty` annotations inject the [hotspot=4 file=1]`io_openliberty_guides_inventory_inMaintenance` configuration property from the [hotspot file=1]`CustomConfigSource.json` file.
+The [hotspot=inject file=0]`@Inject` and [hotspot=configPropety file=0]`@ConfigProperty` annotations inject the [hotspot=4 file=2]`io_openliberty_guides_inventory_inMaintenance` configuration property from the [hotspot file=1]`CustomConfigSource.json` file.
 The `Provider<>` interface used, forces the service to retrieve the inMaintenance value just in time. This retrieval of the value just in time makes the config injection dynamic and able to change without having to restart the application.
 
-Every time that you invoke the [hotspot=inMaintenanceGet file=0s]`inMaintenance.get()` method, the `Provider<>` interface picks up the
-latest value of the [hotspot=4 file=1]`io_openliberty_guides_inventory_inMaintenance` property from configuration sources.
+Every time that you invoke the [hotspot=inMaintenanceGet file=0]`inMaintenance.get()` method, the `Provider<>` interface picks up the
+latest value of the [hotspot=4 file=2]`io_openliberty_guides_inventory_inMaintenance` property from configuration sources.
+
+Do the same with the `system` service configuration.
+[role="code_command hotspot file=1", subs="quotes"]
+----
+#Replace the `SystemConfig.java` class.#
+`src/main/java/io/openliberty/guides/system/SystemConfig.java`
+----
+SystemConfig.java
+[source, Java, linenums, role='code_column hide_tags=copyright,custom-converter,getEmail']
+----
+include::finish/src/main/java/io/openliberty/guides/system/SystemConfig.java[]
+----
+Inject the [hotspot=inject-inMaintenance file=1]`io_openliberty_guides_inventory_inMaintenance` property, and add the [hotspot=isInMaintenance file=1]`isInMaintenance()` class method.
 
 CustomConfigSource.json
 [source, Json, linenums, role='code_column']
@@ -329,7 +342,21 @@ InventoryConfig.java
 ----
 include::finish/src/main/java/io/openliberty/guides/inventory/InventoryConfig.java[]
 ----
+
 Inject the [hotspot=custom-converter file=3]`io_openliberty_guides_email` property, and add the [hotspot=getEmail file=3]`getEmail()` method.
+
+Inject the same property and method into the `SystemConfig` class.
+[role="code_command hotspot file=4", subs="quotes"]
+----
+#Replace the `SystemConfig` class.#
+`src/main/java/io/openliberty/guides/system/SystemConfig.java`
+----
+SystemConfig.java
+[source, Java, linenums, role='code_column hide_tags=copyright']
+----
+include::finish/src/main/java/io/openliberty/guides/system/SystemConfig.java[]
+----
+
 
 // =================================================================================================
 // Adding configuration to the service
@@ -337,7 +364,7 @@ Inject the [hotspot=custom-converter file=3]`io_openliberty_guides_email` proper
 == Adding configuration to the microservice
 
 To use externalized configuration in the `inventory` service,
-[role="code_command hotspot", subs="quotes"]
+[role="code_command hotspot file=0", subs="quotes"]
 ----
 #Replace the `InventoryResource` class.#
 `src/main/java/io/openliberty/guides/inventory/InventoryResource.java`
@@ -352,8 +379,22 @@ To add configuration to the `inventory` service, the [hotspot=config-injection f
 The port number from the configuration is retrieved by the [hotspot=config-port file=0]`inventoryConfig.getPortNumber()` method and passed to the [hotspot=config-port file=0]`manager.get()` method as a parameter.
 
 To determine whether the inventory service is in maintenance or not (according to the configuration value), [hotspot=isInMaintenance file=0]`inventoryConfig.isInMaintenance()` class method is used.
-If you set the [hotspot=4 file=1]`io_openliberty_guides_inventory_inMaintenance` property to `true` in the configuration, the inventory service returns the message, `ERROR: Service is currently in maintenance`, along with the contact email.
+If you set the [hotspot=4 file=2]`io_openliberty_guides_inventory_inMaintenance` property to `true` in the configuration, the inventory service returns the message, `ERROR: Service is currently in maintenance`, along with the contact email.
 The email configuration value can be obtained by calling [hotspot=getEmail file=0]`inventoryConfig.getEmail()` method.
+
+
+Implement the externalized configuration in the `system` service.
+[role="code_command hotspot file=1", subs="quotes"]
+----
+#Replace the `SystemResource` class.#
+`src/main/java/io/openliberty/guides/system/SystemResource.java`
+----
+SystemResource.java
+[source, Java, linenums, role='code_column hide_tags=copyright']
+----
+include::finish/src/main/java/io/openliberty/guides/system/SystemResource.java[]
+----
+The same is true here, to add configuration to the `system` service, the [hotspot=config-injection file=1]`SystemConfig` object is injected to the existing class. 
 
 CustomConfigSource.json
 [source, Json, linenums, role='code_column']

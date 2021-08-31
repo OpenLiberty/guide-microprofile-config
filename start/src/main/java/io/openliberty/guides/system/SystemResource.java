@@ -27,22 +27,11 @@ import javax.ws.rs.core.MediaType;
 @Path("properties")
 public class SystemResource {
 
-  // tag::config-injection[]
-  @Inject
-  SystemConfig systemConfig;
-  // end::config-injection[]
 
   @GET
   @Produces(MediaType.APPLICATION_JSON)
   public Response getProperties() {
-    if (!systemConfig.isInMaintenance()) {
       return Response.ok(System.getProperties()).build();
-    } else {
-      return Response.status(Response.Status.SERVICE_UNAVAILABLE)
-                     .entity("ERROR: Service is currently in maintenance. Contact: "
-                         + systemConfig.getEmail().toString())
-                     .build();
-    }
   }
 
 }
