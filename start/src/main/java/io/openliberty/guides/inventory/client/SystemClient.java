@@ -33,6 +33,6 @@ public interface SystemClient {
   // end::annotations[]
   @GET
   @Produces(MediaType.APPLICATION_JSON)
-  public Properties getProperties() throws UnknownUrlException, ProcessingException;
+  Properties getProperties() throws UnknownUrlException, ProcessingException;
 }
 // end::client[]

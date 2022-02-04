@@ -25,7 +25,7 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
-import io.openliberty.guides.inventory.InventoryConfig;
+
 
 @RequestScoped
 @Path("systems")
@@ -50,7 +50,8 @@ public class InventoryResource {
       // end::config-port[]
       if (props == null) {
         return Response.status(Response.Status.NOT_FOUND)
-                       .entity("{ \"error\" : \"Unknown hostname or the system service " 
+                       .entity("{ \"error\" : 
+                       \"Unknown hostname or the system service "
                        + "may not be running on " + hostname + "\" }")
                        .build();
       }
@@ -61,7 +62,7 @@ public class InventoryResource {
     } else {
       // tag::email[]
       return Response.status(Response.Status.SERVICE_UNAVAILABLE)
-                     .entity("{ \"error\" : \"Service is currently in maintenance. " 
+                     .entity("{ \"error\" : \"Service is currently in maintenance. "
                      + "Contact: " + inventoryConfig.getEmail().toString() + "\" }")
                      .build();
       // end::email[]
@@ -78,7 +79,7 @@ public class InventoryResource {
     } else {
       // tag::email[]
       return Response.status(Response.Status.SERVICE_UNAVAILABLE)
-                     .entity("{ \"error\" : \"Service is currently in maintenance. " 
+                     .entity("{ \"error\" : \"Service is currently in maintenance. "
                      + "Contact: " + inventoryConfig.getEmail().toString() + "\" }")
                      .build();
       // end::getEmail[]
