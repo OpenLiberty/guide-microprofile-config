@@ -98,7 +98,8 @@ public class ConfigurationIT {
     String error = ConfigITUtil.getStringFromURL(client, baseUrl + INVENTORY_HOSTS);
 
     assertEquals(
-      "{ \"error\" : \"Service is currently in maintenance. Contact: admin@guides.openliberty.io\" }",
+         "{ \"error\" : \"Service is currently in maintenance."
+         +"Contact: admin@guides.openliberty.io\" }",
         error, "The inventory service should be down in the end");
   }
   // end::testPutServiceInMaintenance[]
@@ -112,7 +113,8 @@ public class ConfigurationIT {
     String error = ConfigITUtil.getStringFromURL(client, baseUrl + INVENTORY_HOSTS);
 
     assertEquals(
-      "{ \"error\" : \"Service is currently in maintenance. Contact: service@guides.openliberty.io\" }",
+         "{ \"error\" : \"Service is currently in maintenance."
+         +"Contact: admin@guides.openliberty.io\" }",
         error, "The email should be admin@guides.openliberty.io in the beginning");
 
     ConfigITUtil.changeEmail(CUSTOM_CONFIG_FILE, "service@guides.openliberty.io");
@@ -120,7 +122,8 @@ public class ConfigurationIT {
     error = ConfigITUtil.getStringFromURL(client, baseUrl + INVENTORY_HOSTS);
 
     assertEquals(
-      "{ \"error\" : \"Service is currently in maintenance. Contact: service@guides.openliberty.io\" }",
+         "{ \"error\" : \"Service is currently in maintenance."
+         +"Contact: admin@guides.openliberty.io\" }",
         error, "The email should be service@guides.openliberty.io in the beginning");
   }
   // end::testChangeEmail[]
