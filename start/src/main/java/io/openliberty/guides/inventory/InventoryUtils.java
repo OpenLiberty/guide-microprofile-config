@@ -12,16 +12,16 @@
 // end::copyright[]
 package io.openliberty.guides.inventory;
 
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.UnknownHostException;
-import java.net.MalformedURLException;
-import jakarta.ws.rs.ProcessingException;
 import java.util.Properties;
-import org.apache.commons.lang3.exception.ExceptionUtils;
+
 import org.eclipse.microprofile.rest.client.RestClientBuilder;
 import io.openliberty.guides.inventory.client.SystemClient;
 import io.openliberty.guides.inventory.client.UnknownUrlException;
 import io.openliberty.guides.inventory.client.UnknownUrlExceptionMapper;
+import jakarta.ws.rs.ProcessingException;
 
 public class InventoryUtils {
 
@@ -49,7 +49,9 @@ public class InventoryUtils {
   // end::builder[]
 
   public void handleProcessingException(ProcessingException ex) {
-    Throwable rootEx = ExceptionUtils.getRootCause(ex);
+    Throwable rootEx = ex;
+    while (rootEx.getCause() != null)
+      rootEx = rootEx.getCause();
     if (rootEx != null && rootEx instanceof UnknownHostException) {
       System.err.println("The specified host is unknown.");
     } else {
