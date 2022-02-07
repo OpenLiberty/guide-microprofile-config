@@ -75,7 +75,8 @@ public class ConfigurationIT {
       assertEquals(expected, actual);
     } else {
       assertEquals(
-        "{ \"error\" : \"Service is currently in maintenance. Contact: admin@guides.openliberty.io\" }",
+         "{ \"error\" : \"Service is currently in maintenance."
+         +"Contact: admin@guides.openliberty.io\" }",
           ConfigITUtil.getStringFromURL(client, baseUrl + INVENTORY_HOSTS),
           "The Inventory Service should be in maintenance");
     }
