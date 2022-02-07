@@ -51,8 +51,9 @@ public class InventoryUtils {
 
   public void handleProcessingException(ProcessingException ex) {
     Throwable rootEx = ex;
-    while (rootEx.getCause() != null)
+    while (rootEx.getCause() != null) {
       rootEx = rootEx.getCause();
+    }
     if (rootEx != null && rootEx instanceof UnknownHostException) {
       System.err.println("The specified host is unknown.");
     } else {
