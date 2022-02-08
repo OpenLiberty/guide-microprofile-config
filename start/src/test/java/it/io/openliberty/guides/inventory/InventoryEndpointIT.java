@@ -23,7 +23,6 @@ import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
-import org.apache.cxf.jaxrs.provider.jsrjsonp.JsrJsonpProvider;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -52,7 +51,6 @@ public class InventoryEndpointIT {
   @BeforeEach
   public void setup() {
     client = ClientBuilder.newClient();
-    client.register(JsrJsonpProvider.class);
   }
 
   @AfterEach
