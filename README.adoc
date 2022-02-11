@@ -248,8 +248,7 @@ Inject the [hotspot=inject-inMaintenance file=0]`io_openliberty_guides_inventory
 
 The [hotspot=inject file=0]`@Inject` and [hotspot=configPropety file=0]`@ConfigProperty` annotations inject the [hotspot=4 file=1]`io_openliberty_guides_inventory_inMaintenance` configuration property from the [hotspot file=1]`CustomConfigSource.json` file. The `Provider<>` interface used, forces the service to retrieve the inMaintenance value just in time. This retrieval of the value just in time makes the config injection dynamic and able to change without having to restart the application.
 
-Every time that you invoke the [hotspot=inMaintenanceGet file=0s]`inMaintenance.get()` method, the `Provider<>` interface picks up the 
-latest value of the [hotspot=4 file=1]`io_openliberty_guides_inventory_inMaintenance` property from configuration sources.
+Every time that you invoke the [hotspot=inMaintenanceGet file=0]`inMaintenance.get()` method, the `Provider<>` interface picks up the latest value of the [hotspot=4 file=1]`io_openliberty_guides_inventory_inMaintenance` property from configuration sources.
 
 CustomConfigSource.json
 [source, Json, linenums, role='code_column']
