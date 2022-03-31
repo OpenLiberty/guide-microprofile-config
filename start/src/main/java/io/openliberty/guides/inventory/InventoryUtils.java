@@ -1,6 +1,6 @@
 // tag::copyright[]
 /*******************************************************************************
- * Copyright (c) 2017, 2018 IBM Corporation and others.
+ * Copyright (c) 2017, 2022 IBM Corporation and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,16 +12,16 @@
 // end::copyright[]
 package io.openliberty.guides.inventory;
 
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.UnknownHostException;
-import java.net.MalformedURLException;
-import javax.ws.rs.ProcessingException;
 import java.util.Properties;
-import org.apache.commons.lang3.exception.ExceptionUtils;
+
 import org.eclipse.microprofile.rest.client.RestClientBuilder;
 import io.openliberty.guides.inventory.client.SystemClient;
 import io.openliberty.guides.inventory.client.UnknownUrlException;
 import io.openliberty.guides.inventory.client.UnknownUrlExceptionMapper;
+import jakarta.ws.rs.ProcessingException;
 
 public class InventoryUtils {
 
@@ -34,7 +34,7 @@ public class InventoryUtils {
       SystemClient customRestClient = RestClientBuilder.newBuilder()
                                                        .baseUrl(customURL)
                                                        .register(
-                                                           UnknownUrlExceptionMapper.class)
+                                                       UnknownUrlExceptionMapper.class)
                                                        .build(SystemClient.class);
       return customRestClient.getProperties();
     } catch (ProcessingException ex) {
@@ -49,7 +49,10 @@ public class InventoryUtils {
   // end::builder[]
 
   public void handleProcessingException(ProcessingException ex) {
-    Throwable rootEx = ExceptionUtils.getRootCause(ex);
+    Throwable rootEx = ex;
+    while (rootEx.getCause() != null) {
+      rootEx = rootEx.getCause();
+    }
     if (rootEx != null && rootEx instanceof UnknownHostException) {
       System.err.println("The specified host is unknown.");
     } else {
