@@ -1,6 +1,6 @@
 // tag::copyright[]
 /*******************************************************************************
- * Copyright (c) 2017, 2020 IBM Corporation and others.
+ * Copyright (c) 2017, 2022 IBM Corporation and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -15,11 +15,10 @@ package it.io.openliberty.guides.config;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.client.Client;
+import jakarta.ws.rs.client.ClientBuilder;
+import jakarta.ws.rs.core.Response;
 
-import org.apache.cxf.jaxrs.provider.jsrjsonp.JsrJsonpProvider;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
@@ -51,7 +50,6 @@ public class ConfigurationIT {
     ConfigITUtil.setDefaultJsonFile(CUSTOM_CONFIG_FILE);
 
     client = ClientBuilder.newClient();
-    client.register(JsrJsonpProvider.class);
   }
   // end::setup[]
 
@@ -75,7 +73,8 @@ public class ConfigurationIT {
       assertEquals(expected, actual);
     } else {
       assertEquals(
-        "{ \"error\" : \"Service is currently in maintenance. Contact: admin@guides.openliberty.io\" }",
+         "{ \"error\" : \"Service is currently in maintenance."
+         + "Contact: admin@guides.openliberty.io\" }",
           ConfigITUtil.getStringFromURL(client, baseUrl + INVENTORY_HOSTS),
           "The Inventory Service should be in maintenance");
     }
@@ -97,7 +96,8 @@ public class ConfigurationIT {
     String error = ConfigITUtil.getStringFromURL(client, baseUrl + INVENTORY_HOSTS);
 
     assertEquals(
-      "{ \"error\" : \"Service is currently in maintenance. Contact: admin@guides.openliberty.io\" }",
+         "{ \"error\" : \"Service is currently in maintenance. "
+         + "Contact: admin@guides.openliberty.io\" }",
         error, "The inventory service should be down in the end");
   }
   // end::testPutServiceInMaintenance[]
@@ -111,7 +111,8 @@ public class ConfigurationIT {
     String error = ConfigITUtil.getStringFromURL(client, baseUrl + INVENTORY_HOSTS);
 
     assertEquals(
-      "{ \"error\" : \"Service is currently in maintenance. Contact: admin@guides.openliberty.io\" }",
+         "{ \"error\" : \"Service is currently in maintenance. "
+         + "Contact: admin@guides.openliberty.io\" }",
         error, "The email should be admin@guides.openliberty.io in the beginning");
 
     ConfigITUtil.changeEmail(CUSTOM_CONFIG_FILE, "service@guides.openliberty.io");
@@ -119,7 +120,8 @@ public class ConfigurationIT {
     error = ConfigITUtil.getStringFromURL(client, baseUrl + INVENTORY_HOSTS);
 
     assertEquals(
-      "{ \"error\" : \"Service is currently in maintenance. Contact: service@guides.openliberty.io\" }",
+         "{ \"error\" : \"Service is currently in maintenance. "
+         + "Contact: service@guides.openliberty.io\" }",
         error, "The email should be service@guides.openliberty.io in the beginning");
   }
   // end::testChangeEmail[]
