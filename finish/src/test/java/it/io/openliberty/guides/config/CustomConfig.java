@@ -19,7 +19,8 @@ public class CustomConfig {
   private String io_openliberty_guides_email;
   private String io_openliberty_guides_testConfigOverwrite;
 
-  public CustomConfig(int ordinal, boolean inventory, boolean system, String email, String testConfig) {
+  public CustomConfig(int ordinal, boolean inventory, boolean system, String email,
+                      String testConfig) {
     this.setConfig_ordinal(ordinal);
     this.setIo_openliberty_guides_inventory_inMaintenance(inventory);
     this.setIo_openliberty_guides_system_inMaintenance(system);
@@ -41,7 +42,8 @@ public class CustomConfig {
 
   public void setIo_openliberty_guides_inventory_inMaintenance(
       boolean io_openliberty_guides_inventory_inMaintenance) {
-    this.io_openliberty_guides_inventory_inMaintenance = io_openliberty_guides_inventory_inMaintenance;
+    this.io_openliberty_guides_inventory_inMaintenance =
+        io_openliberty_guides_inventory_inMaintenance;
   }
 
   public boolean isIo_openliberty_guides_system_inMaintenance() {
@@ -50,7 +52,8 @@ public class CustomConfig {
 
   public void setIo_openliberty_guides_system_inMaintenance(
       boolean io_openliberty_guides_system_inMaintenance) {
-    this.io_openliberty_guides_system_inMaintenance = io_openliberty_guides_system_inMaintenance;
+    this.io_openliberty_guides_system_inMaintenance =
+        io_openliberty_guides_system_inMaintenance;
   }
 
   public String getIo_openliberty_guides_email() {
@@ -68,7 +71,8 @@ public class CustomConfig {
 
   public void setIo_openliberty_guides_testConfigOverwrite(
       String io_openliberty_guides_testConfigOverwrite) {
-    this.io_openliberty_guides_testConfigOverwrite = io_openliberty_guides_testConfigOverwrite;
+    this.io_openliberty_guides_testConfigOverwrite =
+      io_openliberty_guides_testConfigOverwrite;
   }
 
 }
