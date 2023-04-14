@@ -1,6 +1,6 @@
 // tag::copyright[]
 /*******************************************************************************
- * Copyright (c) 2017, 2019 IBM Corporation and others.
+ * Copyright (c) 2017, 2023 IBM Corporation and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License 2.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,6 @@
 package io.openliberty.guides.config;
 
 import org.eclipse.microprofile.config.spi.Converter;
-import io.openliberty.guides.config.Email;
 
 // tag::customConfig[]
 public class CustomEmailConverter implements Converter<Email> {
