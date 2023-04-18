@@ -12,8 +12,10 @@
 
 package it.io.openliberty.guides.config;
 
+import jakarta.json.bind.annotation.JsonbProperty;
+
 public class CustomConfig {
-  private int configOrdinal;
+  private int config_ordinal;
   private boolean io_openliberty_guides_inventory_inMaintenance;
   private boolean io_openliberty_guides_system_inMaintenance;
   private String io_openliberty_guides_email;
@@ -28,14 +30,16 @@ public class CustomConfig {
     this.setTestConfigOverwrite(testConfig);
   }
 
+  @JsonbProperty("config_ordinal")
   public int getConfigOrdinal() {
-    return configOrdinal;
+    return config_ordinal;
   }
 
   public void setConfigOrdinal(int configOrdinal) {
-    this.configOrdinal = configOrdinal;
+    this.config_ordinal = configOrdinal;
   }
 
+  @JsonbProperty("io_openliberty_guides_inventory_inMaintenance")
   public boolean isInventoryInMaintenance() {
     return io_openliberty_guides_inventory_inMaintenance;
   }
@@ -45,6 +49,7 @@ public class CustomConfig {
     inventoryInMaintenance;
   }
 
+  @JsonbProperty("io_openliberty_guides_system_inMaintenance")
   public boolean isSystemInMaintenance() {
     return io_openliberty_guides_system_inMaintenance;
   }
@@ -54,6 +59,7 @@ public class CustomConfig {
     systemInMaintenance;
   }
 
+  @JsonbProperty("io_openliberty_guides_email")
   public String getEmail() {
     return io_openliberty_guides_email;
   }
@@ -62,6 +68,7 @@ public class CustomConfig {
     this.io_openliberty_guides_email = email;
   }
 
+  @JsonbProperty("io_openliberty_guides_testConfigOverwrite")
   public String getTestConfigOverwrite() {
     return io_openliberty_guides_testConfigOverwrite;
   }
