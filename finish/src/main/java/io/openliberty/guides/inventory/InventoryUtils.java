@@ -20,7 +20,6 @@ import org.eclipse.microprofile.rest.client.RestClientBuilder;
 
 import io.openliberty.guides.inventory.client.SystemClient;
 import io.openliberty.guides.inventory.client.UnknownUrlException;
-import io.openliberty.guides.inventory.client.UnknownUrlExceptionMapper;
 import jakarta.ws.rs.ProcessingException;
 
 public class InventoryUtils {
@@ -33,8 +32,6 @@ public class InventoryUtils {
       customURL = new URL(customURLString);
       SystemClient customRestClient = RestClientBuilder.newBuilder()
                                                        .baseUrl(customURL)
-                                                       .register(
-                                                       UnknownUrlExceptionMapper.class)
                                                        .build(SystemClient.class);
       return customRestClient.getProperties();
     } catch (ProcessingException ex) {
