@@ -13,7 +13,7 @@
 package it.io.openliberty.guides.config;
 
 public class CustomConfig {
-  private int config_ordinal;
+  private int configOrdinal;
   private boolean io_openliberty_guides_inventory_inMaintenance;
   private boolean io_openliberty_guides_system_inMaintenance;
   private String io_openliberty_guides_email;
@@ -21,59 +21,54 @@ public class CustomConfig {
 
   public CustomConfig(int ordinal, boolean inventory, boolean system, String email,
                       String testConfig) {
-    this.setConfig_ordinal(ordinal);
-    this.setIo_openliberty_guides_inventory_inMaintenance(inventory);
-    this.setIo_openliberty_guides_system_inMaintenance(system);
-    this.setIo_openliberty_guides_email(email);
-    this.setIo_openliberty_guides_testConfigOverwrite(testConfig);
+    this.setConfigOrdinal(ordinal);
+    this.setInventoryInMaintenance(inventory);
+    this.setSystemInMaintenance(system);
+    this.setEmail(email);
+    this.setTestConfigOverwrite(testConfig);
   }
 
-  public int getConfig_ordinal() {
-    return config_ordinal;
+  public int getConfigOrdinal() {
+    return configOrdinal;
   }
 
-  public void setConfig_ordinal(int config_ordinal) {
-    this.config_ordinal = config_ordinal;
+  public void setConfigOrdinal(int configOrdinal) {
+    this.configOrdinal = configOrdinal;
   }
 
-  public boolean isIo_openliberty_guides_inventory_inMaintenance() {
+  public boolean isInventoryInMaintenance() {
     return io_openliberty_guides_inventory_inMaintenance;
   }
 
-  public void setIo_openliberty_guides_inventory_inMaintenance(
-      boolean io_openliberty_guides_inventory_inMaintenance) {
+  public void setInventoryInMaintenance(boolean inventoryInMaintenance) {
     this.io_openliberty_guides_inventory_inMaintenance =
-        io_openliberty_guides_inventory_inMaintenance;
+    inventoryInMaintenance;
   }
 
-  public boolean isIo_openliberty_guides_system_inMaintenance() {
+  public boolean isSystemInMaintenance() {
     return io_openliberty_guides_system_inMaintenance;
   }
 
-  public void setIo_openliberty_guides_system_inMaintenance(
-      boolean io_openliberty_guides_system_inMaintenance) {
+  public void setSystemInMaintenance(boolean systemInMaintenance) {
     this.io_openliberty_guides_system_inMaintenance =
-        io_openliberty_guides_system_inMaintenance;
+    systemInMaintenance;
   }
 
-  public String getIo_openliberty_guides_email() {
+  public String getEmail() {
     return io_openliberty_guides_email;
   }
 
-  public void setIo_openliberty_guides_email(
-      String io_openliberty_guides_email) {
-    this.io_openliberty_guides_email = io_openliberty_guides_email;
+  public void setEmail(String email) {
+    this.io_openliberty_guides_email = email;
   }
 
-  public String getIo_openliberty_guides_testConfigOverwrite() {
+  public String getTestConfigOverwrite() {
     return io_openliberty_guides_testConfigOverwrite;
   }
 
-  public void setIo_openliberty_guides_testConfigOverwrite(
-      String io_openliberty_guides_testConfigOverwrite) {
+  public void setTestConfigOverwrite(String testConfigOverwrite) {
     this.io_openliberty_guides_testConfigOverwrite =
-        io_openliberty_guides_testConfigOverwrite;
+    testConfigOverwrite;
   }
 
 }
-
