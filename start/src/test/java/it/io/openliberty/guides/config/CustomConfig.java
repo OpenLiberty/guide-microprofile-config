@@ -1,17 +1,18 @@
 // tag::copyright[]
 /*******************************************************************************
- * Copyright (c) 2017, 2018 IBM Corporation and others.
+ * Copyright (c) 2017, 2023 IBM Corporation and others.
  * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
+ * are made available under the terms of the Eclipse Public License 2.0
  * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * http://www.eclipse.org/legal/epl-2.0/
  *
- * Contributors:
- *     IBM Corporation - Initial implementation
+ * SPDX-License-Identifier: EPL-2.0
  *******************************************************************************/
 // end::copyright[]
 
 package it.io.openliberty.guides.config;
+
+import jakarta.json.bind.annotation.JsonbProperty;
 
 public class CustomConfig {
   private int config_ordinal;
@@ -20,56 +21,61 @@ public class CustomConfig {
   private String io_openliberty_guides_email;
   private String io_openliberty_guides_testConfigOverwrite;
 
-  public CustomConfig(int ordinal, boolean inventory, boolean system, String email, String testConfig) {
-    this.setConfig_ordinal(ordinal);
-    this.setIo_openliberty_guides_inventory_inMaintenance(inventory);
-    this.setIo_openliberty_guides_system_inMaintenance(system);
-    this.setIo_openliberty_guides_email(email);
-    this.setIo_openliberty_guides_testConfigOverwrite(testConfig);
+  public CustomConfig(int ordinal, boolean inventory, boolean system, String email,
+                      String testConfig) {
+    this.setConfigOrdinal(ordinal);
+    this.setInventoryInMaintenance(inventory);
+    this.setSystemInMaintenance(system);
+    this.setEmail(email);
+    this.setTestConfigOverwrite(testConfig);
   }
 
-  public int getConfig_ordinal() {
+  @JsonbProperty("config_ordinal")
+  public int getConfigOrdinal() {
     return config_ordinal;
   }
 
-  public void setConfig_ordinal(int config_ordinal) {
-    this.config_ordinal = config_ordinal;
+  public void setConfigOrdinal(int configOrdinal) {
+    this.config_ordinal = configOrdinal;
   }
 
-  public boolean isIo_openliberty_guides_inventory_inMaintenance() {
+  @JsonbProperty("io_openliberty_guides_inventory_inMaintenance")
+  public boolean isInventoryInMaintenance() {
     return io_openliberty_guides_inventory_inMaintenance;
   }
 
-  public void setIo_openliberty_guides_inventory_inMaintenance(
-      boolean io_openliberty_guides_inventory_inMaintenance) {
-    this.io_openliberty_guides_inventory_inMaintenance = io_openliberty_guides_inventory_inMaintenance;
+  public void setInventoryInMaintenance(boolean inventoryInMaintenance) {
+    this.io_openliberty_guides_inventory_inMaintenance =
+    inventoryInMaintenance;
   }
 
-  public boolean isIo_openliberty_guides_system_inMaintenance() {
+  @JsonbProperty("io_openliberty_guides_system_inMaintenance")
+  public boolean isSystemInMaintenance() {
     return io_openliberty_guides_system_inMaintenance;
   }
 
-  public void setIo_openliberty_guides_system_inMaintenance(
-      boolean io_openliberty_guides_system_inMaintenance) {
-    this.io_openliberty_guides_system_inMaintenance = io_openliberty_guides_system_inMaintenance;
+  public void setSystemInMaintenance(boolean systemInMaintenance) {
+    this.io_openliberty_guides_system_inMaintenance =
+    systemInMaintenance;
   }
 
-  public String getIo_openliberty_guides_email() {
+  @JsonbProperty("io_openliberty_guides_email")
+  public String getEmail() {
     return io_openliberty_guides_email;
   }
 
-  public void setIo_openliberty_guides_email(
-      String io_openliberty_guides_email) {
-    this.io_openliberty_guides_email = io_openliberty_guides_email;
+  public void setEmail(String email) {
+    this.io_openliberty_guides_email = email;
   }
 
-  public String getIo_openliberty_guides_testConfigOverwrite() {
+  @JsonbProperty("io_openliberty_guides_testConfigOverwrite")
+  public String getTestConfigOverwrite() {
     return io_openliberty_guides_testConfigOverwrite;
   }
 
-  public void setIo_openliberty_guides_testConfigOverwrite(
-      String io_openliberty_guides_testConfigOverwrite) {
-    this.io_openliberty_guides_testConfigOverwrite = io_openliberty_guides_testConfigOverwrite;
+  public void setTestConfigOverwrite(String testConfigOverwrite) {
+    this.io_openliberty_guides_testConfigOverwrite =
+    testConfigOverwrite;
   }
 
 }
