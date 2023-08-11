@@ -402,7 +402,7 @@ endif::[]
 
 // cloud-hosted guide instructions:
 ifdef::cloud-hosted[]
-Play with this application by changing configuration values for each property in the ***resources/CustomConfigSource.json*** file. Your changes are added dynamically, and you do not need to restart the seLibertyrver. Rerun the following curl command to see the dynamic changes:
+Play with this application by changing configuration values for each property in the ***resources/CustomConfigSource.json*** file. Your changes are added dynamically, and you do not need to restart the Liberty. Rerun the following curl command to see the dynamic changes:
 ```bash
 curl -s http://localhost:9080/config | jq
 ```
