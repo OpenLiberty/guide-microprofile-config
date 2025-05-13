@@ -182,6 +182,7 @@ Note that three default config sources mentioned above are static and fixed on a
 // Creating custom configuration sources
 // =================================================================================================
 === Creating custom configuration sources
+
 CustomConfigSource.json
 [source, Json, linenums, role='code_column']
 ----
