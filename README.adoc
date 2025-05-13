@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2023 IBM Corporation and others.
+// Copyright (c) 2017, 2025 IBM Corporation and others.
 // Licensed under Creative Commons Attribution-NoDerivatives
 // 4.0 International (CC BY-ND 4.0)
 //   https://creativecommons.org/licenses/by-nd/4.0/
@@ -12,7 +12,7 @@
 :page-guide-category: microprofile
 :page-essential: false
 :page-description: Learn how to use the MicroProfile Config specification to externalize configuration data for an application.
-:page-tags: ['MicroProfile']
+:page-tags: ['microprofile']
 :page-permalink: /guides/{projectid}
 :page-related-guides: ['rest-intro', 'cdi-intro', 'microprofile-config-intro']
 :common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/prod
@@ -32,6 +32,7 @@ Learn how to provide external configuration to microservices using MicroProfile 
 // =================================================================================================
 
 == What you'll learn
+
 You will learn how to externalize and inject both static and dynamic configuration properties for microservices using MicroProfile Config.
 
 You will learn to aggregate multiple configuration sources, assign prioritization values to these sources, merge configuration values, and create custom configuration sources.
@@ -181,6 +182,7 @@ Note that three default config sources mentioned above are static and fixed on a
 // Creating custom configuration sources
 // =================================================================================================
 === Creating custom configuration sources
+
 CustomConfigSource.json
 [source, Json, linenums, role='code_column']
 ----
@@ -256,6 +258,7 @@ include::finish/resources/CustomConfigSource.json[]
 // Creating custom converters
 // =================================================================================================
 == Creating custom converters
+
 Configuration values are purely Strings. MicroProfile Config API has built-in converters that automatically converts configured Strings into target types such as `int`, `Integer`, `boolean`, `Boolean`, `float`, `Float`, `double` and `Double`. Therefore, in the previous section, it is type-safe to directly set the variable type to `Provider<Boolean>`.
 
 To convert configured Strings to an arbitrary class type, such as the `Email` class type,
