@@ -32,6 +32,7 @@ Learn how to provide external configuration to microservices using MicroProfile 
 // =================================================================================================
 
 == What you'll learn
+
 You will learn how to externalize and inject both static and dynamic configuration properties for microservices using MicroProfile Config.
 
 You will learn to aggregate multiple configuration sources, assign prioritization values to these sources, merge configuration values, and create custom configuration sources.
