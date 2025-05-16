@@ -1,6 +1,6 @@
- ./mvnw -version
 #!/bin/bash
 set -euxo pipefail
+ ./mvnw -version
 
 # LMP 3.0+ goals are listed here: https://github.com/OpenLiberty/ci.maven#goals
 
