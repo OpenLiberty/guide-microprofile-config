@@ -47,7 +47,7 @@ The application that you will be working with is an `inventory` service which st
 include::{common-includes}/gitclone.adoc[]
 
 [role=command]
-include::{common-includes}/twyb-intro.adoc[]
+include::{common-includes}/twyb-intro-mvnw.adoc[]
 
 // static guide instructions:
 ifndef::cloud-hosted[]
@@ -81,7 +81,7 @@ curl -s http://localhost:9080/config | jq
 endif::[]
 
 [role=command]
-include::{common-includes}/twyb-end.adoc[]
+include::{common-includes}/twyb-end-mvnw.adoc[]
 
 // =================================================================================================
 // Ordering multiple configuration sources
@@ -103,7 +103,7 @@ endif::[]
 
 
 [role=command]
-include::{common-includes}/devmode-lmp33-start.adoc[]
+include::{common-includes}/devmode-mvnw-start.adoc[]
 
 MicroProfile Config combines configuration properties from multiple sources, each known as a ConfigSource. Each ConfigSource has a specified priority, defined by its `config_ordinal` value.
 

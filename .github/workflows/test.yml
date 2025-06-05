@@ -27,6 +27,7 @@ jobs:
         env:
           VALIDATE_ALL_CODEBASE: false
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          FILTER_REGEX_EXCLUDE: mvnw*
           LINTER_RULES_PATH: ./tools/pr-checker/linters/
           DEFAULT_BRANCH: prod
       - name: Summary
@@ -54,7 +55,7 @@ jobs:
       - name: Run tests
         run: |
           chmod +x ../scripts/testApp.sh
-          sudo ../scripts/testApp.sh
+          sudo -E ../scripts/testApp.sh
       - name: Post tests
         if: always()
         run: |
