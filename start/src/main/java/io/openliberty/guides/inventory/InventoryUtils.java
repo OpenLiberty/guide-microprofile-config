@@ -40,7 +40,7 @@ public class InventoryUtils {
     } catch (UnknownUrlException e) {
       System.err.println("The given URL is unreachable.");
     } catch (MalformedURLException | URISyntaxException e) {
-      System.err.println("The given URL is not formatted correctly.");
+      System.err.println("The given URL is not formatted correctly: " + e.getMessage());
     }
     return null;
   }
